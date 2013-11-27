@@ -1,1 +1,29 @@
-/Users/wynnej1983/.jshintrc
+{
+  "node": true,
+  "browser": true,
+  "es5": true,
+  "esnext": true,
+  "bitwise": true,
+  "curly": true,
+  "eqeqeq": true,
+  "immed": true,
+  "latedef": true,
+  "newcap": true,
+  "noarg": true,
+  "quotmark": "single",
+  "regexp": true,
+  "undef": true,
+  "strict": true,
+  "trailing": true,
+  "smarttabs": true,
+  "globals": {
+    "angular": true,
+    "describe": true,
+    "it": true,
+    "module": true,
+    "beforeEach": true,
+    "afterEach": true,
+    "expect": true,
+    "inject": true
+  }
+}
