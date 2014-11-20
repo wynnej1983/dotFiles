@@ -1,4 +1,3 @@
-"----------------------------------------
 " Setup Neobundle
 "----------------------------------------
 if has('vim_starting')
@@ -13,6 +12,7 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-surround'
+NeoBundle 'tpope/vim-dispatch'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'airblade/vim-gitgutter'
@@ -41,7 +41,7 @@ if has('vim_starting') &&  file_name == ''
 endif
 
 " カラースキーム
-colorscheme molokai
+colorscheme ir_black
 set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 10
 
 """"""""""""""""""""""""""""""
@@ -205,3 +205,6 @@ vmap < <gv
 imap ii <Esc>
 " show current file in NERDTree
 map <silent> <C-s> :NERDTree<CR><C-w>p:NERDTreeFind<CR>
+
+"Don't ask to save when changing buffers (i.e. when jumping to a type definition)
+set hidden
