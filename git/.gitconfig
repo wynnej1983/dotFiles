@@ -1,0 +1,23 @@
+[user]
+        name = wynnej1983
+        email = wynnej1983@gmail.com
+[color]
+        ui = auto
+[core]
+        autocrlf = false
+[alias]
+        # convenient aliases
+        cb = "!sh -c \"git branch | grep '*' | awk '{ print \\$2 }' \""
+        co = checkout
+        br = branch
+        st = status
+        df = diff
+        ds = diff --staged
+        topic = "!sh -c 'git co -b $1 master' dummy"
+        dfx = !git diff | gitx
+        tree = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+        pr = pull --rebase origin master
+        fe = fetch
+        unstage = reset HEAD --
+        k = !gitk
+        dhh = diff HEAD^
