@@ -25,15 +25,20 @@ NeoBundle 'scrooloose/nerdcommenter'
 NeoBundle 'easymotion/vim-easymotion'
 NeoBundle 'fatih/vim-go'
 NeoBundle 'mxw/vim-jsx'
+NeoBundle 'othree/yajs.vim'
+NeoBundle 'jason0x43/vim-js-indent'
+NeoBundle 'pangloss/vim-javascript'
+NeoBundle 'othree/es.next.syntax.vim'
 NeoBundle 'tomasr/molokai'
 NeoBundle 'nanotech/jellybeans.vim'
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'wesgibbs/vim-irblack'
 NeoBundle 'goatslacker/mango.vim'
-NeoBundle 'morhetz/gruvbox'
-NeoBundle 'yosiat/oceanic-next-vim'
 
 call neobundle#end()
+
+filetype plugin on
+filetype indent on
 
 filetype plugin indent on
 
@@ -97,7 +102,7 @@ let g:jsx_ext_required = 0
 " Indent
 "----------------------------------------
 " 画面に表示されるタブ幅
-set tabstop=2
+set tabstop=4
 " タブをスペース展開
 set expandtab
 " インデント時のスペース数
@@ -106,13 +111,15 @@ set shiftwidth=2
 set smarttab
 " 自動インデント
 set autoindent
+let g:js_indent_log = 1
 
 "----------------------------------------
 " Search
 "----------------------------------------
 " シンタックスハイライト
 syntax on
-
+" remove delay when esc
+set timeoutlen=1000 ttimeoutlen=0
 " 行番号の表示
 set number
 " 空白文字の表示
@@ -175,12 +182,16 @@ let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
 
 " ペースト時にオートインデント停止
 set paste
+set pastetoggle=<F10>
+inoremap <C-v> <F10><C-r>+<F10>
+vnoremap <C-c> "+y
+" set clipboard=unnamedplus
+
+" enable scrolling
+set mouse=a
 
 " バックアップファイルを作成しない
 set nobackup
-
-filetype plugin on
-filetype indent on
 
 set fillchars+=stl:\ ,stlnc:\
 set encoding=utf-8
@@ -226,7 +237,7 @@ nnoremap g, g,zz
 map <F9> :set paste!<cr>:set paste?<cr>
 
 " toggle line numbers
-map <F10> :set number!<cr>:set number?<cr>
+" map <F10> :set number!<cr>:set number?<cr>
 
 " CtrlP mappings
 nnoremap <C-t> :CtrlPMixed<Enter>
@@ -260,8 +271,8 @@ map <S-BackSpace> :bn<Enter>
 set <F14>=[30~
 map <F14> <S-Space>
 map! <F14> <S-Space>
-nmap <Space> <S-m><C-d>
-nmap <S-Space> <S-m><C-u>
+map <Space> <S-m><C-d>
+map <S-Space> <S-m><C-u>
 
 " these are shortcuts for auto indentation
 nmap tt gg=G
