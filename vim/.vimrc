@@ -205,6 +205,9 @@ set t_Co=256
 set columns=150
 set noswapfile
 
+" prevents cursor lag when jk'ing
+set lazyredraw
+
 " ctags
 set tags=./tags;~/code
 
