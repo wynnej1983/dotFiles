@@ -114,7 +114,7 @@ set shiftwidth=2
 set smarttab
 " 自動インデント
 set autoindent
-let g:js_indent_log = 1
+"let g:js_indent_log = 1
 
 "----------------------------------------
 " Search
