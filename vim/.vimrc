@@ -14,16 +14,24 @@ NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-dispatch'
 NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'shougo/unite.vim'
 NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'Lokaltog/powerline-fonts'
 NeoBundle 'bling/vim-airline'
+NeoBundle 'majutsushi/tagbar'
+NeoBundle 'scrooloose/nerdcommenter'
+NeoBundle 'easymotion/vim-easymotion'
+NeoBundle 'fatih/vim-go'
+NeoBundle 'mxw/vim-jsx'
 NeoBundle 'tomasr/molokai'
 NeoBundle 'nanotech/jellybeans.vim'
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'wesgibbs/vim-irblack'
 NeoBundle 'goatslacker/mango.vim'
+NeoBundle 'morhetz/gruvbox'
+NeoBundle 'yosiat/oceanic-next-vim'
 
 call neobundle#end()
 
@@ -39,19 +47,26 @@ let file_name = expand('%')
 if has('vim_starting') &&  file_name == ''
   autocmd VimEnter * NERDTree ./
 endif
+" auto format json files on save
+autocmd FileType json autocmd BufWritePre <buffer> %!python -m json.tool
 
 " カラースキーム
-colorscheme ir_black
-set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ 10
+colorscheme molokai
+let g:molokai_original = 1
+let g:rehash256 = 1
+set guifont=Inconsolata\ for\ Powerline\ 18
 
 """"""""""""""""""""""""""""""
-" airline
+" Airline
 """"""""""""""""""""""""""""""
 let g:Powerline_symbols = 'compatible' "compatible unicode fancy
-"let g:airline_powerline_fonts = 1
-"if !exists('g:airline_symbols')
-"  let g:airline_symbols = {}
-"endif
+let g:airline_theme='jellybeans'
+let g:airline_powerline_fonts = 1
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+let g:airline_symbols.space = "\ua0"
+let g:airline#extensions#tabline#enabled = 1
 "" unicode symbols
 "let g:airline_left_sep = '»'
 "let g:airline_left_sep = '▶'
@@ -65,6 +80,18 @@ let g:Powerline_symbols = 'compatible' "compatible unicode fancy
 "let g:airline_symbols.paste = 'Þ'
 "let g:airline_symbols.paste = '∥'
 "let g:airline_symbols.whitespace = 'Ξ'
+""""""""""""""""""""""""""""""
+" Syntastic
+""""""""""""""""""""""""""""""
+"let g:syntastic_javascript_checkers = ['eslint']
+"let g:syntastic_javascript_checkers = ['jsxhint']
+"let g:syntastic_javascript_jsxhint_exec = 'jsx-jshint-wrapper'
+let g:airline#extensions#tabline#enabled = 1
+
+"----------------------------------------
+" Vim-Jsx
+"----------------------------------------
+let g:jsx_ext_required = 0
 
 "----------------------------------------
 " Indent
@@ -105,14 +132,49 @@ set hlsearch
 set wrapscan
 
 "----------------------------------------
+" Golang
+"----------------------------------------
+au BufNewFile,BufRead *.go setlocal noet ts=8 sw=8 sts=8
+
+au FileType go nmap <leader>r <Plug>(go-run)
+au FileType go nmap <leader>b <Plug>(go-build)
+au FileType go nmap <leader>t <Plug>(go-test)
+au FileType go nmap <leader>c <Plug>(go-coverage)
+
+au FileType go nmap <Leader>ds <Plug>(go-def-split)
+au FileType go nmap <Leader>dv <Plug>(go-def-vertical)
+au FileType go nmap <Leader>dt <Plug>(go-def-tab)
+
+au FileType go nmap <Leader>gd <Plug>(go-doc)
+au FileType go nmap <Leader>gv <Plug>(go-doc-vertical)
+
+au FileType go nmap <Leader>gb <Plug>(go-doc-browser)
+
+au FileType go nmap <Leader>s <Plug>(go-implements)
+
+au FileType go nmap <Leader>i <Plug>(go-info)
+
+au FileType go nmap <Leader>e <Plug>(go-rename)
+
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
+" format with goimports instead of gofmt
+let g:go_fmt_command = "goimports"
+
+let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
+"----------------------------------------
 " Other
 "----------------------------------------
 " タブと行末半角スペースを強調する
-:highlight TabSpace ctermbg=DarkBlue
-:match TabSpace /\t\|\s\+$/
+" :highlight TabSpace ctermbg=DarkBlue
+" :match TabSpace /\t\|\s\+$/
 
 " ペースト時にオートインデント停止
-:set paste
+set paste
 
 " バックアップファイルを作成しない
 set nobackup
@@ -171,6 +233,9 @@ nnoremap <C-t> :CtrlPMixed<Enter>
 nnoremap <C-b> :CtrlPMRUFiles<Enter>
 map <Leader>fuf :CtrlPClearCache<Enter>
 
+" close all buffers
+" nnoremap <leader>bd :%bd 
+
 " Main Buffers
 map <D-]> :bn<Enter>
 map <D-[> :bp<Enter>
@@ -185,7 +250,18 @@ map <d-8> :b8<enter>
 map <d-9> :b9<enter>
 
 " this hops between your previous buffers
-map <BackSpace> :b#<Enter>
+set <F13>=[25~
+map <F13> <S-BackSpace>
+map! <F13> <S-BackSpace>
+map <BackSpace> :bp<Enter>
+map <S-BackSpace> :bn<Enter>
+
+" pagedown/pageup
+set <F14>=[30~
+map <F14> <S-Space>
+map! <F14> <S-Space>
+nmap <Space> <S-m><C-d>
+nmap <S-Space> <S-m><C-u>
 
 " these are shortcuts for auto indentation
 nmap tt gg=G
@@ -193,10 +269,6 @@ vmap tt ngg=Gv
 
 " full screen
 map <D-u> :set invfu<CR>
-
-" pagedown/pageup
-nmap <Space> <S-m><C-d>
-nmap <S-Space> <S-m><C-u>
 
 " same indent behaviour in visual mode
 vmap > >gv

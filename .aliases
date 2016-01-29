@@ -88,7 +88,7 @@ alias g='git pull origin master'
 alias gs='git status --short –ignore-submodules'
 alias gb='git checkout -b '
 alias gm='git merge '
-alias go='git checkout '
+# alias go='git checkout '
 alias gc='git commit -am '
 alias gac='git add .; git commit -am '
 function gacp {
