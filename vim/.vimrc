@@ -34,6 +34,14 @@ NeoBundle 'nanotech/jellybeans.vim'
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'wesgibbs/vim-irblack'
 NeoBundle 'goatslacker/mango.vim'
+NeoBundle 'edkolev/tmuxline.vim'
+NeoBundle 'rbgrouleff/bclose.vim'
+NeoBundle 'jiangmiao/auto-pairs'
+NeoBundle 'ervandew/supertab'
+NeoBundle 'gertjanreynaert/cobalt2-vim-theme'
+NeoBundle 'gorkunov/smartpairs.vim'
+NeoBundle 'sirver/ultisnips'
+NeoBundle 'terryma/vim-multiple-cursors'
 
 call neobundle#end()
 
@@ -47,6 +55,24 @@ NeoBundleCheck
 " map leader key
 let mapleader = ","
 
+nnoremap <Leader><Leader> :e#<CR>
+
+" Add keyboard shortcuts
+map <C-Tab> :bn<Esc>
+map <C-S-Tab> :bp<Esc>
+
+map <leader>w :bp<bar>sp<bar>bn<bar>bd<CR>
+" macmenu &File.Close key=<nop>
+" map <D-w> :bp<bar>sp<bar>bn<bar>bd<CR>
+
+autocmd FileType nerdtree cnoreabbrev <buffer> bd <nop
+autocmd FileType nerdtree cnoreabbrev <buffer> bn <nop
+autocmd FileType nerdtree cnoreabbrev <buffer> bp <nop
+
+set shortmess+=I
+set cursorline
+set number relativenumber
+
 " NerdTree style for default file explorer
 let g:netrw_liststyle=3
 
@@ -56,9 +82,13 @@ if has('vim_starting') &&  file_name == ''
   autocmd VimEnter * NERDTree ./
 endif
 " auto format json files on save
-autocmd FileType json autocmd BufWritePre <buffer> %!python -m json.tool
+" autocmd FileType json autocmd BufWritePre <buffer> %!python -m json.tool
 
 " カラースキーム
+" colorscheme cobalt2
+" set background=dark
+highlight NonText ctermbg=none
+
 colorscheme molokai
 let g:molokai_original = 1
 let g:rehash256 = 1
@@ -67,14 +97,16 @@ set guifont=Inconsolata\ for\ Powerline\ 18
 """"""""""""""""""""""""""""""
 " Airline
 """"""""""""""""""""""""""""""
+" Airline
+let g:airline#extensions#tabline#enabled = 0
+" let g:airline_theme='papercolor'
 let g:Powerline_symbols = 'compatible' "compatible unicode fancy
-let g:airline_theme='jellybeans'
 let g:airline_powerline_fonts = 1
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
 let g:airline_symbols.space = "\ua0"
-let g:airline#extensions#tabline#enabled = 1
+"let g:airline#extensions#tabline#enabled = 1
 "" unicode symbols
 "let g:airline_left_sep = '»'
 "let g:airline_left_sep = '▶'
@@ -91,14 +123,18 @@ let g:airline#extensions#tabline#enabled = 1
 """"""""""""""""""""""""""""""
 " Syntastic
 """"""""""""""""""""""""""""""
-"let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_javascript_checkers = ['eslint', 'standard']
 "let g:syntastic_javascript_checkers = ['jsxhint']
 "let g:syntastic_javascript_jsxhint_exec = 'jsx-jshint-wrapper'
 let g:airline#extensions#tabline#enabled = 1
 
+" javascipt standard auto format file on save
+" autocmd bufwritepost *.js silent !standard-format -w %
+" set autoread
+
 "----------------------------------------
 " Vim-Jsx
-"----------------------------------------
+"--------------------------------------
 let g:jsx_ext_required = 0
 
 "----------------------------------------
@@ -128,7 +164,9 @@ set number
 " 空白文字の表示
 "set list
 " カーソル行をハイライト
-set cursorline
+" set nocursorline
+"hi CursorLine ctermbg=8 ctermfg=15 "8 = dark gray, 15 = white
+"hi Cursor ctermbg=15 ctermfg=8
 
 " インクリメンタルサーチ
 set incsearch
@@ -188,7 +226,8 @@ set paste
 set pastetoggle=<F10>
 inoremap <C-v> <F10><C-r>+<F10>
 vnoremap <C-c> "+y
-" set clipboard=unnamedplus
+set clipboard=unnamed
+vmap <C-c> "+y
 
 " enable scrolling
 set mouse=a
@@ -201,6 +240,26 @@ set encoding=utf-8
 set termencoding=utf8
 set term=xterm
 set t_Co=256
+
+let &t_AB="\e[48;5;%dm"
+let &t_AF="\e[38;5;%dm"
+
+" Making cursor a bar in insert mode
+" let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+" let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+" let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+" cursor guide
+" let &t_ti.="\<Esc>]1337;HighlightCursorLine=true\x7"
+" let &t_te.="\<Esc>]1337;HighlightCursorLine=false\x7"
+
+if has("gui_running")
+  autocmd GUIEnter * set vb t_vb=
+  set guifont=Source\ Code\ Pro\ for\ Powerline:h16
+  set linespace=2
+  set guioptions=
+  "set guioptions-=r
+endif
+
 
 set columns=150
 set noswapfile
@@ -217,6 +276,8 @@ map L $
 
 " NERDTree toggle
 map <silent> <leader>n :NERDTreeToggle<CR>
+map <silent> <leader>N :NERDTreeFocus<CR>
+map <silent> <leader>f :NERDTreeFind<CR>
 
 nmap <silent> <leader>s :set spell!<CR>
 nmap <silent> <leader>vim :e ~/.vimrc<CR>
@@ -246,12 +307,22 @@ map <F9> :set paste!<cr>:set paste?<cr>
 " map <F10> :set number!<cr>:set number?<cr>
 
 " CtrlP mappings
-nnoremap <C-t> :CtrlPMixed<Enter>
+let g:ctrlp_working_path_mode='a'
+set wildignore+=**/bower_components/*,**/node_modules/*,**/tmp/*,**/assets/images/*,**/assets/fonts/*,**/public/images/*
+nnoremap <Leader>t :CtrlPMixed<Enter>
+"nnoremap <C-t> :CtrlPMixed<Enter>
 nnoremap <C-b> :CtrlPMRUFiles<Enter>
 map <Leader>fuf :CtrlPClearCache<Enter>
 
+" multiple cursors
+
+let g:multi_cursor_use_default_mapping=0
+let g:multi_cursor_next_key='<C-x>'
+let g:multi_cursor_quit_key='<Esc>'
+
 " close all buffers
 " nnoremap <leader>bd :%bd 
+" nnoremap <silent> <Leader>b :Bclose<CR>
 
 " Main Buffers
 map <D-]> :bn<Enter>

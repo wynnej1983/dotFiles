@@ -15,7 +15,7 @@ ZSH_THEME="robbyrussell"
 # CASE_SENSITIVE="true"
 
 # Comment this out to disable bi-weekly auto-update checks
-# DISABLE_AUTO_UPDATE="true"
+DISABLE_AUTO_UPDATE="true"
 
 # Uncomment to change how often before auto-updates occur? (in days)
 # export UPDATE_ZSH_DAYS=13
@@ -24,7 +24,7 @@ ZSH_THEME="robbyrussell"
 # DISABLE_LS_COLORS="true"
 
 # Uncomment following line if you want to disable autosetting terminal title.
-# DISABLE_AUTO_TITLE="true"
+DISABLE_AUTO_TITLE="true"
 
 # Uncomment following line if you want to disable command autocorrection
 # DISABLE_CORRECTION="true"
@@ -45,5 +45,25 @@ plugins=(git)
 source $ZSH/oh-my-zsh.sh
 source ~/.aliases
 
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
 # Customize to your needs...
-export PATH=$PATH:/opt/local/bin:/opt/local/sbin:/Users/wynnej1983/.rvm/gems/ruby-1.9.3-p327/bin:/Users/wynnej1983/.rvm/gems/ruby-1.9.3-p327@global/bin:/Users/wynnej1983/.rvm/rubies/ruby-1.9.3-p327/bin:/Users/wynnej1983/.rvm/bin:/usr/local/bin:/usr/local/sbin:~/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin
+bindkey -v
+bindkey ‘^R’ history-incremental-search-backward
+
+export PATH="$PATH:`yarn global bin`"
+export ANT_HOME=/usr/local/opt/ant
+export MAVEN_HOME=/usr/local/opt/maven
+export GRADLE_HOME=/usr/local/opt/gradle
+export ANDROID_HOME=/usr/local/opt/android-sdk
+export ANDROID_NDK_HOME=/usr/local/opt/android-ndk
+export PATH=$ANT_HOME/bin:$PATH
+export PATH=$MAVEN_HOME/bin:$PATH
+export PATH=$GRADLE_HOME/bin:$PATH
+export PATH=$ANDROID_HOME/tools:$PATH
+export PATH=$ANDROID_HOME/platform-tools:$PATH
+export PATH=$ANDROID_HOME/build-tools/19.1.0:$PATH
+export PATH=$PATH:/opt/local/bin:/opt/local/sbin:/Users/wynnej1983/.rvm/gems/ruby-1.9.3-p327/bin:/Users/wynnej1983/.rvm/gems/ruby-1.9.3-p327@global/bin:/Users/wynnej1983/.rvm/rubies/ruby-1.9.3-p327/bin:/Users/wynnej1983/.rvm/bin:/usr/local/bin:/usr/local/sbin:~/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:/Applications/Postgres.app/Contents/Versions/latest/bin
+export PATH="$HOME/.fastlane/bin:$PATH"
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"

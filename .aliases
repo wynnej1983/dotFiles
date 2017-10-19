@@ -112,3 +112,6 @@ function tire_index {
 
 alias postgres.start='pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start'
 alias postgres.stop='pg_ctl -D /usr/local/var/postgres stop -s -m fast'
+
+# monero
+alias monero-open-wallet='monero-wallet-cli --wallet-file=MyWallet --daemon-address=49.251.139.79:18081 --password=m97sr35b --daemon-login=faulkmore:hiroko'
