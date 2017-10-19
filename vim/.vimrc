@@ -341,8 +341,8 @@ map <d-9> :b9<enter>
 set <F13>=[25~
 map <F13> <S-BackSpace>
 map! <F13> <S-BackSpace>
-map <BackSpace> :bp<Enter>
-map <S-BackSpace> :bn<Enter>
+map <BackSpace> :b#<Enter>
+" map <S-BackSpace> :bn<Enter>
 
 " pagedown/pageup
 set <F14>=[30~
