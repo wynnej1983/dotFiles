@@ -61,7 +61,7 @@ nnoremap <Leader><Leader> :e#<CR>
 map <C-Tab> :bn<Esc>
 map <C-S-Tab> :bp<Esc>
 
-map <leader>w :bp<bar>sp<bar>bn<bar>bd<CR>
+" map <leader>w :bp<bar>sp<bar>bn<bar>bd<CR>
 " macmenu &File.Close key=<nop>
 " map <D-w> :bp<bar>sp<bar>bn<bar>bd<CR>
 
