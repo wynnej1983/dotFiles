@@ -7,18 +7,12 @@ colorscheme gruvbox
 set number
 set wrap
 
-" Map Ctrl-Backspace to delete the previous word in insert mode.
-set <F16>=[41~
-map <F16> <C-BackSpace>
-map! <F16> <C-BackSpace>
-imap <C-BackSpace> <C-W>
-
 " begin/end line movement
 map H ^
 map L $
 
 " remove delay when esc
-" set timeoutlen=200 ttimeoutlen=0
+set timeoutlen=200 ttimeoutlen=0
 
 " remove colorcolumn
 set cc=
@@ -26,19 +20,20 @@ set cc=
 " same indent behaviour in visual mode
 vmap > >gv
 vmap < <gv
+" nnoremap > >>
+" nnoremap < <<
 
 " Escape
 imap jj <ESC>
 
 " this hops between your previous buffers
-set <F13>=[25~
-map <F13> <S-BackSpace>
-map! <F13> <S-BackSpace>
 map <BackSpace> :b#<Enter>
-" map <S-BackSpace> :bn<Enter>
-set <F15>=[40~
-map <F15> <C-j>
-map! <F15> <C-j>
+
+" ctrl-backspace deletes word in insert mode
+set <F14>=[26~
+map <F14> <C-BackSpace>
+map! <F14> <C-BackSpace>
+imap <C-BackSpace> <C-W>
 
 " Keep search matches in the middle of the window.
 nnoremap n nzzzv
@@ -52,19 +47,12 @@ nnoremap u uzzzv
 nnoremap g; g;zz
 nnoremap g, g,zz
 
-" pagedown/pageup
-" set <F14>=[30~
-" map <F14> <S-Space>
-" map! <F14> <S-Space>
 map <Space> <S-m><C-d>
 map <S-Space> <S-m><C-u>
 
 " tab navigation
 map <Tab> gt
 map <S-Tab> gT
-
-noremap > >>
-noremap < <<
 
 " coc
 imap <C-l> <Plug>(coc-snippets-expand)
