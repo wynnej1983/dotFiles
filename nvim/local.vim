@@ -15,11 +15,10 @@ colorscheme gruvbox
 "   highlight LineNr guifg=#ffffff
 " colorscheme atom
 set number
-" set cursorline
+set cursorline
 set nowrap
 " set command height
 set cmdheight=1
-
 
 " set path=$PWD/**
 set path+=**
@@ -52,9 +51,6 @@ nnoremap <Leader>o o<Esc>
 nnoremap <Leader>O O<Esc>
 nnoremap <c-n> @="m`o\eg``"<cr>
 nnoremap <c-p> @="m`O\eg``"<cr>
-
-" remove delay when esc
-" set timeoutlen=200 ttimeoutlen=0
 
 " remove colorcolumn
 set cc=
@@ -135,6 +131,7 @@ let g:closetag_shortcut = '>'
 let g:closetag_close_shortcut = '<leader>>'
 
 " airline
+let g:airline#extensions#vista#enabled = 0
 let g:airline_theme='dark'
 let g:airline_skip_empty_sections = 1
 let g:airline#extensions#tabline#enabled = 1
