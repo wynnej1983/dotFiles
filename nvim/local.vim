@@ -1,21 +1,66 @@
+colorscheme gruvbox
+  highlight clear SignColumn
+  highlight clear LineNr guibg
+  highlight LineNr guifg=#292929
 " colorscheme molokai
+"   highlight clear SignColumn
+"   highlight clear LineNr guibg
+"   highlight LineNr guifg=#202020
+" colorscheme tender
 " colorscheme molokayo
 " colorscheme lightning
 " colorscheme zellner
-colorscheme gruvbox
+"   highlight clear SignColumn
+"   highlight clear LineNr guibg
+"   highlight LineNr guifg=#ffffff
 " colorscheme atom
 set number
-set wrap
+" set cursorline
+set nowrap
+" set command height
+set cmdheight=1
+
+
+" set path=$PWD/**
+set path+=**
+set wildignore+=**/node_modules/**
+set wildignore+=**/youi/**
+set wildignore+=**/build/**
+
+" quicker Command history navigation
+nnoremap <Up> :<Up>
+
+" opaque floating windows
+set winblend=0
+set pumblend=0
 
 " begin/end line movement
 map H ^
 map L $
 
+" open newline with space below
+nmap 1o o<Esc>O
+" open newline with space above and below
+nmap 2o 2o<Esc>O
+" open new row above while in insert mode
+imap <c-o> <Esc>O
+" move to end of line when in insert mode
+imap <c-l> <Esc>A
+
+" Quickly insert an empty new line without entering insert mode
+nnoremap <Leader>o o<Esc>
+nnoremap <Leader>O O<Esc>
+nnoremap <c-n> @="m`o\eg``"<cr>
+nnoremap <c-p> @="m`O\eg``"<cr>
+
 " remove delay when esc
-set timeoutlen=200 ttimeoutlen=0
+" set timeoutlen=200 ttimeoutlen=0
 
 " remove colorcolumn
 set cc=
+
+" left margin
+set nuw=1
 
 " same indent behaviour in visual mode
 vmap > >gv
@@ -26,61 +71,62 @@ vmap < <gv
 " Escape
 imap jj <ESC>
 
-" this hops between your previous buffers
-map <BackSpace> :b#<Enter>
 
+" map jumplists navigation to BackSpace
+" map <BackSpace> <C-o>
+" map <S-BackSpace> <C-i>
+
+" this toggles prev buffer
+map <BackSpace> :b#<Enter>
 " ctrl-backspace deletes word in insert mode
 set <F14>=[26~
 map <F14> <C-BackSpace>
 map! <F14> <C-BackSpace>
 imap <C-BackSpace> <C-W>
 
-" Keep search matches in the middle of the window.
-nnoremap n nzzzv
-nnoremap N Nzzzv
-nnoremap * *zzzv
+" " Keep search matches in the middle of the window.
+" nnoremap n nzzzv
+" nnoremap N Nzzzv
+" nnoremap * *zzzv
+"
+" " center when return to undo line
+" nnoremap u uzzzv
+"
+" " Same when jumping around
+" nnoremap g; g;zz
+" nnoremap g, g,zz
 
-" center when return to undo line
-nnoremap u uzzzv
-
-" Same when jumping around
-nnoremap g; g;zz
-nnoremap g, g,zz
-
-map <Space> <S-m><C-d>
-map <S-Space> <S-m><C-u>
+" map <Space> <S-m><C-d>
+" map <S-Space> <S-m><C-u>
+map <Space> <C-d>
+map <S-Space> <C-u>
 
 " tab navigation
-map <Tab> gt
-map <S-Tab> gT
+" nmap <Tab> gt
+nmap <S-Tab> gt
 
-" coc
-imap <C-l> <Plug>(coc-snippets-expand)
-let g:coc_snippet_next = '<CR>'
-let g:coc_snippet_prev = '<C-k>'
-nmap <leader>t :CocCommand terminal.Toggle<CR>
-" if hidden is not set, TextEdit might fail.
+" " if hidden is not set, TextEdit might fail.
 " set hidden
-
-" Some servers have issues with backup files, see #649
+"
+" " Some servers have issues with backup files, see #649
 " set nobackup
 " set nowritebackup
-
-" Better display for messages
-set cmdheight=2
-
-" You will have bad experience for diagnostic messages when it's default 4000.
-set updatetime=300
-
-" don't give |ins-completion-menu| messages.
-set shortmess+=c
-
-" always show signcolumns
-set signcolumn=yes
-
-" always show box caret
+"
+" " Better display for messages
+" set cmdheight=2
+"
+" " You will have bad experience for diagnostic messages when it's default 4000.
+" set updatetime=300
+"
+" " don't give |ins-completion-menu| messages.
+" set shortmess+=c
+"
+" " always show signcolumns
+" set signcolumn=yes
+"
+" " always show box caret
 set guicursor=
-
+"
 "close tag
 let g:closetag_filenames = "*.html,*.xhtml,*.phtml,*.erb,*.jsx,*.tsx"
 let g:closetag_xhtml_filenames = '*.xhtml,*.jsx,*.tsx,*.erb'
@@ -88,6 +134,62 @@ let g:closetag_emptyTags_caseSensitive = 1
 let g:closetag_shortcut = '>'
 let g:closetag_close_shortcut = '<leader>>'
 
+" airline
+let g:airline_theme='dark'
+let g:airline_skip_empty_sections = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_buffers = 0
+let g:airline#extensions#tabline#show_tab_count = 0
+let airline#extensions#tabline#show_splits = 0
+let g:airline#extensions#tabline#show_close_button = 0
+let g:airline#extensions#tabline#exclude_preview = 1
+let g:airline#extensions#tabline#show_tab_nr = 0
+let g:airline#extensions#tabline#tabs_label = ''
+let g:airline#extensions#tabline#left_sep = ''
+let g:airline#extensions#tabline#left_alt_sep = ''
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#formatter = 'short_path'
+" let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+" let g:airline#extensions#tabline#formatter = 'jsformatter'
+let g:airline#extensions#tabline#ignore_bufadd_pat = '!|defx|gundo|nerd_tree|startify|tagbar|term://|undotree|vimfiler|denite'
+let g:airline_highlighting_cache = 1
+let g:airline_filetype_overrides = {
+      \ 'defx':  ['defx', '%{b:defx.paths[0]}'],
+      \ 'gundo': [ 'Gundo', '' ],
+      \ 'help':  [ 'Help', '%f' ],
+      \ 'minibufexpl': [ 'MiniBufExplorer', '' ],
+      \ 'nerdtree': [ get(g:, 'NERDTreeStatusline', 'NERD'), '' ],
+      \ 'startify': [ 'startify', '' ],
+      \ 'vim-plug': [ 'Plugins', '' ],
+      \ 'vimfiler': [ 'vimfiler', '%{vimfiler#get_status_string()}' ],
+      \ 'vimshell': ['vimshell','%{vimshell#get_status_string()}'],
+      \ }
+let g:airline_mode_map = {
+      \ '__'     : '-',
+      \ 'c'      : 'C',
+      \ 'i'      : 'I',
+      \ 'ic'     : 'I',
+      \ 'ix'     : 'I',
+      \ 'n'      : 'N',
+      \ 'multi'  : 'M',
+      \ 'ni'     : 'N',
+      \ 'no'     : 'N',
+      \ 'R'      : 'R',
+      \ 'Rv'     : 'R',
+      \ 's'      : 'S',
+      \ 'S'      : 'S',
+      \ ''     : 'S',
+      \ 't'      : 'T',
+      \ 'v'      : 'V',
+      \ 'V'      : 'V',
+      \ ''     : 'V',
+      \ }
+
+" coc
+" imap <C-l> <Plug>(coc-snippets-expand)
+let g:coc_snippet_next = '<CR>'
+" let g:coc_snippet_next = '<C-j>'
+" let g:coc_snippet_prev = '<C-k>'
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
 inoremap <silent><expr> <TAB>
@@ -101,14 +203,14 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-" Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
+" Use <c-l> to trigger completion.
+" inoremap <silent><expr> <c-l> coc#refresh()
 
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
 " Coc only does snippet and additional edit on confirm.
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " Or use `complete_info` if your vim support it, like:
-" inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " Use `[g` and `]g` to navigate diagnostics
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
@@ -131,6 +233,8 @@ endfunction
 nmap <leader>rn <Plug>(coc-rename)
 " Add status line support, for integration with other plugin, checkout `:h coc-status`
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+" coc terminal
+" nmap <leader>t :CocCommand terminal.Toggle<CR>
 
 " prettier
 nmap <Leader>f <Plug>(Prettier)
@@ -138,7 +242,8 @@ let g:prettier#autoformat = 0
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
 
 " plugins settings
-let g:deoplete#enable_at_startup = 1
+" Disable Deoplete auto complete, use coc autocomplete instead
+" autocmd FileType * call deoplete#custom#buffer_option('auto_complete', v:false)
 
 autocmd FileType defx call s:defx_my_settings()
 function! s:defx_my_settings() abort
@@ -198,10 +303,12 @@ function! s:defx_my_settings() abort
   \ line('.') == line('$') ? 'gg' : 'j'
   nnoremap <silent><buffer><expr> k
   \ line('.') == 1 ? 'G' : 'k'
-  nnoremap <silent><buffer><expr> <C-l>
-  \ defx#do_action('redraw')
+  " nnoremap <silent><buffer><expr> <C-l>
+  "\ defx#do_action('redraw')
   nnoremap <silent><buffer><expr> <C-g>
   \ defx#do_action('print')
   nnoremap <silent><buffer><expr> cd
   \ defx#do_action('change_vim_cwd')
+  nnoremap <silent><buffer><expr> st
+  \ defx#do_action('multi', [['quit'], ['open', 'tabnew']])
 endfunction
