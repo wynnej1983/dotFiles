@@ -9,9 +9,17 @@ export ZSH="/Users/wynnej1983/.oh-my-zsh"
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 # ZSH_THEME="robbyrussell"
-ZSH_THEME="gruvbox"
-SOLARIZED_THEME="dark"
-
+# ZSH_THEME="gruvbox"
+# ZSH_THEME="ys"
+# ZSH_THEME="bira"
+# ZSH_THEME="amuse"
+# ZSH_THEME="new-bureau"
+# SOLARIZED_THEME="dark"
+# ZSH_THEME="bullet-train"
+# SPACESHIP_PROMPT_ADD_NEWLINE=false
+SPACESHIP_DIR_TRUNC_REPO=false
+SPACESHIP_PACKAGE_SHOW=false
+#
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
@@ -76,6 +84,7 @@ plugins=(
   vim-interaction
   npm
   iterm2
+  zsh-autosuggestions
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -107,7 +116,8 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias c='clear'
 alias vi='nvim'
-alias gs='git status --short –ignore-submodules'
+alias gs='git status'
+alias yi='cd ~/code/you-i-labs'
 alias ide='$HOME/ide'
 #
 
@@ -118,3 +128,7 @@ export NVM_DIR="$HOME/.nvm"
 . "$(brew --prefix nvm)/nvm.sh"
 export PATH="$PYENV_ROOT/bin:$PATH"
 export PYENV_ROOT="$HOME/.pyenv"
+
+  # Set Spaceship ZSH as a prompt
+  autoload -U promptinit; promptinit
+  prompt spaceship
