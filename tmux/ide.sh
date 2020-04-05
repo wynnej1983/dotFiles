@@ -6,11 +6,11 @@
 tmx () {
     # Use -d to allow the rest of the function to run
     tmux new-session -d -s 0
-    tmux split-window -v -p 5
+    tmux split-window -v -p 20
     tmux selectp -t 1
     tmux send-keys "vi" C-m
-    tmux new-window -d -n zsh
-    tmux new-window -d -n zsh
+    # tmux new-window -d
+    # tmux new-window -d
     # -d to detach any other client (which there shouldn't be,
     # since you just created the session).
     tmux attach-session -d -t 0
