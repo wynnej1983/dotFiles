@@ -8,8 +8,8 @@ colorscheme gruvbox
 "   highlight LineNr guifg=#202020
 " colorscheme tender
 " colorscheme molokayo
-" colorscheme lightning
 " colorscheme zellner
+" colorscheme lightning
 "   highlight clear SignColumn
 "   highlight clear LineNr guibg
 "   highlight LineNr guifg=#ffffff
@@ -17,6 +17,8 @@ colorscheme gruvbox
 set number
 set cursorline
 set nowrap
+" set nonu
+" set rnu
 " set command height
 set cmdheight=1
 
@@ -49,8 +51,8 @@ imap <c-l> <Esc>A
 " Quickly insert an empty new line without entering insert mode
 nnoremap <Leader>o o<Esc>
 nnoremap <Leader>O O<Esc>
-nnoremap <c-n> @="m`o\eg``"<cr>
-nnoremap <c-p> @="m`O\eg``"<cr>
+" nnoremap <c-n> @="m`o\eg``"<cr>
+" nnoremap <c-p> @="m`O\eg``"<cr>
 
 " remove colorcolumn
 set cc=
@@ -98,8 +100,9 @@ map <Space> <C-d>
 map <S-Space> <C-u>
 
 " tab navigation
-" nmap <Tab> gt
-nmap <S-Tab> gt
+nmap <c-n> gt
+nmap <c-p> gT
+" nmap <S-Tab> gT
 
 " " if hidden is not set, TextEdit might fail.
 " set hidden
@@ -136,7 +139,7 @@ let g:airline_theme='dark'
 let g:airline_skip_empty_sections = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 0
-let g:airline#extensions#tabline#show_tab_count = 0
+let g:airline#extensions#tabline#show_tab_count = 1
 let airline#extensions#tabline#show_splits = 0
 let g:airline#extensions#tabline#show_close_button = 0
 let g:airline#extensions#tabline#exclude_preview = 1
@@ -235,13 +238,13 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " prettier
 nmap <Leader>f <Plug>(Prettier)
-let g:prettier#autoformat = 0
-autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
+" let g:prettier#autoformat = 0
+" autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
 
 " plugins settings
 " Disable Deoplete auto complete, use coc autocomplete instead
 " autocmd FileType * call deoplete#custom#buffer_option('auto_complete', v:false)
-
+nnoremap <silent> - :<C-U>:Defx `expand('%:p:h')` -search=`expand('%:p')` -buffer-name=defx<CR>
 autocmd FileType defx call s:defx_my_settings()
 function! s:defx_my_settings() abort
   " Define mappings
