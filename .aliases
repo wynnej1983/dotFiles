@@ -2,7 +2,7 @@
 alias root='sudo -i'
 
 # aliases
-alias aliases='vim ~/.zsh/.aliases'
+alias aliases='nvim ~/.zsh/.aliases'
 alias reload='. ~/.zshrc'
 
 alias ddsstore='sudo find ./ -name ".DS_Store" -depth -exec rm {} \;'
@@ -37,22 +37,21 @@ alias arps='sudo arp-scan --interface=en1 --localnet'
 alias o='open .'
 alias www='cd /www'
 alias backups='cd /www/backups'
-alias backuprc='cd ~/Backup; vim .'
+alias backuprc='cd ~/Backup; nvim .'
 alias home='cd ~'
 alias sites='www'
 alias code='cd ~/code'
 alias applications='cd ~/Applications'
 alias documents='cd ~/Documents'
 alias downloads='cd ~/Downloads'
-alias matias='cd ~'
 alias projects='cd ~/Documents/Projects' 
 alias pictures='cd ~/Pictures'
 alias music='cd ~/Music'
 alias movies='cd ~/Movies'
 alias desktop='cd ~/Desktop'
 alias public-key='cat ~/.ssh/id_rsa.pub | pbcopy; echo "public key copied to clipboard"'
-alias hosts='sudo vim /etc/hosts'
-alias phpini='sudo vim /private/etc/php.ini'
+alias hosts='sudo nvim /etc/hosts'
+alias phpini='sudo nvim /private/etc/php.ini'
 
 # local logs
 alias syslog='tail -n 50 /var/log/system.log'
@@ -61,15 +60,14 @@ alias syslog='tail -n 50 /var/log/system.log'
 alias ssh-dir='cd ~/.ssh'
 alias httpd-dir='cd /private/etc/apache2'
 alias error-log='tail /private/var/log/apache2/error_log'
-alias vhosts='sudo vim /private/etc/apache2/extra/httpd-vhosts.conf' 
+alias vhosts='sudo nvim /private/etc/apache2/extra/httpd-vhosts.conf' 
 
-# vim stuff
-alias vim='mvim -N --remote-silent'
-alias tvim='/usr/bin/vim'
-alias v='vim .'
+# nvim stuff
+# alias vi='nvim'
+alias vi='nvim'
+alias ide='~/ide.sh'
 alias vv='mvim .'
-alias vimrc='vim ~/.vimrc'
-alias vundle='mvim +BundleInstall +qall'
+alias vimrc='nvim ~/.config/nvim/config/local.vim'
 
 # rails Stuff
 alias guard='rvmsudo bundle exec guard'
@@ -85,7 +83,7 @@ alias lipsum='echo "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In 
 
 # git stuff
 alias g='git pull origin master'
-alias gs='git status --short –ignore-submodules'
+alias gs='git status --short'
 alias gb='git checkout -b '
 alias gm='git merge '
 # alias go='git checkout '
@@ -112,6 +110,3 @@ function tire_index {
 
 alias postgres.start='pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start'
 alias postgres.stop='pg_ctl -D /usr/local/var/postgres stop -s -m fast'
-
-# monero
-alias monero-open-wallet='monero-wallet-cli --wallet-file=MyWallet --daemon-address=49.251.139.79:18081 --password=m97sr35b --daemon-login=faulkmore:hiroko'
