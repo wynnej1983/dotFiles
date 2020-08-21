@@ -1,7 +1,6 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 # source "/Users/wynnej1983/.bashrc"
-source "/Users/wynnej1983/.aliases"
 
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/wynnej1983/.oh-my-zsh"
@@ -141,3 +140,5 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
 export PATH="$PYENV_ROOT/bin:$PATH"
 export PYENV_ROOT="$HOME/.pyenv"
+
+source "/Users/wynnej1983/.aliases"
