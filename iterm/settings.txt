@@ -1,12 +1,6 @@
 {
-  "Ansi 5 Color" : {
-    "Red Component" : 0.69411766529083252,
-    "Color Space" : "Calibrated",
-    "Blue Component" : 0.52549022436141968,
-    "Alpha Component" : 1,
-    "Green Component" : 0.38431373238563538
-  },
-  "Set Local Environment Vars" : true,
+  "Thin Strokes" : 0,
+  "Custom Directory" : "Yes",
   "Working Directory" : "\/Users\/wynnej1983\/code",
   "Prompt Before Closing 2" : 0,
   "Selected Text Color" : {
@@ -44,7 +38,7 @@
   "Triggers" : [
 
   ],
-  "Blend" : 0.30000001192092896,
+  "Blend" : 0.36823152770701145,
   "Mouse Reporting" : true,
   "Ansi 4 Color" : {
     "Red Component" : 0.27058824896812439,
@@ -67,6 +61,7 @@
   "Scrollback Lines" : 0,
   "Scrollback in Alternate Screen" : true,
   "Scrollback With Status Bar" : false,
+  "Draw Powerline Glyphs" : true,
   "Hide After Opening" : false,
   "Flashing Bell" : false,
   "Cursor Guide Color" : {
@@ -85,6 +80,7 @@
     "Alpha Component" : 1,
     "Green Component" : 0.60000002384185791
   },
+  "Use Non-ASCII Font" : false,
   "Link Color" : {
     "Red Component" : 0.7450980544090271,
     "Color Space" : "Calibrated",
@@ -161,6 +157,8 @@
       "precision" : "very_high"
     }
   ],
+  "Title Components" : 3,
+  "Log Directory" : "",
   "Keyboard Map" : {
     "0x34-0x100000" : {
       "Action" : 11,
@@ -178,13 +176,13 @@
       "Action" : 11,
       "Text" : "0x02 0x36"
     },
-    "0x37-0x100000" : {
-      "Action" : 11,
-      "Text" : "0x02 0x37"
-    },
     "0x19-0x60000" : {
       "Text" : "0x02 0x08",
       "Action" : 11
+    },
+    "0x37-0x100000" : {
+      "Action" : 11,
+      "Text" : "0x02 0x37"
     },
     "0xf702-0x280000" : {
       "Text" : "0x1b 0x1b 0x5b 0x44",
@@ -238,13 +236,17 @@
       "Text" : "[1;5F",
       "Action" : 10
     },
-    "0x77-0x100000" : {
+    "0x69-0x40000" : {
       "Action" : 11,
-      "Text" : "0x02 0x78"
+      "Text" : "0xe 0x69"
     },
     "0xf70c-0x20000" : {
       "Text" : "[20;2~",
       "Action" : 10
+    },
+    "0x77-0x100000" : {
+      "Action" : 11,
+      "Text" : "0x02 0x78"
     },
     "0xf701-0x260000" : {
       "Text" : "[1;6B",
@@ -382,16 +384,15 @@
       "Text" : "[1;2P",
       "Action" : 10
     },
-    "0x32-0x100000" : {
-      "Action" : 11,
-      "Text" : "0x02 0x32"
-    },
     "0x33-0x100000" : {
       "Action" : 11,
       "Text" : "0x02 0x33"
+    },
+    "0x32-0x100000" : {
+      "Action" : 11,
+      "Text" : "0x02 0x32"
     }
   },
-  "Log Directory" : "",
   "Use Canonical Parser" : false,
   "Ansi 14 Color" : {
     "Red Component" : 0.55686277151107788,
@@ -439,18 +440,6 @@
     "Alpha Component" : 1,
     "Green Component" : 0.83137255907058716
   },
-  "Default Bookmark" : "No",
-  "Cursor Color" : {
-    "Red Component" : 0.17255303263664246,
-    "Color Space" : "Calibrated",
-    "Blue Component" : 0.17255082726478577,
-    "Alpha Component" : 1,
-    "Green Component" : 0.17254787683486938
-  },
-  "Disable Smcup Rmcup" : false,
-  "Name" : "Default",
-  "Guid" : "05E0B0DC-DB3D-4959-9CA5-BAE68CCEE5A9",
-  "Blinking Cursor" : true,
   "Ansi 1 Color" : {
     "Red Component" : 0.80000001192092896,
     "Color Space" : "Calibrated",
@@ -458,6 +447,18 @@
     "Alpha Component" : 1,
     "Green Component" : 0.14117647707462311
   },
+  "Default Bookmark" : "No",
+  "Disable Smcup Rmcup" : false,
+  "Name" : "wynnej1983",
+  "Blinking Cursor" : false,
+  "Cursor Color" : {
+    "Red Component" : 0.17255303263664246,
+    "Color Space" : "Calibrated",
+    "Blue Component" : 0.17255082726478577,
+    "Alpha Component" : 1,
+    "Green Component" : 0.17254787683486938
+  },
+  "Guid" : "05E0B0DC-DB3D-4959-9CA5-BAE68CCEE5A9",
   "Ansi 8 Color" : {
     "Red Component" : 0.57254904508590698,
     "Color Space" : "Calibrated",
@@ -499,7 +500,7 @@
   "Cursor Type" : 2,
   "AWDS Pane Directory" : "",
   "Blur" : false,
-  "Normal Font" : "HackNerdFontComplete-Regular 16",
+  "Normal Font" : "HackNerdFontComplete-Regular 26",
   "Vertical Spacing" : 1,
   "Disable Printing" : false,
   "Ansi 7 Color" : {
@@ -524,6 +525,7 @@
     "Alpha Component" : 1,
     "Green Component" : 0.85882353782653809
   },
+  "Unicode Version" : 9,
   "Ansi 6 Color" : {
     "Red Component" : 0.40784314274787903,
     "Color Space" : "Calibrated",
@@ -542,7 +544,8 @@
   },
   "Screen" : -1,
   "AWDS Window Option" : "Yes",
-  "Non Ascii Font" : "HackNerdFontComplete-Regular 15",
+  "tmux Pane Title" : "wynnej1983",
+  "Non Ascii Font" : "FiraCode-Regular 23",
   "Ansi 13 Color" : {
     "Red Component" : 0.82745099067687988,
     "Color Space" : "Calibrated",
@@ -551,8 +554,15 @@
     "Green Component" : 0.52549022436141968
   },
   "Columns" : 160,
+  "Unicode Normalization" : 0,
   "Visual Bell" : false,
   "ASCII Ligatures" : true,
-  "Thin Strokes" : 4,
-  "Custom Directory" : "Yes"
+  "Ansi 5 Color" : {
+    "Red Component" : 0.69411766529083252,
+    "Color Space" : "Calibrated",
+    "Blue Component" : 0.52549022436141968,
+    "Alpha Component" : 1,
+    "Green Component" : 0.38431373238563538
+  },
+  "Set Local Environment Vars" : true
 }
