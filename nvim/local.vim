@@ -14,11 +14,10 @@ colorscheme gruvbox
 "   highlight clear LineNr guibg
 "   highlight LineNr guifg=#ffffff
 " colorscheme atom
-set number
 set cursorline
 set nowrap
 " set nonu
-" set rnu
+set nu
 " set command height
 set cmdheight=1
 
@@ -30,6 +29,18 @@ set wildignore+=**/build/**
 
 " quicker Command history navigation
 nnoremap <Up> :<Up>
+
+" resize focused window
+augroup ReduceNoise
+    autocmd!
+    " Automatically resize active split to 85 width
+    autocmd WinEnter * :call ResizeSplits()
+augroup END
+
+function! ResizeSplits()
+    set winwidth=85
+    wincmd =
+endfunction
 
 " opaque floating windows
 set winblend=0
@@ -69,13 +80,22 @@ vmap < <gv
 " Escape
 imap jj <ESC>
 
+" remap `*`/`#` to search forwards/backwards (resp.)
+" w/o moving cursor
+nnoremap <silent> * :execute "normal! *N"<cr>
+nnoremap <silent> # :execute "normal! #n"<cr>
+
+" replace all highlighted words
+noremap cm :%s///gc<left><left><left>
+" replace all selected words
+vnoremap cm "hy:%s/<C-r>h//gc<left><left><left>
 
 " map jumplists navigation to BackSpace
 " map <BackSpace> <C-o>
 " map <S-BackSpace> <C-i>
 
 " this toggles prev buffer
-map <BackSpace> :b#<Enter>
+map <BackSpace> :b#<cr>
 " ctrl-backspace deletes word in insert mode
 set <F14>=[26~
 map <F14> <C-BackSpace>
@@ -85,7 +105,7 @@ imap <C-BackSpace> <C-W>
 " " Keep search matches in the middle of the window.
 " nnoremap n nzzzv
 " nnoremap N Nzzzv
-" nnoremap * *zzzv
+" nnoremap * *Nzzzv
 "
 " " center when return to undo line
 " nnoremap u uzzzv
@@ -99,9 +119,12 @@ imap <C-BackSpace> <C-W>
 map <Space> <C-d>
 map <S-Space> <C-u>
 
+nnoremap <C-n>i <C-i>
 " tab navigation
-nmap <c-n> gt
-nmap <c-p> gT
+nmap <Tab> :tabnext<CR>
+nmap <S-Tab> :tabprev<CR>
+" nmap <c-n> gt
+" nmap <c-p> gT
 " nmap <S-Tab> gT
 
 " " if hidden is not set, TextEdit might fail.
@@ -133,14 +156,17 @@ let g:closetag_emptyTags_caseSensitive = 1
 let g:closetag_shortcut = '>'
 let g:closetag_close_shortcut = '<leader>>'
 
+" emmet
+let g:user_emmet_leader_key='<C-X>'
+
 " airline
 let g:airline#extensions#vista#enabled = 0
 let g:airline_theme='dark'
 let g:airline_skip_empty_sections = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 0
-let g:airline#extensions#tabline#show_tab_count = 1
-let airline#extensions#tabline#show_splits = 0
+let g:airline#extensions#tabline#show_splits = 1
+let g:airline#extensions#tabline#show_tab_count = 0
 let g:airline#extensions#tabline#show_close_button = 0
 let g:airline#extensions#tabline#exclude_preview = 1
 let g:airline#extensions#tabline#show_tab_nr = 0
