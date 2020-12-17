@@ -27,6 +27,9 @@ set wildignore+=**/node_modules/**
 set wildignore+=**/youi/**
 set wildignore+=**/build/**
 
+" fast saving
+nnoremap <Leader>s :write<CR>
+
 " quicker Command history navigation
 nnoremap <Up> :<Up>
 
