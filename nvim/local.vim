@@ -28,7 +28,10 @@ set wildignore+=**/youi/**
 set wildignore+=**/build/**
 
 " fast saving
-nnoremap <Leader>s :write<CR>
+nnoremap <Leader>w :write<CR>
+
+" keep cursor position after leaving insert mode
+au InsertLeave * call cursor([getpos('.')[1], getpos('.')[2]+1])
 
 " quicker Command history navigation
 nnoremap <Up> :<Up>
