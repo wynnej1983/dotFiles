@@ -63,7 +63,7 @@ imap <c-l> <Esc>A
 nnoremap <Leader>o o<Esc>
 nnoremap <Leader>O O<Esc>
 " nnoremap <c-n> @="m`o\eg``"<cr>
-" nnoremap <c-p> @="m`O\eg``"<cr>
+" hello <c-p> @="m`O\eg``"<cr>
 
 " remove colorcolumn
 set cc=
@@ -78,7 +78,7 @@ vmap < <gv
 " nnoremap < <<
 
 " Escape
-imap jj <ESC>
+imap jk <ESC>
 
 " remap `*`/`#` to search forwards/backwards (resp.)
 " w/o moving cursor
@@ -256,7 +256,7 @@ function! s:show_documentation()
   endif
 endfunction
 " Remap for rename current word
-nmap <leader>rn <Plug>(coc-rename)
+nmap <leader>r <Plug>(coc-rename)
 " Add status line support, for integration with other plugin, checkout `:h coc-status`
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 " coc terminal
