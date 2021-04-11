@@ -1,6 +1,7 @@
 colorscheme gruvbox
   highlight clear SignColumn
   highlight clear LineNr guibg
+  highlight LineNr guifg=#3e3e3e
   highlight LineNr guifg=#292929
 " colorscheme molokai
 "   highlight clear SignColumn
@@ -31,7 +32,7 @@ set wildignore+=**/build/**
 nnoremap <Leader>w :write<CR>
 
 " keep cursor position after leaving insert mode
-au InsertLeave * call cursor([getpos('.')[1], getpos('.')[2]+1])
+" au InsertLeave * call cursor([getpos('.')[1], getpos('.')[2]+1])
 
 " quicker Command history navigation
 nnoremap <Up> :<Up>
@@ -84,7 +85,7 @@ vmap < <gv
 " nnoremap < <<
 
 " Escape
-imap jk <ESC>
+imap jj <ESC>
 
 " remap `*`/`#` to search forwards/backwards (resp.)
 " w/o moving cursor
@@ -92,9 +93,19 @@ nnoremap <silent> * :execute "normal! *N"<cr>
 nnoremap <silent> # :execute "normal! #n"<cr>
 
 " replace all highlighted words
-noremap cm :%s///gc<left><left><left>
-" replace all selected words
-vnoremap cm "hy:%s/<C-r>h//gc<left><left><left>
+noremap ch :%s///gc<left><left><left>
+vnoremap ch :s///gc<left><left><left>
+
+" replace all words under cursor
+noremap cm :execute "normal! *N"<cr>:%s///gc<left><left><left>
+
+" remap these because some plugin broke them
+nnoremap cib cib
+nnoremap cab cab
+nnoremap dib dib
+nnoremap dab dab
+nnoremap vib vib
+nnoremap vab vab
 
 " map jumplists navigation to BackSpace
 " map <BackSpace> <C-o>
@@ -109,19 +120,19 @@ map! <F14> <C-BackSpace>
 imap <C-BackSpace> <C-W>
 
 " " Keep search matches in the middle of the window.
-" nnoremap n nzzzv
-" nnoremap N Nzzzv
-" nnoremap * *Nzzzv
-"
-" " center when return to undo line
-" nnoremap u uzzzv
-"
-" " Same when jumping around
-" nnoremap g; g;zz
-" nnoremap g, g,zz
+ nnoremap n nzzzv
+ nnoremap N Nzzzv
+ "nnoremap * *Nzzzv
 
-" map <Space> <S-m><C-d>
-" map <S-Space> <S-m><C-u>
+ " center when return to undo line
+ "nnoremap u uzzzv
+
+ " Same when jumping around
+ nnoremap g; g;zz
+ nnoremap g, g,zz
+
+ map <Space> <S-m><C-d>
+ map <S-Space> <S-m><C-u>
 map <Space> <C-d>
 map <S-Space> <C-u>
 
@@ -271,7 +282,7 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 " prettier
 nmap <Leader>f <Plug>(Prettier)
 " let g:prettier#autoformat = 0
-" autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
 
 " plugins settings
 " Disable Deoplete auto complete, use coc autocomplete instead
