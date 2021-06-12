@@ -22,6 +22,9 @@ set nu
 " set command height
 set cmdheight=1
 
+" Show relative line numbers and never let cursor touch top/bottom
+set relativenumber scrolloff=5
+
 " set path=$PWD/**
 set path+=**
 set wildignore+=**/node_modules/**
@@ -57,6 +60,8 @@ set pumblend=0
 map H ^
 map L $
 
+" open newline with space above
+nmap go o<Esc>o
 " open newline with space below
 nmap 1o o<Esc>O
 " open newline with space above and below
@@ -100,12 +105,14 @@ vnoremap ch :s///gc<left><left><left>
 noremap cm :execute "normal! *N"<cr>:%s///gc<left><left><left>
 
 " remap these because some plugin broke them
-nnoremap cib cib
-nnoremap cab cab
-nnoremap dib dib
-nnoremap dab dab
-nnoremap vib vib
-nnoremap vab vab
+" nnoremap cib cib
+" nnoremap cab cab
+" nnoremap dib dib
+" nnoremap dab dab
+" nnoremap vib vib
+" nnoremap vab vab
+" nnoremap yib yib
+" nnoremap yab yab
 
 " map jumplists navigation to BackSpace
 " map <BackSpace> <C-o>
@@ -272,17 +279,60 @@ function! s:show_documentation()
     call CocAction('doHover')
   endif
 endfunction
+
+" Highlight the symbol and its references when holding the cursor.
+" autocmd CursorHold * silent call CocActionAsync('highlight')
+
 " Remap for rename current word
 nmap <leader>r <Plug>(coc-rename)
+
+" augroup mygroup
+"   autocmd!
+"   " Setup formatexpr specified filetype(s).
+"   autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+"   " Update signature help on jump placeholder.
+"   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+" augroup end
+
+" Applying codeAction to the selected region.
+" Example: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap keys for applying codeAction to the current buffer.
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Map function and class text objects
+" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+xmap if <Plug>(coc-funcobj-i)
+omap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap af <Plug>(coc-funcobj-a)
+xmap ic <Plug>(coc-classobj-i)
+omap ic <Plug>(coc-classobj-i)
+xmap ac <Plug>(coc-classobj-a)
+omap ac <Plug>(coc-classobj-a)
+
 " Add status line support, for integration with other plugin, checkout `:h coc-status`
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 " coc terminal
 " nmap <leader>t :CocCommand terminal.Toggle<CR>
+"
+"coc-prettier
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
 " prettier
 nmap <Leader>f <Plug>(Prettier)
-" let g:prettier#autoformat = 0
-autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
+" let g:prettier#autoformat = 1
+" let g:prettier#autoformat_require_pragma = 0
+" let g:prettier#autoformat_config_files = ['javascript', 'typescript', 'javascriptreact', 'typescriptreact', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'svelte', 'yaml', 'html']
+" let g:prettier#exec_cmd_async = 1
+" let g:prettier#quickfix_enabled = 0
+" let g:prettier#quickfix_auto_focus = 0
+" autocmd TextChanged,InsertLeave *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
+" autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html PrettierAsync
 
 " plugins settings
 " Disable Deoplete auto complete, use coc autocomplete instead
