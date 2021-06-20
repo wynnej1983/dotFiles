@@ -1,8 +1,8 @@
-colorscheme gruvbox
-  highlight clear SignColumn
-  highlight clear LineNr guibg
-  highlight LineNr guifg=#3e3e3e
-  highlight LineNr guifg=#292929
+" colorscheme gruvbox
+  " highlight clear SignColumn
+  " highlight clear LineNr guibg
+  " highlight LineNr guifg=#3e3e3e
+  " highlight LineNr guifg=#292929
 " colorscheme molokai
 "   highlight clear SignColumn
 "   highlight clear LineNr guibg
@@ -10,10 +10,10 @@ colorscheme gruvbox
 " colorscheme tender
 " colorscheme molokayo
 " colorscheme zellner
-" colorscheme lightning
-"   highlight clear SignColumn
-"   highlight clear LineNr guibg
-"   highlight LineNr guifg=#ffffff
+colorscheme lightning
+  highlight clear SignColumn
+  highlight clear LineNr guibg
+  highlight LineNr guifg=#ffffff
 " colorscheme atom
 set cursorline
 set nowrap
@@ -21,6 +21,8 @@ set nowrap
 set nu
 " set command height
 set cmdheight=1
+
+set updatetime=300
 
 " Show relative line numbers and never let cursor touch top/bottom
 set relativenumber scrolloff=5
@@ -325,6 +327,11 @@ command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
 " prettier
 nmap <Leader>f <Plug>(Prettier)
+
+" coc-explorer
+" nnoremap <LocalLeader>e :CocCommand explorer<CR>
+" nnoremap <LocalLeader>a :CocCommand explorer --no-toggle<CR>
+" autocmd User CocExplorerOpenPost set cursorline
 " let g:prettier#autoformat = 1
 " let g:prettier#autoformat_require_pragma = 0
 " let g:prettier#autoformat_config_files = ['javascript', 'typescript', 'javascriptreact', 'typescriptreact', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'svelte', 'yaml', 'html']
