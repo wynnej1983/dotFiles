@@ -13,7 +13,7 @@ window:
 
   decorations: none
 
-# Sample Font configuration for font: FiraCode Nerd Font Mono.
+# Sample Font configuration for font: FuraCode Nerd Font Mono.
 # Feel free to use different font configuration family & face for each sections
 font:
   # Normal font face - Also used to draw glyphs on tmux & VIM
@@ -24,17 +24,17 @@ font:
     # Font name
     family: FiraCode Nerd Font Mono
     # Font face
-    style: Retina
+    style: Medium
 
   # Bold font face
   bold:
     family: FiraCode Nerd Font Mono
-    style: Bold
+    style: Medium
 
   # Italic font face
   italic:
     family: FiraCode Nerd Font Mono
-    style: Italic
+    style: Medium
 
   # Bold italic font face
   # Note: Since i don't have a font italic version of this font, I just specified
@@ -42,7 +42,7 @@ font:
   # for your font
   bold_italic:
     family: FiraCode Nerd Font Mono
-    style: Italic
+    style: Medium
 
   # Font size
   size: 20.0
