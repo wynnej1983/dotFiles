@@ -2,7 +2,7 @@
 alias root='sudo -i'
 
 # aliases
-alias aliases='nvim ~/.zsh/.aliases'
+alias aliases='nvim ~/.aliases'
 alias reload='. ~/.zshrc'
 
 alias ddsstore='sudo find ./ -name ".DS_Store" -depth -exec rm {} \;'
@@ -63,10 +63,8 @@ alias error-log='tail /private/var/log/apache2/error_log'
 alias vhosts='sudo nvim /private/etc/apache2/extra/httpd-vhosts.conf' 
 
 # nvim stuff
-# alias vi='nvim'
 alias vi='nvim'
 alias ide='~/ide.sh'
-alias vv='mvim .'
 alias vimrc='nvim ~/.config/nvim/config/local.vim'
 
 # rails Stuff
@@ -82,16 +80,16 @@ alias rr='rake db:rollback'
 alias lipsum='echo "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In malesuada risus eu magna posuere eu laoreet odio ornare. Proin malesuada gravida magna at lacinia. Donec metus erat, rutrum sit amet faucibus quis, mattis at sem. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aenean feugiat nibh in quam facilisis a rutrum risus malesuada. Fusce libero libero, scelerisque eget luctus a, blandit vel nisi. Proin elit nisi, adipiscing nec congue et, ornare vel enim. Nam orci dui, volutpat vitae fringilla vitae, scelerisque ut neque. Etiam libero orci, consequat ac porttitor a, feugiat nec orci. Nullam volutpat rhoncus dolor sed pellentesque. Etiam ornare, enim molestie semper imperdiet, urna ligula porta massa, in tempor diam quam ut velit. Ut sit amet nulla sem, pellentesque bibendum elit. Sed lectus libero, iaculis a vestibulum at, laoreet tempor orci. Praesent scelerisque urna et velit eleifend viverra." | pbcopy; echo "copied to clipboard";'
 
 # git stuff
-alias g='git pull origin master'
+alias g='git pull origin develop'
 alias gs='git status --short'
 alias gb='git checkout -b '
 alias gm='git merge '
-# alias go='git checkout '
+alias go='git checkout '
 alias gc='git commit -am '
 alias gac='git add .; git commit -am '
 function gacp {
   gac $1;
-  git push origin master;
+  git push origin develop;
 }
 alias gl='git log'
 alias ga='git add'
@@ -101,7 +99,7 @@ alias gsi='git submodule update --init --recursive'
 alias gtc="git shortlog | grep -E '^[ ]+\w+' | wc -l | trim"
 alias gitabort='git rebase -i HEAD~10'
 alias gd='git diff'
-alias gspa='git submodule foreach git pull origin master'
+alias gspa='git submodule foreach git pull origin develop'
 
 function tire_index { 
   RAILS_ENV=development bundle exec rake environment tire:import FORCE=true CLASS=$1
@@ -110,3 +108,5 @@ function tire_index {
 
 alias postgres.start='pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start'
 alias postgres.stop='pg_ctl -D /usr/local/var/postgres stop -s -m fast'
+
+alias ys='yarn start'
