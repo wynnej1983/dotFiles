@@ -1,8 +1,8 @@
-" colorscheme gruvbox
-  " highlight clear SignColumn
-  " highlight clear LineNr guibg
-  " highlight LineNr guifg=#3e3e3e
-  " highlight LineNr guifg=#292929
+colorscheme gruvbox
+  highlight clear SignColumn
+  highlight clear LineNr guibg
+  highlight LineNr guifg=#3e3e3e
+  highlight LineNr guifg=#292929
 " colorscheme molokai
 "   highlight clear SignColumn
 "   highlight clear LineNr guibg
@@ -10,19 +10,23 @@
 " colorscheme tender
 " colorscheme molokayo
 " colorscheme zellner
-colorscheme lightning
-  highlight clear SignColumn
-  highlight clear LineNr guibg
-  highlight LineNr guifg=#ffffff
+" colorscheme lightning
+"   highlight clear SignColumn
+"   highlight clear LineNr guibg
+"   highlight LineNr guifg=#ffffff
 " colorscheme atom
 set cursorline
 set nowrap
+set equalalways
 " set nonu
 set nu
 " set command height
 set cmdheight=1
 
+set timeoutlen=300
 set updatetime=300
+
+set noswapfile
 
 " Show relative line numbers and never let cursor touch top/bottom
 set relativenumber scrolloff=5
