@@ -14,7 +14,7 @@
 - repo: Shougo/context_filetype.vim
 - repo: jaawerth/nrun.vim
 - repo: vim-airline/vim-airline
-- repo: prettier/vim-prettier
+# - repo: prettier/vim-prettier
 - { repo: rafi/awesome-vim-colorschemes, merged: 0 }
 
 - repo: christoomey/vim-tmux-navigator
