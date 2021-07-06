@@ -29,6 +29,7 @@ endif
 
 " Interactive grep search
 call denite#custom#var('grep', 'min_interactive_pattern', 2)
+call denite#custom#var('grep', 'max_path_length', 100)
 call denite#custom#source('grep', 'args', ['', '', '!'])
 
 " Allow customizable window positions: top, bottom, center (default)
@@ -99,6 +100,11 @@ if executable('rg')
 		\ 'recursive_opts': [],
 		\ 'pattern_opt': ['--regexp'],
 		\ })
+
+" Change ignore_globs
+	call denite#custom#filter('matcher/ignore_globs', 'ignore_globs',
+	      \ [ '.git/', '.ropeproject/', '__pycache__/',
+	      \   'venv/', 'images/', '*.min.*', 'img/', 'fonts/'])
 
 " The Silver Searcher (ag)
 elseif executable('ag')
