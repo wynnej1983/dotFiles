@@ -89,6 +89,8 @@ plugins=(
   zsh-autosuggestions
 )
 
+VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true
+
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -114,6 +116,7 @@ source $ZSH/oh-my-zsh.sh
 # For a full list of active aliases, run `alias`.
 #
 export PATH=/usr/local/bin:$PATH
+export PATH=/usr/bin:$PATH
 # export PATH="$PATH:`yarn global bin`"
 # export PATH=$PATH:/usr/local/bin
 export PATH=$PATH:/Applications
@@ -121,8 +124,8 @@ export PATH=$PATH:/Users/wynnej1983/.gem/ruby/2.0.0/bin
 export ANT_HOME=/usr/local/opt/ant
 export MAVEN_HOME=/usr/local/opt/maven
 export GRADLE_HOME=/usr/local/opt/gradle
-export ANDROID_HOME=/usr/local/opt/android-sdk
-export ANDROID_NDK_HOME=/usr/local/opt/android-ndk
+# export ANDROID_HOME=/usr/local/opt/android-sdk
+# export ANDROID_NDK_HOME=/usr/local/opt/android-ndk
 export PATH=$ANT_HOME/bin:$PATH
 export PATH=$MAVEN_HOME/bin:$PATH
 export PATH=$GRADLE_HOME/bin:$PATH
@@ -134,7 +137,13 @@ export GOROOT=/usr/local/opt/go/libexec
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$GOROOT/bin
 export PATH=$PATH:/Applications/Postgres.app/Contents/Versions/latest/bin
-
+export ANDROID_HOME=$HOME/Library/Android/sdk
+#export NDK_ROOT=$HOME/Library/Android/sdk/ndk
+export ANDROID_NDK_HOME=$HOME/Library/Android/sdk/ndk/21.3.6528147
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
 # NVM Stuff
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
