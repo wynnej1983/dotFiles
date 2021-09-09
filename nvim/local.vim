@@ -66,13 +66,16 @@ set pumblend=0
 map H ^
 map L $
 
-" open newline with space above
-nmap go o<Esc>o
-" open newline with space below
-nmap 1o o<Esc>O
-" open newline with space above and below
+nmap gp o<Esc>p
+
+nmap go o<Esc>O
+nmap 1o o<Esc>o
 nmap 2o 2o<Esc>O
-" open new row above while in insert mode
+
+nmap gO O<Esc>o
+nmap 1O O<Esc>O
+nmap 2O 2O<Esc>o
+
 imap <c-o> <Esc>O
 " move to end of line when in insert mode
 imap <c-l> <Esc>A
@@ -248,6 +251,7 @@ let g:coc_snippet_next = '<CR>'
 " let g:coc_snippet_prev = '<C-k>'
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
@@ -331,6 +335,13 @@ command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
 " prettier
 nmap <Leader>f <Plug>(Prettier)
+
+" Find files using Telescope command-line sugar.
+nnoremap <LocalLeader>f <cmd>Telescope find_files theme=get_ivy<cr>
+nnoremap <LocalLeader>g <cmd>Telescope live_grep theme=get_ivy<cr>
+nnoremap <leader>gg <cmd>Telescope grep_string theme=get_ivy<cr>
+nnoremap <LocalLeader>r <cmd>Telescope resume theme=get_ivy<cr>
+nnoremap <LocalLeader>i <cmd>Telescope oldfiles theme=get_ivy<cr>
 
 " coc-explorer
 " nnoremap <LocalLeader>e :CocCommand explorer<CR>
@@ -416,3 +427,66 @@ function! s:defx_my_settings() abort
   nnoremap <silent><buffer><expr> st
   \ defx#do_action('multi', [['quit'], ['open', 'tabnew']])
 endfunction
+
+lua << EOF
+  local actions = require('telescope.actions')
+  -- Global remapping
+  ------------------------------
+  require('telescope').setup{
+    defaults = {
+      mappings = {
+	i = {
+	},
+	n = {
+	  ["sv"] = actions.file_split,
+	  ["sg"] = actions.file_vsplit,
+	},
+      },
+    }
+  }
+
+  local nvim_lsp = require("lspconfig")
+
+  local on_attach = function(client, bufnr)
+    local buf_map = vim.api.nvim_buf_set_keymap
+    vim.cmd("command! LspDef lua vim.lsp.buf.definition()")
+    vim.cmd("command! LspFormatting lua vim.lsp.buf.formatting()")
+    vim.cmd("command! LspCodeAction lua vim.lsp.buf.code_action()")
+    vim.cmd("command! LspHover lua vim.lsp.buf.hover()")
+    vim.cmd("command! LspRename lua vim.lsp.buf.rename()")
+    vim.cmd("command! LspOrganize lua lsp_organize_imports()")
+    vim.cmd("command! LspRefs lua vim.lsp.buf.references()")
+    vim.cmd("command! LspTypeDef lua vim.lsp.buf.type_definition()")
+    vim.cmd("command! LspImplementation lua vim.lsp.buf.implementation()")
+    vim.cmd("command! LspDiagPrev lua vim.lsp.diagnostic.goto_prev()")
+    vim.cmd("command! LspDiagNext lua vim.lsp.diagnostic.goto_next()")
+    vim.cmd("command! LspDiagLine lua vim.lsp.diagnostic.show_line_diagnostics()")
+    vim.cmd("command! LspSignatureHelp lua vim.lsp.buf.signature_help()")
+    buf_map(bufnr, "n", "gd", ":LspDef<CR>", {silent = true})
+    buf_map(bufnr, "n", "gr", ":LspRename<CR>", {silent = true})
+    buf_map(bufnr, "n", "gR", ":LspRefs<CR>", {silent = true})
+    buf_map(bufnr, "n", "gy", ":LspTypeDef<CR>", {silent = true})
+    buf_map(bufnr, "n", "K", ":LspHover<CR>", {silent = true})
+    buf_map(bufnr, "n", "gs", ":LspOrganize<CR>", {silent = true})
+    buf_map(bufnr, "n", "[a", ":LspDiagPrev<CR>", {silent = true})
+    buf_map(bufnr, "n", "]a", ":LspDiagNext<CR>", {silent = true})
+    buf_map(bufnr, "n", "ga", ":LspCodeAction<CR>", {silent = true})
+    buf_map(bufnr, "n", "<Leader>a", ":LspDiagLine<CR>", {silent = true})
+    buf_map(bufnr, "i", "<C-x><C-x>", "<cmd> LspSignatureHelp<CR>", {silent = true})
+    if client.resolved_capabilities.document_formatting then
+	  vim.api.nvim_exec([[
+	  augroup LspAutocommands
+	      autocmd! * <buffer>
+	      autocmd BufWritePost <buffer> LspFormatting
+	  augroup END
+	  ]], true)
+    end
+  end
+
+  nvim_lsp.rust_analyzer.setup {
+    on_attach = on_attach,
+    flags = {
+      debounce_text_changes = 150,
+    }
+  }
+EOF
