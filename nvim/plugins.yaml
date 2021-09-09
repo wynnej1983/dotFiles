@@ -14,6 +14,17 @@
 - repo: Shougo/context_filetype.vim
 - repo: jaawerth/nrun.vim
 - repo: vim-airline/vim-airline
+- repo: neovim/nvim-lspconfig
+- repo: nvim-lua/popup.nvim
+- repo: nvim-lua/plenary.nvim
+- repo: nvim-telescope/telescope.nvim
+- repo: nvim-treesitter/nvim-treesitter
+- repo: simrat39/rust-tools.nvim
+- repo: hrsh7th/nvim-compe
+- repo: hrsh7th/vim-vsnip
+- repo: hrsh7th/vim-vsnip-integ
+
+
 # - repo: prettier/vim-prettier
 - { repo: rafi/awesome-vim-colorschemes, merged: 0 }
 
@@ -113,12 +124,12 @@
 - { repo: kchmck/vim-coffee-script, on_ft: [coffee, litcoffee] }
 - { repo: elzr/vim-json, on_ft: json }
 - { repo: posva/vim-vue, on_ft: vue }
-- repo: neoclide/coc.nvim
-  on_ft: [javascript, javascriptreact, typescript, typescriptreact]
-  rev: "release"
-  merged: 0
-  hook_add: |-
-    let g:coc_global_extensions = ['coc-json', 'coc-css', 'coc-eslint', 'coc-tsserver', 'coc-toml', 'coc-yaml']
+# - repo: neoclide/coc.nvim
+#   on_ft: [javascript, javascriptreact, typescript, typescriptreact]
+#   rev: "release"
+#   merged: 0
+#   hook_add: |-
+#     let g:coc_global_extensions = ['coc-json', 'coc-css', 'coc-eslint', 'coc-tsserver', 'coc-toml', 'coc-yaml']
 
 # pangloss/javascript vs. othree/yajs
 #- { repo: othree/yajs.vim, on_ft: [ javascript, javascriptreact ]}
@@ -167,6 +178,7 @@
 - { repo: vim-ruby/vim-ruby, on_ft: ruby }
 - { repo: keith/swift.vim, on_ft: swift }
 - { repo: rust-lang/rust.vim, on_ft: rust }
+
 - { repo: vim-jp/syntax-vim-ex, on_ft: vim }
 - { repo: chrisbra/csv.vim, on_ft: csv }
 - { repo: tpope/vim-git, on_ft: [gitcommit, gitrebase, gitconfig] }
@@ -181,6 +193,7 @@
 - { repo: lifepillar/pgsql.vim, on_ft: pgsql }
 - { repo: chr4/nginx.vim, on_ft: nginx }
 - { repo: towolf/vim-helm, on_ft: helm }
+- { repo: entrez/roku.vim, on_ft: brs }
 
 - repo: pearofducks/ansible-vim
   on_ft: [ansible, ansible_hosts, jinja2]
@@ -447,38 +460,38 @@
 # Completion and code analysis
 # ----------
 
-- repo: prabirshrestha/async.vim # only autoload functions, lazy by nature
-
-- repo: prabirshrestha/asyncomplete.vim
-  depends: async.vim
-  hook_add: let g:asyncomplete_auto_completeopt = 0
-  hook_source: source $VIM_PATH/config/plugins/asyncomplete.vim
-
-- repo: prabirshrestha/asyncomplete-lsp.vim
-  depends: asyncomplete.vim
-
-- repo: prabirshrestha/vim-lsp
-  depends: asyncomplete-lsp.vim
-  hook_add: |-
-    let g:lsp_async_completion = 1
-    let g:lsp_ignorecase = 1
-    let g:lsp_virtual_text_enabled = 0
-    let g:lsp_diagnostics_enabled = 1
-    let g:lsp_diagnostics_echo_cursor = 1
-    let g:lsp_diagnostics_echo_delay = 400
-    let g:lsp_highlight_references_enabled = 0
-  hook_source: source $VIM_PATH/config/plugins/lsp-settings.vim
-
-- repo: mattn/vim-lsp-settings
-  depends: vim-lsp
-  merged: 0
-  hook_add: |-
-    let g:lsp_settings = {
-    \   'efm-langserver': {'disabled': 1},
-    \   'yaml-language-server': {
-    \     'allowlist': ['yaml', 'yaml.ansible'],
-    \   }
-    \ }
+# - repo: prabirshrestha/async.vim # only autoload functions, lazy by nature
+# 
+# - repo: prabirshrestha/asyncomplete.vim
+#   depends: async.vim
+#   hook_add: let g:asyncomplete_auto_completeopt = 0
+#   hook_source: source $VIM_PATH/config/plugins/asyncomplete.vim
+# 
+# - repo: prabirshrestha/asyncomplete-lsp.vim
+#   depends: asyncomplete.vim
+# 
+# - repo: prabirshrestha/vim-lsp
+#   depends: asyncomplete-lsp.vim
+#   hook_add: |-
+#     let g:lsp_async_completion = 1
+#     let g:lsp_ignorecase = 1
+#     let g:lsp_virtual_text_enabled = 0
+#     let g:lsp_diagnostics_enabled = 1
+#     let g:lsp_diagnostics_echo_cursor = 1
+#     let g:lsp_diagnostics_echo_delay = 400
+#     let g:lsp_highlight_references_enabled = 0
+#   hook_source: source $VIM_PATH/config/plugins/lsp-settings.vim
+# 
+# - repo: mattn/vim-lsp-settings
+#   depends: vim-lsp
+#   merged: 0
+#   hook_add: |-
+#     let g:lsp_settings = {
+#     \   'efm-langserver': {'disabled': 1},
+#     \   'yaml-language-server': {
+#     \     'allowlist': ['yaml', 'yaml.ansible'],
+#     \   }
+#     \ }
 
 - repo: Shougo/neco-vim
   on_ft: vim
