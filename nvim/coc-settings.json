@@ -9,8 +9,9 @@
     "typescript.tsx"
   ],
   "signature.preferShownAbove": false,
+  //"signature.triggerSignatureWait": 1000,
   "suggest.triggerAfterInsertEnter": false,
-  "suggest.timeout": 500,
+  "suggest.timeout": 100,
   "suggest.noselect": true,
   "suggest.detailField": "abbr",
   "suggest.triggerCompletionWait": 100,
@@ -45,7 +46,7 @@
   "codeLens.enable": false,
   //diagnostic
   "diagnostic.enable": true,
-  //"diagnostic.enableMessage": "never",
+  "diagnostic.enableMessage": "always",
   "diagnostic.messageTarget": "float",
   "diagnostic.messageDelay": 0,
   "diagnostic.signOffset": 9999999,
@@ -74,8 +75,15 @@
   //Snippet
   "snippets.priority": 100,
   "snippets.extends": {
-    "typescript": ["javascript"],
-    "svelte": ["javascript", "typescript", "html", "css"]
+    "typescript": [
+      "javascript"
+    ],
+    "svelte": [
+      "javascript",
+      "typescript",
+      "html",
+      "css"
+    ]
   },
   //CocList
   //"list.source.files.defaultOptions": ["--auto-preview"],
@@ -94,8 +102,8 @@
   //sessions
   "session.directory": "~/.cache/vim/session",
   // coc-explorer
-  "explorer.file.revealWhenOpen": true,
-  "explorer.file.autoReveal": true,
+  "explorer.file.reveal.whenOpen": true,
+  "explorer.file.reveal.auto": true,
   "explorer.quitOnOpen": true,
   "explorer.focus": true,
   "explorer.width": 45,
@@ -104,27 +112,75 @@
     "i": false, // cancel default mapkey
     "*": "toggleSelection",
     "<tab>": "actionMenu",
-    "gk": ["wait", "expandablePrev"],
-    "gj": ["wait", "expandableNext"],
-    "h": ["wait", "collapse"],
-    "l": ["wait", "expandable?", "expand", "open"],
-    "J": ["wait", "toggleSelection", "normal:j"],
-    "K": ["wait", "toggleSelection", "normal:k"],
-    "gl": ["wait", "expand:recursive"],
-    "gh": ["wait", "collapse:recursive"],
-    "<2-LeftMouse>": [
+    "gk": [
+      "wait",
+      "expandablePrev"
+    ],
+    "gj": [
+      "wait",
+      "expandableNext"
+    ],
+    "h": [
+      "wait",
+      "collapse"
+    ],
+    "l": [
+      "wait",
       "expandable?",
-      ["expanded?", "collapse", "expand"],
+      "expand",
       "open"
     ],
-    "o": ["wait", "expanded?", "collapse", "expand"],
-    "<cr>": ["wait", "expandable?", "cd", "open"],
+    "J": [
+      "wait",
+      "toggleSelection",
+      "normal:j"
+    ],
+    "K": [
+      "wait",
+      "toggleSelection",
+      "normal:k"
+    ],
+    "gl": [
+      "wait",
+      "expand:recursive"
+    ],
+    "gh": [
+      "wait",
+      "collapse:recursive"
+    ],
+    "<2-LeftMouse>": [
+      "expandable?",
+      [
+        "expanded?",
+        "collapse",
+        "expand"
+      ],
+      "open"
+    ],
+    "o": [
+      "wait",
+      "expanded?",
+      "collapse",
+      "expand"
+    ],
+    "<cr>": [
+      "wait",
+      "expandable?",
+      "cd",
+      "open"
+    ],
     "e": "open",
-    "sv": "open:split:sourceWindow",
-    "sg": "open:vsplit:sourceWindow",
+    "sv": "open:split:sourceWindow:quitOnOpen",
+    "sg": "open:vsplit:sourceWindow:quitOnOpen",
     "t": "open:tab",
-    "<bs>": ["wait", "gotoParent"],
-    "gs": ["wait", "reveal:select"],
+    "<bs>": [
+      "wait",
+      "gotoParent"
+    ],
+    "gs": [
+      "wait",
+      "reveal:select"
+    ],
     "il": "preview:labeling",
     "ic": "preview:content",
     "Il": "previewOnHover:toggle:labeling",
@@ -133,11 +189,13 @@
     "yp": "copyFilepath",
     "yn": "copyFilename",
     "yy": "copyFile",
-    "dd": "cutFile",
+    "c": "copyFile",
+    "m": "cutFile",
     "p": "pasteFile",
-    "df": "delete",
+    "dd": "delete",
     "dF": "deleteForever",
     "a": "addFile",
+    "N": "addFile",
     "A": "addDirectory",
     "r": "rename",
     "zh": "toggleHidden",
@@ -152,18 +210,54 @@
     "F": "searchRecursive",
     "gf": "gotoSource:file",
     "gb": "gotoSource:buffer",
-    "[[": ["wait", "sourcePrev"],
-    "]]": ["wait", "sourceNext"],
-    "[i": ["wait", "indentPrev"],
-    "]i": ["wait", "indentNext"],
-    "[m": ["wait", "markPrev:modified"],
-    "]m": ["wait", "markNext:modified"],
-    "[d": ["wait", "markPrev:diagnosticError:diagnosticWarning"],
-    "]d": ["wait", "markNext:diagnosticError:diagnosticWarning"],
-    "[D": ["wait", "markPrev:diagnosticError"],
-    "]D": ["wait", "markNext:diagnosticError"],
-    "[c": ["wait", "markPrev:git"],
-    "]c": ["wait", "markNext:git"],
+    "[[": [
+      "wait",
+      "sourcePrev"
+    ],
+    "]]": [
+      "wait",
+      "sourceNext"
+    ],
+    "[i": [
+      "wait",
+      "indentPrev"
+    ],
+    "]i": [
+      "wait",
+      "indentNext"
+    ],
+    "[m": [
+      "wait",
+      "markPrev:modified"
+    ],
+    "]m": [
+      "wait",
+      "markNext:modified"
+    ],
+    "[d": [
+      "wait",
+      "markPrev:diagnosticError:diagnosticWarning"
+    ],
+    "]d": [
+      "wait",
+      "markNext:diagnosticError:diagnosticWarning"
+    ],
+    "[D": [
+      "wait",
+      "markPrev:diagnosticError"
+    ],
+    "]D": [
+      "wait",
+      "markNext:diagnosticError"
+    ],
+    "[c": [
+      "wait",
+      "markPrev:git"
+    ],
+    "]c": [
+      "wait",
+      "markNext:git"
+    ],
     "<<": "gitStage",
     ">>": "gitUnstage"
   },
@@ -181,19 +275,54 @@
   "prettier.trailingComma": "all",
   // typescript
   "typescript.autoClosingTags": true,
+  // ----------------------------------------------------------------------------------------
+  // `coc-rust-analyzer` related
+  // ----------------------------------------------------------------------------------------
+  "rust-analyzer.enable": true,
+  //"rust-analyzer.server.path": "",
+  "rust-analyzer.updates.prompt": true,
+  "rust-analyzer.diagnostics.enable": true,
+  "rust-analyzer.cargo.loadOutDirsFromCheck": false,
+  "rust-analyzer.enableCargoWatchOnStartup": true,
+  "rust-analyzer.inlayHints.enable": true, // Enable to show type hint on the right side
+  "rust-analyzer.inlayHints.typeHints": false, // Enable to show variable type hint
+  "rust-analyzer.inlayHints.typeHintsSeparator": ">> ", // Variable type prefix symbol
+  "rust-analyzer.inlayHints.chainingHints": true, // Enable to show method chain type hint
+  "rust-analyzer.inlayHints.chainingHintsSeparator": ">> ", // Method chain type prefix symbol
+  "rust-analyzer.procMacro.enable": false,
+  "rust-analyzer.checkOnSave.enable": false,
+  "rust-analyzer.checkOnSave.allTargets": true,
+  "rust-analyzer.callInfo.full": true, // Show function name and docs in parameter hints
+  "rust-analyzer.hoverActions.linksInHover": false, // Show document links in hover
+  "rust-analyzer.completion.addCallParenthesis": true,
+  "rust-analyzer.completion.addCallArgumentSnippets": true,
+  "rust-analyzer.completion.postfix.enable": true,
   // python
   "python.jediEnabled": false,
   // add your languageServer into this list
   "languageserver": {
     "graphql": {
       "command": "graphql-lsp",
-      "args": ["server", "-m", "stream"],
+      "args": [
+        "server",
+        "-m",
+        "stream"
+      ],
       // customize filetypes to your needs
-      "filetypes": ["typescript", "typescriptreact", "graphql"]
+      "filetypes": [
+        "typescript",
+        "typescriptreact",
+        "graphql"
+      ]
     },
     "ccls": {
       "command": "ccls",
-      "filetypes": ["c", "cpp", "objc", "objcpp"],
+      "filetypes": [
+        "c",
+        "cpp",
+        "objc",
+        "objcpp"
+      ],
       "rootPatterns": [
         ".ccls",
         "compile_commands.json",
@@ -209,13 +338,12 @@
     },
     "golang": {
       "command": "gopls",
-      "rootPatterns": ["go.mod"],
-      "filetypes": ["go"]
-    },
-    "rust": {
-      "command": "rust-analyzer",
-      "filetypes": ["rust"],
-      "rootPatterns": ["Cargo.toml"]
+      "rootPatterns": [
+        "go.mod"
+      ],
+      "filetypes": [
+        "go"
+      ]
     }
   }
 }
