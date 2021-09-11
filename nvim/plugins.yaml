@@ -13,7 +13,7 @@
 - repo: sgur/vim-editorconfig
 - repo: Shougo/context_filetype.vim
 - repo: jaawerth/nrun.vim
-- repo: vim-airline/vim-airline
+- repo: itchyny/lightline.vim
 - repo: neovim/nvim-lspconfig
 - repo: nvim-lua/popup.nvim
 - repo: nvim-lua/plenary.nvim
@@ -23,7 +23,13 @@
 - repo: hrsh7th/nvim-compe
 - repo: hrsh7th/vim-vsnip
 - repo: hrsh7th/vim-vsnip-integ
-
+- repo: hrsh7th/vim-vsnip-integ
+- repo: sainnhe/artify.vim
+- repo: macthecadillac/lightline-gitdiff
+- repo: ryanoasis/vim-devicons
+- repo: rmolin88/pomodoro.vim
+- repo: albertomontesg/lightline-asyncrun
+- repo: terror/vim-crypto
 
 # - repo: prettier/vim-prettier
 - { repo: rafi/awesome-vim-colorschemes, merged: 0 }
@@ -215,13 +221,6 @@
 # ==========================================
 # Commands
 # --------
-- repo: Shougo/defx.nvim
-  on_cmd: Defx
-  hook_source: source $VIM_PATH/config/plugins/defx.vim
-
-- { repo: kristijanhusak/defx-git, on_source: defx.nvim }
-- { repo: kristijanhusak/defx-icons, on_source: defx.nvim }
-
 - { repo: tyru/caw.vim, on_map: { nx: <Plug> } }
 - { repo: liuchengxu/vim-which-key, on_cmd: WhichKey }
 - { repo: mbbill/undotree, on_cmd: UndotreeToggle }
@@ -460,124 +459,9 @@
 # Completion and code analysis
 # ----------
 
-# - repo: prabirshrestha/async.vim # only autoload functions, lazy by nature
-# 
-# - repo: prabirshrestha/asyncomplete.vim
-#   depends: async.vim
-#   hook_add: let g:asyncomplete_auto_completeopt = 0
-#   hook_source: source $VIM_PATH/config/plugins/asyncomplete.vim
-# 
-# - repo: prabirshrestha/asyncomplete-lsp.vim
-#   depends: asyncomplete.vim
-# 
-# - repo: prabirshrestha/vim-lsp
-#   depends: asyncomplete-lsp.vim
-#   hook_add: |-
-#     let g:lsp_async_completion = 1
-#     let g:lsp_ignorecase = 1
-#     let g:lsp_virtual_text_enabled = 0
-#     let g:lsp_diagnostics_enabled = 1
-#     let g:lsp_diagnostics_echo_cursor = 1
-#     let g:lsp_diagnostics_echo_delay = 400
-#     let g:lsp_highlight_references_enabled = 0
-#   hook_source: source $VIM_PATH/config/plugins/lsp-settings.vim
-# 
-# - repo: mattn/vim-lsp-settings
-#   depends: vim-lsp
-#   merged: 0
-#   hook_add: |-
-#     let g:lsp_settings = {
-#     \   'efm-langserver': {'disabled': 1},
-#     \   'yaml-language-server': {
-#     \     'allowlist': ['yaml', 'yaml.ansible'],
-#     \   }
-#     \ }
-
 - repo: Shougo/neco-vim
   on_ft: vim
   merged: 0
-
-# - repo: prabirshrestha/asyncomplete-necovim.vim
-#   depends: asyncomplete.vim
-#   hook_source: |-
-#     autocmd User asyncomplete_setup call asyncomplete#register_source(
-#       \ asyncomplete#sources#necovim#get_source_options({
-#       \ 'name': 'necovim',
-#       \ 'allowlist': ['vim'],
-#       \ 'completor': function('asyncomplete#sources#necovim#completor'),
-#       \ }))
-#
-# - repo: prabirshrestha/asyncomplete-buffer.vim
-#   depends: asyncomplete.vim
-#   hook_source: |-
-#     autocmd User asyncomplete_setup call asyncomplete#register_source(
-#       \ asyncomplete#sources#buffer#get_source_options({
-#       \ 'name': 'buffer',
-#       \ 'allowlist': ['*'],
-#       \ 'blocklist': ['go', 'denite-filter', 'clap_input'],
-#       \ 'completor': function('asyncomplete#sources#buffer#completor'),
-#       \ 'config': {
-#       \    'max_buffer_size': 4000000,
-#       \  },
-#       \ }))
-#
-# - repo: prabirshrestha/asyncomplete-tags.vim
-#   if: executable('ctags')
-#   depends: asyncomplete.vim
-#   hook_source: |-
-#     autocmd User asyncomplete_setup call asyncomplete#register_source(
-#       \ asyncomplete#sources#tags#get_source_options({
-#       \ 'name': 'tags',
-#       \ 'allowlist': ['*'],
-#       \ 'blocklist': ['go', 'python', 'vim', 'denite-filter', 'clap_input'],
-#       \ 'completor': function('asyncomplete#sources#tags#completor'),
-#       \ 'config': { 'max_file_size': 5000000 },
-#       \ }))
-#
-# - repo: prabirshrestha/asyncomplete-file.vim
-#   depends: asyncomplete.vim
-#   hook_source: |-
-#     autocmd User asyncomplete_setup call asyncomplete#register_source(
-#       \ asyncomplete#sources#file#get_source_options({
-#       \ 'name': 'file',
-#       \ 'priority': 10,
-#       \ 'allowlist': ['*'],
-#       \ 'blocklist': ['denite-filter', 'clap_input'],
-#       \ 'completor': function('asyncomplete#sources#file#completor')
-#       \ }))
-#
-# - repo: wellle/tmux-complete.vim
-#   if: "! (has('win32') || has('win64'))"
-#   depends: asyncomplete.vim
-#   hook_add: |-
-#     let g:tmuxcomplete#trigger = ''
-#     let g:tmuxcomplete#asyncomplete_source_options = {
-#       \ 'name': 'tmux',
-#       \ 'priority': 0,
-#       \ 'allowlist': ['*'],
-#       \ 'blocklist': ['denite-filter', 'clap_input'],
-#       \ 'config': {
-#       \   'splitmode': 'words',
-#       \   'filter_prefix': 1,
-#       \   'show_incomplete': 1,
-#       \   'sort_candidates': 0,
-#       \   'scrollback': 0,
-#       \   'truncate': 0
-#       \   }
-#       \ }
-#
-# - repo: prabirshrestha/asyncomplete-ultisnips.vim
-#   depends: asyncomplete.vim
-#   if: has('python3')
-#   hook_source: |-
-#     autocmd User asyncomplete_setup call asyncomplete#register_source(
-#       \ asyncomplete#sources#ultisnips#get_source_options({
-#       \ 'name': 'snip',
-#       \ 'priority': 0,
-#       \ 'allowlist': ['*'],
-#       \ 'blocklist': ['denite-filter', 'clap_input'],
-#       \ 'completor': function('asyncomplete#sources#ultisnips#completor'),
-#       \ }))
 
 - repo: SirVer/ultisnips
   if: has('python3')
@@ -654,32 +538,6 @@
       au FileType tex let b:delimitMate_quotes = ""
       au FileType tex let b:delimitMate_matchpairs = "(:),[:],{:},`:'"
     augroup END
-
-# ==========================================
-# Denite
-# ------
-- repo: Shougo/denite.nvim
-  on_cmd: Denite
-  trusted: 1
-  hook_source: source $VIM_PATH/config/plugins/denite.vim
-
-- repo: Shougo/neomru.vim
-  on_source: denite.nvim
-  hook_add: |-
-    let g:neomru#directory_mru_path = $DATA_PATH . '/mru/dir'
-    let g:neomru#file_mru_path = $DATA_PATH . '/mru/file'
-    let g:unite_source_file_mru_limit = 5000
-
-- { repo: Shougo/neoyank.vim, on_source: denite.nvim, on_event: TextYankPost }
-- { repo: Shougo/junkfile.vim, on_source: denite.nvim }
-- { repo: chemzqm/unite-location, on_source: denite.nvim }
-- { repo: rafi/vim-denite-session, on_source: denite.nvim }
-
-- repo: rafi/vim-denite-z
-  on_source: denite.nvim
-  hook_source: |-
-    command! -nargs=+ -complete=file Z call denite#start(
-      \ [{'name': 'z', 'args': [<q-args>], {'immediately': 1}}])
 
 # ==========================================
 # Operators
