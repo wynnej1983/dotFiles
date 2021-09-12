@@ -1,4 +1,5 @@
 autocmd VimEnter * Tmuxline
+let g:tmuxline_preset = 'full'
 colorscheme gruvbox
   highlight clear SignColumn
   highlight clear LineNr guibg
