@@ -30,6 +30,7 @@
 - repo: rmolin88/pomodoro.vim
 - repo: albertomontesg/lightline-asyncrun
 - repo: terror/vim-crypto
+- repo: edkolev/tmuxline.vim
 
 # - repo: prettier/vim-prettier
 - { repo: rafi/awesome-vim-colorschemes, merged: 0 }
