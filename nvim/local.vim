@@ -17,7 +17,7 @@ colorscheme gruvbox
 "   highlight clear LineNr guibg
 "   highlight LineNr guifg=#ffffff
 " colorscheme atom
-set cursorline
+" set cursorline
 set nowrap
 set equalalways
 " set nonu
@@ -56,8 +56,10 @@ augroup ReduceNoise
 augroup END
 
 function! ResizeSplits()
-    set winwidth=85
-    wincmd =
+    if (@% != '[coc-explorer]-1')
+      set winwidth=85
+      wincmd =
+    endif
 endfunction
 
 " opaque floating windows
