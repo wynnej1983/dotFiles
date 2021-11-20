@@ -29,7 +29,7 @@
 - repo: ryanoasis/vim-devicons
 - repo: rmolin88/pomodoro.vim
 - repo: albertomontesg/lightline-asyncrun
-- repo: terror/vim-crypto
+# - repo: terror/vim-crypto
 - repo: edkolev/tmuxline.vim
 
 # - repo: prettier/vim-prettier
@@ -131,12 +131,12 @@
 - { repo: kchmck/vim-coffee-script, on_ft: [coffee, litcoffee] }
 - { repo: elzr/vim-json, on_ft: json }
 - { repo: posva/vim-vue, on_ft: vue }
-# - repo: neoclide/coc.nvim
-#   on_ft: [javascript, javascriptreact, typescript, typescriptreact]
-#   rev: "release"
-#   merged: 0
-#   hook_add: |-
-#     let g:coc_global_extensions = ['coc-json', 'coc-css', 'coc-eslint', 'coc-tsserver', 'coc-toml', 'coc-yaml']
+- repo: neoclide/coc.nvim
+  on_ft: [javascript, javascriptreact, typescript, typescriptreact]
+  rev: "release"
+  merged: 0
+  hook_add: |-
+    let g:coc_global_extensions = ['coc-explorer', 'coc-json', 'coc-css', 'coc-eslint', 'coc-tsserver', 'coc-toml', 'coc-yaml']
 
 # pangloss/javascript vs. othree/yajs
 #- { repo: othree/yajs.vim, on_ft: [ javascript, javascriptreact ]}
@@ -222,6 +222,9 @@
 # ==========================================
 # Commands
 # --------
+
+- repo: Shougo/defx.nvim
+- { repo: tyru/caw.vim, on_map: { nx: <Plug> } }
 - { repo: tyru/caw.vim, on_map: { nx: <Plug> } }
 - { repo: liuchengxu/vim-which-key, on_cmd: WhichKey }
 - { repo: mbbill/undotree, on_cmd: UndotreeToggle }
@@ -454,7 +457,7 @@
 - repo: norcalli/nvim-colorizer.lua
   if: has('nvim-0.4')
   on_event: FileType
-  hook_source: luafile $VIM_PATH/config/plugins/colorizer.lua
+  hook_post_source: lua require('plugins.colorizer')
 
 # ==========================================
 # Completion and code analysis
@@ -508,21 +511,21 @@
     endfunction
     autocmd user_events User FloatPreviewWinOpen call <SID>float_preview()
 
-- repo: ludovicchabant/vim-gutentags
-  if: executable('ctags')
-  on_event: [BufReadPost, BufWritePost]
-  hook_add: |-
-    let g:gutentags_cache_dir = $DATA_PATH . '/tags'
-    let g:gutentags_generate_on_write = 0
-    let g:gutentags_generate_on_missing = 0
-    let g:gutentags_generate_on_new = 0
-    let g:gutentags_exclude_project_root = [ '/usr/local' ]
-    let g:gutentags_exclude_filetypes = [ 'defx', 'denite', 'vista', 'magit' ]
-    let g:gutentags_ctags_exclude = [
-      \ '.idea', '.cache', '.tox', '.bundle', 'build', 'dist',
-      \ '*/wp-admin', '*/wp-content', '*/wp-includes',
-      \ '*/application/vendor', '*/vendor/ckeditor', '*/media/vendor'
-      \ ]
+# - repo: ludovicchabant/vim-gutentags
+#   if: executable('ctags')
+#   on_event: [BufReadPost, BufWritePost]
+#   hook_add: |-
+#     let g:gutentags_cache_dir = $DATA_PATH . '/tags'
+#     let g:gutentags_generate_on_write = 0
+#     let g:gutentags_generate_on_missing = 0
+#     let g:gutentags_generate_on_new = 0
+#     let g:gutentags_exclude_project_root = [ '/usr/local' ]
+#     let g:gutentags_exclude_filetypes = [ 'defx', 'denite', 'vista', 'magit' ]
+#     let g:gutentags_ctags_exclude = [
+#       \ '.idea', '.cache', '.tox', '.bundle', 'build', 'dist',
+#       \ '*/wp-admin', '*/wp-content', '*/wp-includes',
+#       \ '*/application/vendor', '*/vendor/ckeditor', '*/media/vendor'
+#       \ ]
 
 - repo: Raimondi/delimitMate
   on_event: FileType
