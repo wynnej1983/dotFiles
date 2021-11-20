@@ -259,7 +259,7 @@ let g:lightline#asyncrun#indicator_run = 'Running...'
 " else
   let g:lightline.active = {
         \ 'left': [ [ 'mode', 'paste' ],
-        \           [ 'readonly', 'filename', 'modified', 'fileformat', 'devicons_filetype' ] ],
+        \           [ 'readonly', 'modified', 'fileformat', 'devicons_filetype' ] ],
         \ 'right': [ [ 'lineinfo' ],
         \            [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok', 'pomodoro' ],
         \           [ 'asyncrun_status', 'coc_status' ] ]
@@ -432,9 +432,89 @@ nnoremap <LocalLeader>r <cmd>Telescope resume theme=get_ivy<cr>
 nnoremap <LocalLeader>i <cmd>Telescope oldfiles theme=get_ivy<cr>
 
 " coc-explorer
-nnoremap <LocalLeader>e :CocCommand explorer<CR>
-nnoremap <LocalLeader>a :CocCommand explorer --no-toggle<CR>
-autocmd User CocExplorerOpenPost set cursorline
+" nnoremap <silent><LocalLeader>e :CocCommand explorer<CR>
+" nnoremap <silent><LocalLeader>a :CocCommand explorer --no-toggle<CR>
+" autocmd User CocExplorerOpenPost set cursorline
+
+nnoremap <silent><LocalLeader>a :Defx -split=vertical -winwidth=50 -direction=topleft `escape(expand('%:p:h'), ' :')` -search=`expand('%:p')`<CR>
+nnoremap <silent><LocalLeader>e :Defx -split=vertical -winwidth=50 -direction=topleft -toggle -resume<CR>
+nnoremap <silent><buffer> gr :<C-u>call denite#start(
+	\ [{'name': 'grep', 'args':
+	\  [map(defx#get_selected_candidates(),
+	\       { _, val -> val['action__path'] })]
+	\ }])<CR>
+autocmd FileType defx call s:defx_my_settings()
+autocmd BufWritePost * call defx#redraw()
+function! s:defx_my_settings() abort
+  " Define mappings
+  nnoremap <silent><buffer><expr> <CR>
+  \ defx#is_directory() ?
+  \ defx#do_action('open_directory') :
+  \ defx#do_action('multi', ['drop', 'quit'])
+  nnoremap <silent><buffer><expr> c
+  \ defx#do_action('copy')
+  nnoremap <silent><buffer><expr> m
+  \ defx#do_action('move')
+  nnoremap <silent><buffer><expr> p
+  \ defx#do_action('paste')
+  nnoremap <silent><buffer><expr> l
+  \ defx#is_directory() ?
+  \ defx#do_action('open_directory') :
+  \ defx#do_action('multi', ['drop', 'quit'])
+  nnoremap <silent><buffer><expr> sg
+  \ defx#do_action('multi', [['drop', 'vsplit'], 'quit'])
+  nnoremap <silent><buffer><expr> sv
+  \ defx#do_action('multi', [['drop', 'split'], 'quit'])
+  nnoremap <silent><buffer><expr> P
+  \ defx#do_action('preview')
+  nnoremap <silent><buffer><expr> o
+  \ defx#do_action('open_tree', 'toggle')
+  nnoremap <silent><buffer><expr> K
+  \ defx#do_action('new_directory')
+  nnoremap <silent><buffer><expr> N
+  \ defx#do_action('new_file')
+  nnoremap <silent><buffer><expr> M
+  \ defx#do_action('new_multiple_files')
+  nnoremap <silent><buffer><expr> C
+  \ defx#do_action('toggle_columns',
+  \                'mark:indent:icon:filename:type:size:time')
+  nnoremap <silent><buffer><expr> S
+  \ defx#do_action('toggle_sort', 'time')
+  nnoremap <silent><buffer><expr> d
+  \ defx#do_action('remove')
+  nnoremap <silent><buffer><expr> r
+  \ defx#do_action('rename')
+  nnoremap <silent><buffer><expr> !
+  \ defx#do_action('execute_command')
+  nnoremap <silent><buffer><expr> x
+  \ defx#do_action('execute_system')
+  nnoremap <silent><buffer><expr> yy
+  \ defx#do_action('yank_path')
+  nnoremap <silent><buffer><expr> .
+  \ defx#do_action('toggle_ignored_files')
+  nnoremap <silent><buffer><expr> ;
+  \ defx#do_action('repeat')
+  nnoremap <silent><buffer><expr> h
+  \ defx#do_action('cd', ['..'])
+  nnoremap <silent><buffer><expr> ~
+  \ defx#do_action('cd')
+  nnoremap <silent><buffer><expr> q
+  \ defx#do_action('quit')
+  nnoremap <silent><buffer><expr> <Space>
+  \ defx#do_action('toggle_select') . 'j'
+  nnoremap <silent><buffer><expr> *
+  \ defx#do_action('toggle_select_all')
+  nnoremap <silent><buffer><expr> j
+  \ line('.') == line('$') ? 'gg' : 'j'
+  nnoremap <silent><buffer><expr> k
+  \ line('.') == 1 ? 'G' : 'k'
+  " nnoremap <silent><buffer><expr> <C-l>
+  "\ defx#do_action('redraw')
+  nnoremap <silent><buffer><expr> <C-g>
+  \ defx#do_action('print')
+  nnoremap <silent><buffer><expr> cd
+  \ defx#do_action('change_vim_cwd')
+endfunction
 
 lua << EOF
   local actions = require('telescope.actions')
