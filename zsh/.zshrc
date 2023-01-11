@@ -116,6 +116,8 @@ source $ZSH/oh-my-zsh.sh
 # For a full list of active aliases, run `alias`.
 #
 export PATH=/usr/local/bin:$PATH
+export PATH=~/.local/bin:$PATH
+# export PATH=/Users/wynnej1983/Library/Python/2.7/bin
 export PATH=/usr/bin:$PATH
 # export PATH="$PATH:`yarn global bin`"
 # export PATH=$PATH:/usr/local/bin
@@ -138,8 +140,8 @@ export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$GOROOT/bin
 export PATH=$PATH:/Applications/Postgres.app/Contents/Versions/latest/bin
 export ANDROID_HOME=$HOME/Library/Android/sdk
+export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
 #export NDK_ROOT=$HOME/Library/Android/sdk/ndk
-export ANDROID_NDK_HOME=$HOME/Library/Android/sdk/ndk/21.3.6528147
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
@@ -150,4 +152,23 @@ export NVM_DIR="$HOME/.nvm"
 export PATH="$PYENV_ROOT/bin:$PATH"
 export PYENV_ROOT="$HOME/.pyenv"
 
+# CNN
+# export JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/openjdk-11.jdk/Contents/Home
+# export ANDROID_NDK_HOME=$HOME/Library/Android/sdk/ndk/21.3.6528147
+export ANDROID_NDK_HOME=$HOME/Library/Android/sdk/ndk/22.1.7171670
+export GITHUB_ACTOR="wynnej1983"
+export GITHUB_TOKEN="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"
+
 source "/Users/wynnej1983/.aliases"
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+
+export PATH="$PATH:/Users/wynnej1983/.foundry/bin"
+export PATH="/usr/local/opt/openjdk@11/bin:$PATH"
+export PATH="/usr/local/opt/imagemagick@6/bin:$PATH"
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+export PATH="$HOME/.rbenv/shims:$PATH"
+export RX_NO_UPDATE=true
