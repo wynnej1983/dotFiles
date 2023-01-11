@@ -75,15 +75,8 @@
   //Snippet
   "snippets.priority": 100,
   "snippets.extends": {
-    "typescript": [
-      "javascript"
-    ],
-    "svelte": [
-      "javascript",
-      "typescript",
-      "html",
-      "css"
-    ]
+    "typescript": ["javascript"],
+    "svelte": ["javascript", "typescript", "html", "css"]
   },
   //CocList
   //"list.source.files.defaultOptions": ["--auto-preview"],
@@ -110,77 +103,30 @@
   "explorer.icon.enableNerdfont": true,
   "explorer.keyMappings.global": {
     "i": false, // cancel default mapkey
+    "x": "systemExecute",
     "*": "toggleSelection",
     "<tab>": "actionMenu",
-    "gk": [
-      "wait",
-      "expandablePrev"
-    ],
-    "gj": [
-      "wait",
-      "expandableNext"
-    ],
-    "h": [
-      "wait",
-      "collapse"
-    ],
-    "l": [
-      "wait",
-      "expandable?",
-      "expand",
-      "open"
-    ],
-    "J": [
-      "wait",
-      "toggleSelection",
-      "normal:j"
-    ],
-    "K": [
-      "wait",
-      "toggleSelection",
-      "normal:k"
-    ],
-    "gl": [
-      "wait",
-      "expand:recursive"
-    ],
-    "gh": [
-      "wait",
-      "collapse:recursive"
-    ],
+    "gk": ["wait", "expandablePrev"],
+    "gj": ["wait", "expandableNext"],
+    "h": ["wait", "collapse"],
+    "l": ["wait", "expandable?", "expand", "open"],
+    "J": ["wait", "toggleSelection", "normal:j"],
+    "K": ["wait", "toggleSelection", "normal:k"],
+    "gl": ["wait", "expand:recursive"],
+    "gh": ["wait", "collapse:recursive"],
     "<2-LeftMouse>": [
       "expandable?",
-      [
-        "expanded?",
-        "collapse",
-        "expand"
-      ],
+      ["expanded?", "collapse", "expand"],
       "open"
     ],
-    "o": [
-      "wait",
-      "expanded?",
-      "collapse",
-      "expand"
-    ],
-    "<cr>": [
-      "wait",
-      "expandable?",
-      "cd",
-      "open"
-    ],
+    "o": ["wait", "expanded?", "collapse", "expand"],
+    "<cr>": ["wait", "expandable?", "cd", "open"],
     "e": "open",
     "sv": "open:split:sourceWindow:quitOnOpen",
     "sg": "open:vsplit:sourceWindow:quitOnOpen",
     "t": "open:tab",
-    "<bs>": [
-      "wait",
-      "gotoParent"
-    ],
-    "gs": [
-      "wait",
-      "reveal:select"
-    ],
+    "<bs>": ["wait", "gotoParent"],
+    "gs": ["wait", "reveal:select"],
     "il": "preview:labeling",
     "ic": "preview:content",
     "Il": "previewOnHover:toggle:labeling",
@@ -210,54 +156,18 @@
     "F": "searchRecursive",
     "gf": "gotoSource:file",
     "gb": "gotoSource:buffer",
-    "[[": [
-      "wait",
-      "sourcePrev"
-    ],
-    "]]": [
-      "wait",
-      "sourceNext"
-    ],
-    "[i": [
-      "wait",
-      "indentPrev"
-    ],
-    "]i": [
-      "wait",
-      "indentNext"
-    ],
-    "[m": [
-      "wait",
-      "markPrev:modified"
-    ],
-    "]m": [
-      "wait",
-      "markNext:modified"
-    ],
-    "[d": [
-      "wait",
-      "markPrev:diagnosticError:diagnosticWarning"
-    ],
-    "]d": [
-      "wait",
-      "markNext:diagnosticError:diagnosticWarning"
-    ],
-    "[D": [
-      "wait",
-      "markPrev:diagnosticError"
-    ],
-    "]D": [
-      "wait",
-      "markNext:diagnosticError"
-    ],
-    "[c": [
-      "wait",
-      "markPrev:git"
-    ],
-    "]c": [
-      "wait",
-      "markNext:git"
-    ],
+    "[[": ["wait", "sourcePrev"],
+    "]]": ["wait", "sourceNext"],
+    "[i": ["wait", "indentPrev"],
+    "]i": ["wait", "indentNext"],
+    "[m": ["wait", "markPrev:modified"],
+    "]m": ["wait", "markNext:modified"],
+    "[d": ["wait", "markPrev:diagnosticError:diagnosticWarning"],
+    "]d": ["wait", "markNext:diagnosticError:diagnosticWarning"],
+    "[D": ["wait", "markPrev:diagnosticError"],
+    "]D": ["wait", "markNext:diagnosticError"],
+    "[c": ["wait", "markPrev:git"],
+    "]c": ["wait", "markNext:git"],
     "<<": "gitStage",
     ">>": "gitUnstage"
   },
@@ -274,11 +184,11 @@
   // prettier
   "prettier.trailingComma": "all",
   // typescript
-  "typescript.autoClosingTags": true,
+  "typescript.autoClosingTags": false,
   // ----------------------------------------------------------------------------------------
   // `coc-rust-analyzer` related
   // ----------------------------------------------------------------------------------------
-  "rust-analyzer.enable": true,
+  "rust-analyzer.enable": false,
   //"rust-analyzer.server.path": "",
   "rust-analyzer.updates.prompt": true,
   "rust-analyzer.diagnostics.enable": true,
@@ -303,26 +213,13 @@
   "languageserver": {
     "graphql": {
       "command": "graphql-lsp",
-      "args": [
-        "server",
-        "-m",
-        "stream"
-      ],
+      "args": ["server", "-m", "stream"],
       // customize filetypes to your needs
-      "filetypes": [
-        "typescript",
-        "typescriptreact",
-        "graphql"
-      ]
+      "filetypes": ["graphql"]
     },
     "ccls": {
       "command": "ccls",
-      "filetypes": [
-        "c",
-        "cpp",
-        "objc",
-        "objcpp"
-      ],
+      "filetypes": ["c", "cpp", "objc", "objcpp"],
       "rootPatterns": [
         ".ccls",
         "compile_commands.json",
@@ -338,12 +235,8 @@
     },
     "golang": {
       "command": "gopls",
-      "rootPatterns": [
-        "go.mod"
-      ],
-      "filetypes": [
-        "go"
-      ]
+      "rootPatterns": ["go.mod"],
+      "filetypes": ["go"]
     }
   }
 }
