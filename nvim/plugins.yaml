@@ -31,9 +31,14 @@
 - repo: albertomontesg/lightline-asyncrun
 # - repo: terror/vim-crypto
 - repo: edkolev/tmuxline.vim
+# - repo: github/copilot.vim
 
 # - repo: prettier/vim-prettier
 - { repo: rafi/awesome-vim-colorschemes, merged: 0 }
+
+# themes
+- repo: thedenisnikulin/vim-cyberpunk
+- repo: overcache/NeoSolarized
 
 - repo: christoomey/vim-tmux-navigator
   if: "! (has('win32') || has('win64'))"
@@ -124,7 +129,9 @@
   depends: vim-javascript
   hook_add: let g:vim_jsx_pretty_colorful_config = 1
 
-- { repo: leafOfTree/vim-svelte-plugin, depends: yats.vim, on_ft: svelte }
+
+- { repo: evanleck/vim-svelte, depends: yats.vim, on_ft: svelte }
+- { repo: tomlion/vim-solidity }
 - { repo: heavenshell/vim-jsdoc, on_ft: [javascript, javascriptreact] }
 - { repo: jparise/vim-graphql, on_ft: [javascript, javascriptreact] }
 - { repo: moll/vim-node, on_ft: [javascript, javascriptreact] }
@@ -224,6 +231,8 @@
 # --------
 
 - repo: Shougo/defx.nvim
+  # on_cmd: Defx
+  # hook_source: source $VIM_PATH/config/plugins/defx.nvim
 - { repo: tyru/caw.vim, on_map: { nx: <Plug> } }
 - { repo: tyru/caw.vim, on_map: { nx: <Plug> } }
 - { repo: liuchengxu/vim-which-key, on_cmd: WhichKey }
@@ -573,4 +582,9 @@
 - repo: kana/vim-textobj-function
   on_map: { ox: <Plug> }
   hook_add: let g:textobj_function_no_default_key_mappings = 1
+
+# ==========================================
+# Sonic Pi
+# ------------
+- repo: lilyinstarlight/vim-sonic-pi
 #  vim: set ts=2 sw=2 tw=80 et :
