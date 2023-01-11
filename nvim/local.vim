@@ -1,10 +1,12 @@
-autocmd VimEnter * Tmuxline
-let g:tmuxline_preset = 'full'
 colorscheme gruvbox
   highlight clear SignColumn
   highlight clear LineNr guibg
   highlight LineNr guifg=#3e3e3e
   highlight LineNr guifg=#292929
+" colorscheme cyberpunk
+"   highlight clear SignColumn
+"   highlight clear LineNr guibg
+"   highlight LineNr guifg=#202020
 " colorscheme molokai
 "   highlight clear SignColumn
 "   highlight clear LineNr guibg
@@ -18,12 +20,25 @@ colorscheme gruvbox
 "   highlight LineNr guifg=#ffffff
 " colorscheme atom
 " set cursorline
+
+autocmd BufEnter,BufReadPost,FileReadPost,BufNewFile * call system("tmux set -g set-titles-string " . expand("%"))
+
+" Go to last file(s) if invoked without arguments.
+" autocmd VimLeave * nested if (!isdirectory($HOME . "/.vim")) |
+"    \ call mkdir($HOME . "/.vim") |
+"    \ endif |
+"    \ execute "mksession! " . $HOME . "/.vim/Session.vim"
+" 
+" autocmd VimEnter * nested if argc() == 0 && filereadable($HOME . "/.vim/Session.vim") |
+"    \ execute "source " . $HOME . "/.vim/Session.vim"
+
 set nowrap
 set equalalways
 " set nonu
 set nu
-" set command height
+set shm=aToOFI
 set cmdheight=1
+set title
 
 " set timeoutlen=300
 " set updatetime=300
@@ -56,7 +71,7 @@ augroup ReduceNoise
 augroup END
 
 function! ResizeSplits()
-    if (@% != '[coc-explorer]-1')
+    if (@% !~ '^[defx')
       set winwidth=85
       wincmd =
     endif
@@ -221,7 +236,21 @@ augroup lightlineCustom
   autocmd!
   autocmd BufWritePost * call lightline_gitdiff#query_git() | call lightline#update()
 augroup END
-let g:lightline = {}
+let g:lightline = {
+     \ 'mode_map': {
+       \ 'n' : 'N',
+       \ 'i' : 'I',
+       \ 'R' : 'R',
+       \ 'v' : 'V',
+       \ 'V' : 'VL',
+       \ "\<C-v>": 'VB',
+       \ 'c' : 'C',
+       \ 's' : 'S',
+       \ 'S' : 'SL',
+       \ "\<C-s>": 'SB',
+       \ 't': 'T',
+       \ },
+     \ }
 let g:lightline.separator = { 'left': "\ue0b8", 'right': "\ue0be" }
 let g:lightline.subseparator = { 'left': "\ue0b9", 'right': "\ue0b9" }
 let g:lightline.tabline_separator = { 'left': "\ue0bc", 'right': "\ue0ba" }
@@ -259,14 +288,14 @@ let g:lightline#asyncrun#indicator_run = 'Running...'
 " else
   let g:lightline.active = {
         \ 'left': [ [ 'mode', 'paste' ],
-        \           [ 'readonly', 'modified', 'fileformat', 'devicons_filetype' ] ],
+        \           [ 'readonly', 'modified', 'filename' ] ],
         \ 'right': [ [ 'lineinfo' ],
-        \            [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok', 'pomodoro' ],
+        \            [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok' ],
         \           [ 'asyncrun_status', 'coc_status' ] ]
         \ }
   let g:lightline.inactive = {
-        \ 'left': [ [ 'filename' , 'modified', 'fileformat', 'devicons_filetype' ]],
-        \ 'right': [ [ 'lineinfo' ] ]
+        \ 'left': [ [ 'filename' ]],
+        \ 'right': [ ]
         \ }
   let g:lightline.tabline = {
         \ 'left': [ [ 'vim_logo', 'tabs' ] ],
@@ -347,6 +376,15 @@ function! LightlineMode() abort
                 \ 'fugitive': 'FUGITIVE'
                 \ }
     return get(ftmap, &filetype, lightline#mode())
+endfunction
+
+function! LightlineFilename()
+  let root = fnamemodify(get(b:, 'git_dir'), ':h')
+  let path = expand('%:p')
+  if path[:len(root)-1] ==# root
+    return path[len(root)+1:]
+  endif
+  return expand('%')
 endfunction
 
 " coc
@@ -517,6 +555,8 @@ function! s:defx_my_settings() abort
   nnoremap <silent><buffer><expr> cd
   \ defx#do_action('change_vim_cwd')
 endfunction
+
+let g:svelte_preprocessors = ['typescript']
 
 lua << EOF
   local actions = require('telescope.actions')
