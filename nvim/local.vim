@@ -81,6 +81,14 @@ endfunction
 set winblend=0
 set pumblend=0
 
+" commentary
+" Visual mode
+xmap <leader>v <Plug>Commentary
+" Normal mode
+nmap <leader>v <Plug>CommentaryLine
+" Operator pending mode (this lets you do e.g. `dgc` to delete a block of comments)
+omap <leader>v <Plug>Commentary
+
 " begin/end line movement
 map H ^
 map L $
