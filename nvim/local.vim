@@ -402,22 +402,29 @@ let g:coc_snippet_next = '<CR>'
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
 
+" Use tab for trigger completion with characters ahead and navigate
+" NOTE: There's always complete item selected by default, you may want to enable
+" no select by `"suggest.noselect": true` in your configuration file
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
       \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
-function! s:check_back_space() abort
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#_select_confirm() : "\<CR>"
+" inoremap <silent><expr> <CR> coc#pum#visible() ? coc#_select_confirm() :
+"       \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+"       \ CheckBackspace() ? "\<TAB>" :
+"       \ coc#refresh()
+
+function! CheckBackspace() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
-
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
-" Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-" Or use `complete_info` if your vim support it, like:
-inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " Use `[g` and `]g` to navigate diagnostics
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
@@ -470,7 +477,8 @@ command! -nargs=0 Prettier :CocCommand prettier.formatFile
 nmap <Leader>f <Plug>(Prettier)
 
 " Find files using Telescope command-line sugar.
-nnoremap <LocalLeader>f <cmd>Telescope find_files theme=get_ivy<cr>
+" nnoremap <LocalLeader>f <cmd>Telescope find_files theme=get_ivy<cr>
+nnoremap <LocalLeader>f <cmd>Telescope git_files theme=get_ivy<cr>
 nnoremap <LocalLeader>g <cmd>Telescope live_grep theme=get_ivy<cr>
 nnoremap <leader>gg <cmd>Telescope grep_string theme=get_ivy<cr>
 vnoremap <leader>gg <cmd>Telescope grep_string theme=get_ivy<cr>
@@ -568,10 +576,30 @@ let g:svelte_preprocessors = ['typescript']
 
 lua << EOF
   local actions = require('telescope.actions')
-  -- Global remapping
-  ------------------------------
+  local previewers = require("telescope.previewers")
+  local Job = require("plenary.job")
+  local new_maker = function(filepath, bufnr, opts)
+    filepath = vim.fn.expand(filepath)
+    Job:new({
+      command = "file",
+      args = { "--mime-type", "-b", filepath },
+      on_exit = function(j)
+        local mime_type = vim.split(j:result()[1], "/")[1]
+        if mime_type == "text" then
+          previewers.buffer_previewer_maker(filepath, bufnr, opts)
+        else
+          -- maybe we want to write something to the buffer here
+          vim.schedule(function()
+            vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, { "BINARY" })
+          end)
+        end
+      end
+    }):sync()
+  end
+
   require('telescope').setup{
     defaults = {
+      buffer_previewer_maker = new_maker,
       mappings = {
 	i = {
 	},
@@ -628,4 +656,17 @@ lua << EOF
       debounce_text_changes = 150,
     }
   }
+
+  vim.g.rooter_patterns = {
+    ".git",
+    "build/sh",
+    "index.md",
+    ".proj",
+    ".root",
+    ".nrepl-port",
+    ".exercism" ,
+  }
+  vim.g.rooter_change_directory_for_non_project_files = "current" -- when non of the above patterns is found
+  vim.g.rooter_cd_cmd =  "lcd"
+  vim.g.rooter_silent_chdir = true
 EOF
