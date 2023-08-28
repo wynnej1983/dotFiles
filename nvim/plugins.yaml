@@ -17,20 +17,21 @@
 - repo: neovim/nvim-lspconfig
 - repo: nvim-lua/popup.nvim
 - repo: nvim-lua/plenary.nvim
-- repo: nvim-telescope/telescope.nvim
+- { repo: nvim-telescope/telescope.nvim, { 'rev': '0.1.2' } }
+- repo: airblade/vim-rooter
 - repo: nvim-treesitter/nvim-treesitter
 - repo: simrat39/rust-tools.nvim
 - repo: hrsh7th/nvim-compe
 - repo: hrsh7th/vim-vsnip
 - repo: hrsh7th/vim-vsnip-integ
-- repo: hrsh7th/vim-vsnip-integ
 - repo: sainnhe/artify.vim
 - repo: macthecadillac/lightline-gitdiff
 - repo: ryanoasis/vim-devicons
-- repo: rmolin88/pomodoro.vim
+# - repo: rmolin88/pomodoro.vim
 - repo: albertomontesg/lightline-asyncrun
 # - repo: terror/vim-crypto
 - repo: edkolev/tmuxline.vim
+- repo: wuelnerdotexe/vim-astro
 # - repo: github/copilot.vim
 
 # - repo: prettier/vim-prettier
