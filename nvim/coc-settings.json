@@ -1,0 +1,242 @@
+{
+  "coc.preferences.snippetStatusText": "Ⓢ ",
+  "coc.preferences.formatOnSaveFiletypes": [
+    "javascript",
+    "typescript",
+    "typescriptreact",
+    "json",
+    "javascriptreact",
+    "typescript.tsx"
+  ],
+  "signature.preferShownAbove": false,
+  //"signature.triggerSignatureWait": 1000,
+  "suggest.triggerAfterInsertEnter": false,
+  "suggest.timeout": 100,
+  "suggest.noselect": true,
+  "suggest.detailField": "abbr",
+  "suggest.triggerCompletionWait": 100,
+  "suggest.echodocSupport": true,
+  "suggest.completionItemKindLabels": {
+    "keyword": "\uf1de",
+    "variable": "\ue79b",
+    "value": "\uf89f",
+    "operator": "\u03a8",
+    "function": "\u2A15",
+    "reference": "\ufa46",
+    "constant": "\uf8fe",
+    "method": "\uf09a",
+    "struct": "\ufb44",
+    "class": "\uf0e8",
+    "interface": "\uf417",
+    "text": "\u2663",
+    "enum": "\uf435",
+    "enumMember": "\uf02b",
+    "module": "\uf530",
+    "color": "\ue22b",
+    "property": "\ue624",
+    "field": "\uf6a6",
+    "unit": "\uf475",
+    "event": "\ufacd",
+    "file": "\uf723",
+    "folder": "\uf114",
+    "snippet": "\ue60b",
+    "typeParameter": "\uf728",
+    "default": "\uf29c"
+  },
+  "codeLens.enable": false,
+  //diagnostic
+  "diagnostic.enable": true,
+  "diagnostic.enableMessage": "always",
+  "diagnostic.messageTarget": "float",
+  "diagnostic.messageDelay": 0,
+  "diagnostic.signOffset": 9999999,
+  "diagnostic.errorSign": "●",
+  "diagnostic.warningSign": "●",
+  "diagnostic.displayByAle": false,
+  "diagnostic.refreshOnInsertMode": false,
+  "diagnostic.virtualText": true,
+  "diagnostic.checkCurrentLine": false,
+  //git
+  "git.enableGutters": true,
+  "git.branchCharacter": "\uf408",
+  "git.addGBlameToBufferVar": true,
+  "git.addGBlameToVirtualText": true,
+  "git.virtualTextPrefix": " ❯❯❯ ",
+  "git.addedSign.hlGroup": "GitGutterAdd",
+  "git.changedSign.hlGroup": "GitGutterChange",
+  "git.removedSign.hlGroup": "GitGutterDelete",
+  "git.topRemovedSign.hlGroup": "GitGutterDelete",
+  "git.changeRemovedSign.hlGroup": "GitGutterChangeDelete",
+  "git.addedSign.text": "▎",
+  "git.changedSign.text": "▎",
+  "git.removedSign.text": "▏",
+  "git.topRemovedSign.text": "▔",
+  "git.changeRemovedSign.text": "▋",
+  //Snippet
+  "snippets.priority": 100,
+  "snippets.extends": {
+    "typescript": ["javascript"],
+    "svelte": ["javascript", "typescript", "html", "css"]
+  },
+  //CocList
+  //"list.source.files.defaultOptions": ["--auto-preview"],
+  //"list.source.outline.defaultOptions": ["--auto-preview"],
+  //emmet
+  "emmet.includeLanguages": {
+    "vue-html": "html",
+    "javascript": "javascriptreact"
+  },
+  //imselect
+  "imselect.enableStatusItem": false,
+  //multiple curssors
+  "cursors.nextKey": "<C-n>",
+  "cursors.previousKey": "<C-p>",
+  "cursors.cancelKey": "<esc>",
+  //sessions
+  "session.directory": "~/.cache/vim/session",
+  // coc-explorer
+  "explorer.file.reveal.whenOpen": true,
+  "explorer.file.reveal.auto": true,
+  "explorer.quitOnOpen": true,
+  "explorer.focus": true,
+  "explorer.width": 45,
+  "explorer.icon.enableNerdfont": true,
+  "explorer.keyMappings.global": {
+    "i": false, // cancel default mapkey
+    "x": "systemExecute",
+    "*": "toggleSelection",
+    "<tab>": "actionMenu",
+    "gk": ["wait", "expandablePrev"],
+    "gj": ["wait", "expandableNext"],
+    "h": ["wait", "collapse"],
+    "l": ["wait", "expandable?", "expand", "open"],
+    "J": ["wait", "toggleSelection", "normal:j"],
+    "K": ["wait", "toggleSelection", "normal:k"],
+    "gl": ["wait", "expand:recursive"],
+    "gh": ["wait", "collapse:recursive"],
+    "<2-LeftMouse>": [
+      "expandable?",
+      ["expanded?", "collapse", "expand"],
+      "open"
+    ],
+    "o": ["wait", "expanded?", "collapse", "expand"],
+    "<cr>": ["wait", "expandable?", "cd", "open"],
+    "e": "open",
+    "sv": "open:split:sourceWindow:quitOnOpen",
+    "sg": "open:vsplit:sourceWindow:quitOnOpen",
+    "t": "open:tab",
+    "<bs>": ["wait", "gotoParent"],
+    "gs": ["wait", "reveal:select"],
+    "il": "preview:labeling",
+    "ic": "preview:content",
+    "Il": "previewOnHover:toggle:labeling",
+    "Ic": "previewOnHover:toggle:content",
+    "II": "previewOnHover:disable",
+    "yp": "copyFilepath",
+    "yn": "copyFilename",
+    "yy": "copyFile",
+    "c": "copyFile",
+    "m": "cutFile",
+    "p": "pasteFile",
+    "dd": "delete",
+    "dF": "deleteForever",
+    "a": "addFile",
+    "N": "addFile",
+    "A": "addDirectory",
+    "r": "rename",
+    "zh": "toggleHidden",
+    "g<dot>": "toggleHidden",
+    "R": "refresh",
+    "?": "help",
+    "q": "quit",
+    "<esc>": "esc",
+    "X": "systemExecute",
+    "gd": "listDrive",
+    "f": "search",
+    "F": "searchRecursive",
+    "gf": "gotoSource:file",
+    "gb": "gotoSource:buffer",
+    "[[": ["wait", "sourcePrev"],
+    "]]": ["wait", "sourceNext"],
+    "[i": ["wait", "indentPrev"],
+    "]i": ["wait", "indentNext"],
+    "[m": ["wait", "markPrev:modified"],
+    "]m": ["wait", "markNext:modified"],
+    "[d": ["wait", "markPrev:diagnosticError:diagnosticWarning"],
+    "]d": ["wait", "markNext:diagnosticError:diagnosticWarning"],
+    "[D": ["wait", "markPrev:diagnosticError"],
+    "]D": ["wait", "markNext:diagnosticError"],
+    "[c": ["wait", "markPrev:git"],
+    "]c": ["wait", "markNext:git"],
+    "<<": "gitStage",
+    ">>": "gitUnstage"
+  },
+  // eslint
+  "eslint.filetypes": [
+    "javascript",
+    "javascript.jsx",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "eslint.autoFix": true,
+  "eslint.autoFixOnSave": true,
+  // prettier
+  "prettier.trailingComma": "all",
+  // typescript
+  "typescript.autoClosingTags": false,
+  // ----------------------------------------------------------------------------------------
+  // `coc-rust-analyzer` related
+  // ----------------------------------------------------------------------------------------
+  "rust-analyzer.enable": false,
+  //"rust-analyzer.server.path": "",
+  "rust-analyzer.updates.prompt": true,
+  "rust-analyzer.diagnostics.enable": true,
+  "rust-analyzer.cargo.loadOutDirsFromCheck": false,
+  "rust-analyzer.enableCargoWatchOnStartup": true,
+  "rust-analyzer.inlayHints.enable": true, // Enable to show type hint on the right side
+  "rust-analyzer.inlayHints.typeHints": false, // Enable to show variable type hint
+  "rust-analyzer.inlayHints.typeHintsSeparator": ">> ", // Variable type prefix symbol
+  "rust-analyzer.inlayHints.chainingHints": true, // Enable to show method chain type hint
+  "rust-analyzer.inlayHints.chainingHintsSeparator": ">> ", // Method chain type prefix symbol
+  "rust-analyzer.procMacro.enable": false,
+  "rust-analyzer.checkOnSave.enable": false,
+  "rust-analyzer.checkOnSave.allTargets": true,
+  "rust-analyzer.callInfo.full": true, // Show function name and docs in parameter hints
+  "rust-analyzer.hoverActions.linksInHover": false, // Show document links in hover
+  "rust-analyzer.completion.addCallParenthesis": true,
+  "rust-analyzer.completion.addCallArgumentSnippets": true,
+  "rust-analyzer.completion.postfix.enable": true,
+  // python
+  "python.jediEnabled": false,
+  // add your languageServer into this list
+  "languageserver": {
+    "graphql": {
+      "command": "graphql-lsp",
+      "args": ["server", "-m", "stream"],
+      // customize filetypes to your needs
+      "filetypes": ["graphql"]
+    },
+    "ccls": {
+      "command": "ccls",
+      "filetypes": ["c", "cpp", "objc", "objcpp"],
+      "rootPatterns": [
+        ".ccls",
+        "compile_commands.json",
+        ".vim/",
+        ".git/",
+        ".hg/"
+      ],
+      "initializationOptions": {
+        "cache": {
+          "directory": "/tmp/ccls"
+        }
+      }
+    },
+    "golang": {
+      "command": "gopls",
+      "rootPatterns": ["go.mod"],
+      "filetypes": ["go"]
+    }
+  }
+}
