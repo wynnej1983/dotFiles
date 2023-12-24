@@ -456,11 +456,11 @@ function! s:show_documentation()
 endfunction
 
 " Remap keys for applying codeAction to the current buffer.
-nmap <leader>s <Plug>(coc-codeaction)
+nmap <silent><leader>s <Plug>(coc-codeaction)
 " Applying codeAction to the selected region.
 " Example: `<leader>aap` for current paragraph
-xmap <leader>a <Plug>(coc-codeaction-selected)
-nmap <leader>a <Plug>(coc-codeaction-line)
+xmap <silent><leader>a <Plug>(coc-codeaction-selected)
+nmap <silent><leader>a <Plug>(coc-codeaction-line)
 " Apply AutoFix to problem on the current line.
 nmap <leader>f <Plug>(coc-fix-current)
 " Refactor
@@ -489,8 +489,8 @@ command! -nargs=0 Prettier :CocCommand prettier.formatFile
 " nmap <Leader>f <Plug>(Prettier)
 
 " lazygit
-nnoremap <silent> <Leader>g :LazyGit<CR>
-tunmap jj
+" nnoremap <silent> <Leader>g :LazyGit<CR>
+" tunmap jj
 
 " Find files using Telescope command-line sugar.
 " nnoremap <LocalLeader>f <cmd>Telescope find_files theme=get_ivy<cr>
@@ -500,6 +500,13 @@ nnoremap <leader>gg <cmd>Telescope grep_string theme=get_ivy<cr>
 vnoremap <leader>gg <cmd>Telescope grep_string theme=get_ivy<cr>
 nnoremap <LocalLeader>r <cmd>Telescope resume theme=get_ivy<cr>
 nnoremap <LocalLeader>i <cmd>Telescope oldfiles theme=get_ivy<cr>
+nnoremap gl <cmd>Telescope git_commits theme=get_ivy<cr>
+nnoremap gb <cmd>Telescope git_branches theme=get_ivy<cr>
+" nnoremap gD <cmd>Telescope git_bcommits theme=get_ivy<cr>
+nnoremap gD <cmd>DiffviewOpen origin/HEAD...HEAD --imply-local<cr>
+nnoremap gs <cmd>Telescope git_status theme=get_ivy<cr>
+nnoremap gS <cmd>Telescope git_stash theme=get_ivy<cr>
+nnoremap gh <cmd>Telescope gh pull_request theme=get_ivy<cr>
 
 " coc-explorer
 " nnoremap <silent><LocalLeader>e :CocCommand explorer<CR>
@@ -613,7 +620,9 @@ lua << EOF
     }):sync()
   end
 
-  require('telescope').setup{
+  local telescope = require('telescope')
+  telescope.load_extension('gh')
+  telescope.setup{
     defaults = {
       buffer_previewer_maker = new_maker,
       mappings = {
@@ -624,6 +633,14 @@ lua << EOF
 	  ["sg"] = actions.file_vsplit,
 	  ["st"] = actions.file_tab,
 	},
+      },
+      file_ignore_patterns = {
+        "node_modules",
+        ".work/.*",
+        ".cache/.*",
+        ".idea/.*",
+        "dist/.*",
+        ".git/.*"
       },
     }
   }
@@ -656,14 +673,6 @@ lua << EOF
     buf_map(bufnr, "n", "ga", ":LspCodeAction<CR>", {silent = true})
     buf_map(bufnr, "n", "<Leader>a", ":LspDiagLine<CR>", {silent = true})
     buf_map(bufnr, "i", "<C-x><C-x>", "<cmd> LspSignatureHelp<CR>", {silent = true})
-    if client.resolved_capabilities.document_formatting then
-	  vim.api.nvim_exec([[
-	  augroup LspAutocommands
-	      autocmd! * <buffer>
-	      autocmd BufWritePost <buffer> LspFormatting
-	  augroup END
-	  ]], true)
-    end
   end
 
   nvim_lsp.rust_analyzer.setup {
