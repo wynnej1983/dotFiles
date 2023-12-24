@@ -17,6 +17,10 @@
 - repo: neovim/nvim-lspconfig
 - repo: nvim-tree/nvim-web-devicons
 - repo: nvim-lua/popup.nvim
+- repo: williamboman/mason.nvim
+- repo: williamboman/mason-lspconfig.nvim
+- repo: nvimdev/lspsaga.nvim
+- repo: pmizio/typescript-tools.nvim
 - repo: nvim-lua/plenary.nvim
 - { repo: nvim-telescope/telescope.nvim, { 'rev': '0.1.5' } }
 - repo: nvim-telescope/telescope-github.nvim
@@ -26,7 +30,14 @@
 - repo: airblade/vim-rooter
 - repo: nvim-treesitter/nvim-treesitter
 - repo: simrat39/rust-tools.nvim
-- repo: hrsh7th/nvim-compe
+- repo: stevearc/conform.nvim
+- repo: L3MON4D3/LuaSnip
+- repo: hrsh7th/cmp-emoji
+- repo: hrsh7th/cmp-nvim-lsp
+- repo: hrsh7th/cmp-buffer
+- repo: hrsh7th/cmp-path
+- repo: hrsh7th/cmp-cmdline
+- repo: hrsh7th/nvim-cmp
 - repo: hrsh7th/vim-vsnip
 - repo: hrsh7th/vim-vsnip-integ
 - repo: sainnhe/artify.vim
