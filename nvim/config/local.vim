@@ -21,6 +21,9 @@ colorscheme gruvbox
 " colorscheme atom
 " set cursorline
 
+" fix paste clears clipboard issue
+xnoremap p pgvy
+
 autocmd BufEnter,BufReadPost,FileReadPost,BufNewFile * call system("tmux set -g set-titles-string " . expand("%"))
 
 " Go to last file(s) if invoked without arguments.
@@ -492,6 +495,9 @@ command! -nargs=0 Prettier :CocCommand prettier.formatFile
 " nnoremap <silent> <Leader>g :LazyGit<CR>
 " tunmap jj
 
+" open nvim config
+nmap <silent>vi :e ~/.config/nvim/config/local.vim<CR>
+
 " Find files using Telescope command-line sugar.
 " nnoremap <LocalLeader>f <cmd>Telescope find_files theme=get_ivy<cr>
 nnoremap <LocalLeader>f <cmd>Telescope git_files theme=get_ivy<cr>
@@ -500,13 +506,16 @@ nnoremap <leader>gg <cmd>Telescope grep_string theme=get_ivy<cr>
 vnoremap <leader>gg <cmd>Telescope grep_string theme=get_ivy<cr>
 nnoremap <LocalLeader>r <cmd>Telescope resume theme=get_ivy<cr>
 nnoremap <LocalLeader>i <cmd>Telescope oldfiles theme=get_ivy<cr>
-nnoremap gl <cmd>Telescope git_commits theme=get_ivy<cr>
+" nnoremap gl <cmd>Telescope git_commits theme=get_ivy<cr>
+nnoremap gl <cmd>DiffviewFileHistory<cr>
 nnoremap gb <cmd>Telescope git_branches theme=get_ivy<cr>
 " nnoremap gD <cmd>Telescope git_bcommits theme=get_ivy<cr>
 nnoremap gD <cmd>DiffviewOpen origin/HEAD...HEAD --imply-local<cr>
 nnoremap gs <cmd>Telescope git_status theme=get_ivy<cr>
 nnoremap gS <cmd>Telescope git_stash theme=get_ivy<cr>
 nnoremap gh <cmd>Telescope gh pull_request theme=get_ivy<cr>
+nnoremap gha <cmd>Telescope gh pull_request state=all theme=get_ivy<cr>
+nnoremap ghm <cmd>Telescope gh pull_request state=all author='@me' theme=get_ivy<cr>
 
 " coc-explorer
 " nnoremap <silent><LocalLeader>e :CocCommand explorer<CR>
@@ -622,6 +631,7 @@ lua << EOF
 
   local telescope = require('telescope')
   telescope.load_extension('gh')
+  local gh_a = require "telescope._extensions.gh_actions"
   telescope.setup{
     defaults = {
       buffer_previewer_maker = new_maker,
@@ -642,8 +652,17 @@ lua << EOF
         "dist/.*",
         ".git/.*"
       },
-    }
+    },
   }
+  local diffview = require("diffview")
+  diffview.setup({
+    enhanced_diff_hl = true,
+    key_bindings = {
+      file_history_panel = { q = '<Cmd>DiffviewClose<CR>' },
+      file_panel = { q = '<Cmd>DiffviewClose<CR>' },
+      view = { q = '<Cmd>DiffviewClose<CR>' },
+    }
+  })
 
   local nvim_lsp = require("lspconfig")
 
