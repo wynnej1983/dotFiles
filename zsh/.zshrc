@@ -158,7 +158,7 @@ export JAVA_HOME=/Library/Java/JavaVirtualMachines/openjdk-11.jdk/Contents/Home
 # export ANDROID_NDK_HOME=$HOME/Library/Android/sdk/ndk/21.3.6528147
 export ANDROID_NDK_HOME=$HOME/Library/Android/sdk/ndk/22.1.7171670
 export GITHUB_ACTOR="wynnej1983"
-export GITHUB_TOKEN="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"
+export GITHUB_TOKEN=
 
 source "/Users/wynnej1983/.aliases"
 
