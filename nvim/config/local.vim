@@ -74,8 +74,8 @@ augroup ReduceNoise
 augroup END
 
 function! ResizeSplits()
-    if (@% !~ '^[defx')
-      set winwidth=85
+    if (@% !~ '^[defx' && @% !~ 'DiffviewFilePanel')
+      set winwidth=75
       wincmd =
     endif
 endfunction
@@ -522,8 +522,8 @@ nnoremap ghm <cmd>Telescope gh pull_request state=all author='@me' theme=get_ivy
 " nnoremap <silent><LocalLeader>a :CocCommand explorer --no-toggle<CR>
 " autocmd User CocExplorerOpenPost set cursorline
 
-nnoremap <silent><LocalLeader>a :Defx -split=vertical -winwidth=50 -direction=topleft `escape(expand('%:p:h'), ' :')` -search=`expand('%:p')`<CR>
-nnoremap <silent><LocalLeader>e :Defx -split=vertical -winwidth=50 -direction=topleft -toggle -resume<CR>
+nnoremap <silent><LocalLeader>a :Defx -split=vertical -winwidth=35 -direction=topleft `escape(expand('%:p:h'), ' :')` -search=`expand('%:p')`<CR>
+nnoremap <silent><LocalLeader>e :Defx -split=vertical -winwidth=35 -direction=topleft -toggle -resume<CR>
 nnoremap <silent><buffer> gr :<C-u>call denite#start(
 	\ [{'name': 'grep', 'args':
 	\  [map(defx#get_selected_candidates(),
@@ -657,49 +657,51 @@ lua << EOF
   local diffview = require("diffview")
   diffview.setup({
     enhanced_diff_hl = true,
+    show_help_hints = false,
     key_bindings = {
       file_history_panel = { q = '<Cmd>DiffviewClose<CR>' },
       file_panel = { q = '<Cmd>DiffviewClose<CR>' },
       view = { q = '<Cmd>DiffviewClose<CR>' },
-    }
+    },
+    file_panel = {
+      listing_style = "tree",             -- One of 'list' or 'tree'
+      tree_options = {                    -- Only applies when listing_style is 'tree'
+        flatten_dirs = true,              -- Flatten dirs that only contain one single dir
+        folder_statuses = "only_folded",  -- One of 'never', 'only_folded' or 'always'.
+      },
+      win_config = {                      -- See ':h diffview-config-win_config'
+        position = "left",
+        width = 35,
+        win_opts = {}
+      },
+    },
+    file_history_panel = {
+      log_options = {   -- See ':h diffview-config-log_options'
+        git = {
+          single_file = {
+            diff_merges = "combined",
+          },
+          multi_file = {
+            diff_merges = "first-parent",
+          },
+        },
+        hg = {
+          single_file = {},
+          multi_file = {},
+        },
+      },
+      win_config = {    -- See ':h diffview-config-win_config'
+        position = "bottom",
+        height = 10,
+        win_opts = {}
+      },
+    },
   })
 
-  local nvim_lsp = require("lspconfig")
-
-  local on_attach = function(client, bufnr)
-    local buf_map = vim.api.nvim_buf_set_keymap
-    vim.cmd("command! LspDef lua vim.lsp.buf.definition()")
-    vim.cmd("command! LspFormatting lua vim.lsp.buf.formatting()")
-    vim.cmd("command! LspCodeAction lua vim.lsp.buf.code_action()")
-    vim.cmd("command! LspHover lua vim.lsp.buf.hover()")
-    vim.cmd("command! LspRename lua vim.lsp.buf.rename()")
-    vim.cmd("command! LspOrganize lua lsp_organize_imports()")
-    vim.cmd("command! LspRefs lua vim.lsp.buf.references()")
-    vim.cmd("command! LspTypeDef lua vim.lsp.buf.type_definition()")
-    vim.cmd("command! LspImplementation lua vim.lsp.buf.implementation()")
-    vim.cmd("command! LspDiagPrev lua vim.lsp.diagnostic.goto_prev()")
-    vim.cmd("command! LspDiagNext lua vim.lsp.diagnostic.goto_next()")
-    vim.cmd("command! LspDiagLine lua vim.lsp.diagnostic.show_line_diagnostics()")
-    vim.cmd("command! LspSignatureHelp lua vim.lsp.buf.signature_help()")
-    buf_map(bufnr, "n", "gd", ":LspDef<CR>", {silent = true})
-    buf_map(bufnr, "n", "gr", ":LspRename<CR>", {silent = true})
-    buf_map(bufnr, "n", "gR", ":LspRefs<CR>", {silent = true})
-    buf_map(bufnr, "n", "gy", ":LspTypeDef<CR>", {silent = true})
-    buf_map(bufnr, "n", "K", ":LspHover<CR>", {silent = true})
-    buf_map(bufnr, "n", "gs", ":LspOrganize<CR>", {silent = true})
-    buf_map(bufnr, "n", "[a", ":LspDiagPrev<CR>", {silent = true})
-    buf_map(bufnr, "n", "]a", ":LspDiagNext<CR>", {silent = true})
-    buf_map(bufnr, "n", "ga", ":LspCodeAction<CR>", {silent = true})
-    buf_map(bufnr, "n", "<Leader>a", ":LspDiagLine<CR>", {silent = true})
-    buf_map(bufnr, "i", "<C-x><C-x>", "<cmd> LspSignatureHelp<CR>", {silent = true})
-  end
-
-  nvim_lsp.rust_analyzer.setup {
-    on_attach = on_attach,
-    flags = {
-      debounce_text_changes = 150,
-    }
-  }
+  -- require("mason").setup()
+  -- require("typescript-tools").setup {}
+  -- local lspconfig = require("lspconfig")
+  -- require('lspsaga').setup({})
 
   vim.g.rooter_patterns = {
     ".git",
