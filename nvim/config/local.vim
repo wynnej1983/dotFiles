@@ -67,18 +67,20 @@ nnoremap <Leader>w :write<CR>
 nnoremap <Up> :<Up>
 
 " resize focused window
-augroup ReduceNoise
-    autocmd!
-    " Automatically resize active split to 85 width
-    autocmd WinEnter * :call ResizeSplits()
-augroup END
+" augroup ReduceNoise
+"     autocmd!
+"     " Automatically resize active split to 75 width
+"     autocmd WinEnter * :call ResizeSplits()
+" augroup END
 
-function! ResizeSplits()
-    if (@% !~ '^[defx' && @% !~ 'DiffviewFilePanel')
-      set winwidth=75
-      wincmd =
-    endif
-endfunction
+" function! ResizeSplits()
+"     if (@% !~ '^[defx' && @% !~ 'DiffviewFilePanel')
+"       set winwidth=75
+"       wincmd =
+"     endif
+" endfunction
+" let g:golden_ratio_exclude_nonmodifiable = 1
+let g:goldenview__enable_default_mapping = 0
 
 " opaque floating windows
 set winblend=0
@@ -544,6 +546,7 @@ omap ac <Plug>(coc-classobj-a)
 
 " Add status line support, for integration with other plugin, checkout `:h coc-status`
 " set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+set statusline+=%{get(b:,'gitsigns_status','')}
 "coc-prettier
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
@@ -553,6 +556,8 @@ command! -nargs=0 Prettier :CocCommand prettier.formatFile
 " lazygit
 " nnoremap <silent> <Leader>g :LazyGit<CR>
 " tunmap jj
+" Neogit
+nnoremap <silent> <Leader>g :Neogit<CR>
 
 " open nvim config
 nmap <silent>vim :e ~/.config/nvim/config/local.vim<CR>
@@ -798,6 +803,11 @@ lua << EOF
         win_opts = {}
       },
     },
+  })
+  local neogit = require('neogit')
+  neogit.setup {}
+  require('gitsigns').setup({
+    current_line_blame = true
   })
 
   --require("mason").setup({
