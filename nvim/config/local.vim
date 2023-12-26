@@ -410,6 +410,65 @@ imap <silent><script><expr> <Right> copilot#Accept("\<CR>")
 let g:copilot_no_tab_map = v:true
 
 " coc
+call coc#config('suggest', {
+\   'completionItemKindLabels': {
+\   "keyword": "\uf1de",
+\   "variable": "\ue79b",
+\   "value": "\uf89f",
+\   "operator": "\u03a8",
+\   "function": "\u2A15",
+\   "reference": "\ufa46",
+\   "constant": "\uf8fe",
+\   "method": "\uf09a",
+\   "struct": "\ufb44",
+\   "class": "\uf0e8",
+\   "interface": "\uf417",
+\   "text": "\u2663",
+\   "enum": "\uf435",
+\   "enumMember": "\uf02b",
+\   "module": "\uf530",
+\   "color": "\ue22b",
+\   "property": "\ue79b",
+\   "field": "\ue79b",
+\   "unit": "\uf475",
+\   "event": "\ufacd",
+\   "file": "\uf723",
+\   "folder": "\uf114",
+\   "snippet": "\ue60b",
+\   "typeParameter": "\uf728",
+\   "default": "\uf29c"
+\   }
+\ })
+" call coc#config('suggest', {
+" \   'completionItemKindLabels': {
+" \   "keyword": "keyword",
+" \   "variable": "variable",
+" \   "value": "value",
+" \   "operator": "operator",
+" \   "function": "function",
+" \   "reference": "reference",
+" \   "constant": "constant",
+" \   "method": "method",
+" \   "struct": "struct",
+" \   "class": "class",
+" \   "interface": "interface",
+" \   "text": "text",
+" \   "enum": "enum",
+" \   "enumMember": "enumMember",
+" \   "module": "module",
+" \   "color": "color",
+" \   "property": "property",
+" \   "field": "field",
+" \   "unit": "unit",
+" \   "event": "event",
+" \   "file": "file",
+" \   "folder": "folder",
+" \   "snippet": "snippet",
+" \   "typeParameter": "typeParameter",
+" \   "default": "default"
+" \   }
+" \ })
+
 let g:coc_snippet_next = '<CR>'
 " let g:coc_snippet_next = '<C-j>'
 " let g:coc_snippet_prev = '<C-k>'
@@ -496,7 +555,7 @@ command! -nargs=0 Prettier :CocCommand prettier.formatFile
 " tunmap jj
 
 " open nvim config
-nmap <silent>vi :e ~/.config/nvim/config/local.vim<CR>
+nmap <silent>vim :e ~/.config/nvim/config/local.vim<CR>
 
 " Find files using Telescope command-line sugar.
 " nnoremap <LocalLeader>f <cmd>Telescope find_files theme=get_ivy<cr>
@@ -607,6 +666,49 @@ endfunction
 let g:svelte_preprocessors = ['typescript']
 
 lua << EOF
+  require'nvim-web-devicons'.setup {
+    -- your personnal icons can go here (to override)
+    -- you can specify color or cterm_color instead of specifying both of them
+    -- DevIcon will be appended to `name`
+    override = {
+      zsh = {
+        icon = "",
+        color = "#428850",
+        cterm_color = "65",
+        name = "Zsh"
+      }
+    };
+    -- globally enable different highlight colors per icon (default to true)
+    -- if set to false all icons will have the default icon's color
+    color_icons = true;
+    -- globally enable default icons (default to false)
+    -- will get overriden by `get_icons` option
+    default = true;
+    -- globally enable "strict" selection of icons - icon will be looked up in
+    -- different tables, first by filename, and if not found by extension; this
+    -- prevents cases when file doesn't have any extension but still gets some icon
+    -- because its name happened to match some extension (default to false)
+    strict = true;
+    -- same as `override` but specifically for overrides by filename
+    -- takes effect when `strict` is true
+    override_by_filename = {
+      [".gitignore"] = {
+        icon = "",
+        color = "#f1502f",
+        name = "Gitignore"
+      }
+    };
+    -- same as `override` but specifically for overrides by extension
+    -- takes effect when `strict` is true
+    override_by_extension = {
+      ["log"] = {
+        icon = "",
+        color = "#81e043",
+        name = "Log"
+      }
+    };
+  }
+
   local actions = require('telescope.actions')
   local previewers = require("telescope.previewers")
   local Job = require("plenary.job")
@@ -698,10 +800,18 @@ lua << EOF
     },
   })
 
-  -- require("mason").setup()
-  -- require("typescript-tools").setup {}
-  -- local lspconfig = require("lspconfig")
-  -- require('lspsaga').setup({})
+  --require("mason").setup({
+  --    ui = {
+  --        icons = {
+  --            package_installed = "✓",
+  --            package_pending = "➜",
+  --            package_uninstalled = "✗"
+  --        }
+  --    }
+  --})
+  --require("typescript-tools").setup {}
+  --local lspconfig = require("lspconfig")
+  --require('lspsaga').setup({})
 
   vim.g.rooter_patterns = {
     ".git",
@@ -715,4 +825,15 @@ lua << EOF
   vim.g.rooter_change_directory_for_non_project_files = "current" -- when non of the above patterns is found
   vim.g.rooter_cd_cmd =  "lcd"
   vim.g.rooter_silent_chdir = true
+
+  function _G.symbol_line()
+    local curwin = vim.g.statusline_winid or 0
+    local curbuf = vim.api.nvim_win_get_buf(curwin)
+    local ok, line = pcall(vim.api.nvim_buf_get_var, curbuf, 'coc_symbol_line')
+    return ok and line or ''
+  end
+
+  vim.o.tabline = '%!v:lua.symbol_line()'
+  vim.o.statusline = '%!v:lua.symbol_line()'
+  vim.o.winbar = '%!v:lua.symbol_line()'
 EOF
