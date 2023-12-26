@@ -25,6 +25,9 @@
 - { repo: nvim-telescope/telescope.nvim, { 'rev': '0.1.5' } }
 - repo: nvim-telescope/telescope-github.nvim
 - repo: sindrets/diffview.nvim
+- { repo: ms-jpq/coq_nvim, { 'rev': 'coq' } }
+# - repo: mortepau/codicons.nvim
+# - repo: onsails/lspkind
 # - repo: pwntester/octo.nvim
 #   depends: [nvim-lua/plenary.nvim, nvim-telescope/telescope.nvim, nvim-tree/nvim-web-devicons]
 - repo: airblade/vim-rooter
