@@ -26,10 +26,13 @@
 - repo: nvim-telescope/telescope-github.nvim
 - repo: sindrets/diffview.nvim
 - { repo: ms-jpq/coq_nvim, { 'rev': 'coq' } }
+# - repo: roman/golden-ratio
+- repo: zhaocai/GoldenView.Vim
 # - repo: mortepau/codicons.nvim
 # - repo: onsails/lspkind
 # - repo: pwntester/octo.nvim
 #   depends: [nvim-lua/plenary.nvim, nvim-telescope/telescope.nvim, nvim-tree/nvim-web-devicons]
+- repo: NeogitOrg/neogit
 - repo: airblade/vim-rooter
 - repo: nvim-treesitter/nvim-treesitter
 - repo: simrat39/rust-tools.nvim
@@ -390,44 +393,46 @@
 # - repo: dominikduda/vim_current_word
 #   on_event: [ FileType, WinEnter, InsertLeave ]
 
-- repo: itchyny/vim-cursorword
-  on_event: FileType
-  hook_source: |-
-    augroup user_plugin_cursorword
-      autocmd!
-      autocmd FileType defx,denite,fern,qf let b:cursorword = 0
-      autocmd WinEnter * if &diff || &pvw | let b:cursorword = 0 | endif
-      autocmd InsertEnter * let b:cursorword = 0
-      autocmd InsertLeave * let b:cursorword = 1
-    augroup END
+- repo: lewis6991/gitsigns.nvim
 
-- repo: airblade/vim-gitgutter
-  on_event: FileType
-  hook_add: |-
-    let g:gitgutter_map_keys = 0
-    let g:gitgutter_sign_added = '▎'
-    let g:gitgutter_sign_modified = '▎'
-    let g:gitgutter_sign_removed = '▍'
-    let g:gitgutter_sign_removed_first_line = '▘'
-    let g:gitgutter_sign_removed_above_and_below = '_¯'
-    let g:gitgutter_sign_modified_removed = '▍'
-    let g:gitgutter_preview_win_floating = 1
-    let g:gitgutter_sign_allow_clobber = 0
-    let g:gitgutter_sign_priority = 0
-    let g:gitgutter_override_sign_column_highlight = 0
+# - repo: itchyny/vim-cursorword
+#   on_event: FileType
+#   hook_source: |-
+#     augroup user_plugin_cursorword
+#       autocmd!
+#       autocmd FileType defx,denite,fern,qf let b:cursorword = 0
+#       autocmd WinEnter * if &diff || &pvw | let b:cursorword = 0 | endif
+#       autocmd InsertEnter * let b:cursorword = 0
+#       autocmd InsertLeave * let b:cursorword = 1
+#     augroup END
 
-- repo: kshenoy/vim-signature
-  depends: vim-gitgutter
-  on_event: FileType
-  hook_add: |-
-    let g:SignatureForceRemoveGlobal = 0
-    let g:SignatureUnconditionallyRecycleMarks = 1
-    let g:SignatureErrorIfNoAvailableMarks = 0
-    let g:SignaturePurgeConfirmation = 0
-    let g:SignatureMarkTextHLDynamic = 1
-    let g:SignatureMarkerTextHLDynamic = 1
-    let g:SignatureIncludeMarkers = repeat('⚐', 10)
-    autocmd user_events User GitGutter call signature#sign#Refresh()
+# - repo: airblade/vim-gitgutter
+#   on_event: FileType
+#   hook_add: |-
+#     let g:gitgutter_map_keys = 0
+#     let g:gitgutter_sign_added = '▎'
+#     let g:gitgutter_sign_modified = '▎'
+#     let g:gitgutter_sign_removed = '▍'
+#     let g:gitgutter_sign_removed_first_line = '▘'
+#     let g:gitgutter_sign_removed_above_and_below = '_¯'
+#     let g:gitgutter_sign_modified_removed = '▍'
+#     let g:gitgutter_preview_win_floating = 1
+#     let g:gitgutter_sign_allow_clobber = 0
+#     let g:gitgutter_sign_priority = 0
+#     let g:gitgutter_override_sign_column_highlight = 0
+
+# - repo: kshenoy/vim-signature
+#   depends: vim-gitgutter
+#   on_event: FileType
+#   hook_add: |-
+#     let g:SignatureForceRemoveGlobal = 0
+#     let g:SignatureUnconditionallyRecycleMarks = 1
+#     let g:SignatureErrorIfNoAvailableMarks = 0
+#     let g:SignaturePurgeConfirmation = 0
+#     let g:SignatureMarkTextHLDynamic = 1
+#     let g:SignatureMarkerTextHLDynamic = 1
+#     let g:SignatureIncludeMarkers = repeat('⚐', 10)
+#     autocmd user_events User GitGutter call signature#sign#Refresh()
 
 # - repo: nathanaelkane/vim-indent-guides
 #   on_event: FileType
