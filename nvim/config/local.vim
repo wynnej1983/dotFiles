@@ -415,29 +415,29 @@ let g:copilot_no_tab_map = v:true
 call coc#config('suggest', {
 \   'completionItemKindLabels': {
 \   "keyword": "\uf1de",
-\   "variable": "\ue79b",
+\   "variable": "",
 \   "value": "\uf89f",
-\   "operator": "\u03a8",
-\   "function": "\u2A15",
+\   "operator": "+",
+\   "function": "",
 \   "reference": "\ufa46",
-\   "constant": "\uf8fe",
-\   "method": "\uf09a",
-\   "struct": "\ufb44",
-\   "class": "\uf0e8",
-\   "interface": "\uf417",
-\   "text": "\u2663",
-\   "enum": "\uf435",
-\   "enumMember": "\uf02b",
-\   "module": "\uf530",
+\   "constant": "",
+\   "method": "ƒ",
+\   "struct": "",
+\   "class": "𝓒",
+\   "interface": " ",
+\   "text": "",
+\   "enum": "ℰ",
+\   "enumMember": "",
+\   "module": "",
 \   "color": "\ue22b",
-\   "property": "\ue79b",
-\   "field": "\ue79b",
-\   "unit": "\uf475",
-\   "event": "\ufacd",
+\   "property": "",
+\   "field": "",
+\   "unit": "",
+\   "event": "",
 \   "file": "\uf723",
-\   "folder": "\uf114",
-\   "snippet": "\ue60b",
-\   "typeParameter": "\uf728",
+\   "folder": "",
+\   "snippet": "",
+\   "typeParameter": "𝙏",
 \   "default": "\uf29c"
 \   }
 \ })
@@ -562,14 +562,15 @@ nnoremap <silent> <Leader>g :Neogit<CR>
 " open nvim config
 nmap <silent>vim :e ~/.config/nvim/config/local.vim<CR>
 
+
 " Find files using Telescope command-line sugar.
-" nnoremap <LocalLeader>f <cmd>Telescope find_files theme=get_ivy<cr>
+" nnoremap <LocalLeader>f <cmd>Telescope find_files hidden=true theme=get_ivy<cr>
 nnoremap <LocalLeader>f <cmd>Telescope git_files theme=get_ivy<cr>
 nnoremap <LocalLeader>g <cmd>Telescope live_grep theme=get_ivy<cr>
-nnoremap <leader>gg <cmd>Telescope grep_string theme=get_ivy<cr>
-vnoremap <leader>gg <cmd>Telescope grep_string theme=get_ivy<cr>
-nnoremap <LocalLeader>r <cmd>Telescope resume theme=get_ivy<cr>
-nnoremap <LocalLeader>i <cmd>Telescope oldfiles theme=get_ivy<cr>
+nnoremap <leader>gg <cmd>Telescope grep_string initial_mode=normal theme=get_ivy<cr>
+vnoremap <leader>gg <cmd>Telescope grep_string initial_mode=normal theme=get_ivy<cr>
+nnoremap <LocalLeader>r <cmd>Telescope resume initial_mode=normal theme=get_ivy<cr>
+nnoremap <LocalLeader>i <cmd>Telescope oldfiles initial_mode=normal theme=get_ivy<cr>
 " nnoremap gl <cmd>Telescope git_commits theme=get_ivy<cr>
 nnoremap gl <cmd>DiffviewFileHistory<cr>
 nnoremap gb <cmd>Telescope git_branches theme=get_ivy<cr>
@@ -756,8 +757,16 @@ lua << EOF
         ".work/.*",
         ".cache/.*",
         ".idea/.*",
+        ".DS_Store",
         "dist/.*",
-        ".git/.*"
+        ".git/.*",
+        "build",
+        "dist",
+        "yarn.lock",
+        "package-json.lock",
+        "bun.lockb",
+        "ios/Pods/*",
+        "vendor/*"
       },
     },
   }
