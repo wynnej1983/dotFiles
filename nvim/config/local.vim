@@ -167,8 +167,10 @@ nnoremap N Nzzzv
 nnoremap g; g;zz
 nnoremap g, g,zz
 
+" map <C-d> <C-d>zz
 map <Space> <C-d>
-map <S-Space> <C-u>
+" map <C-u> <C-u>zz
+map <S-Space> <C-u>zz
 
 nnoremap <C-n>i <C-i>
 
@@ -760,7 +762,7 @@ lua << EOF
         ".DS_Store",
         "dist/.*",
         ".git/.*",
-        "build",
+        "build/.*",
         "dist",
         "yarn.lock",
         "package-json.lock",
