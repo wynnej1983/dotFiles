@@ -24,7 +24,8 @@ colorscheme gruvbox
 " fix paste clears clipboard issue
 xnoremap p pgvy
 
-autocmd BufEnter,BufReadPost,FileReadPost,BufNewFile * call system("tmux set -g set-titles-string " . expand("%"))
+" select all
+nnoremap <D-a> ggVG
 
 " Go to last file(s) if invoked without arguments.
 " autocmd VimLeave * nested if (!isdirectory($HOME . "/.vim")) |
@@ -41,7 +42,7 @@ set equalalways
 set nu
 set shm=aToOFI
 set cmdheight=1
-set title
+" set title
 
 " set timeoutlen=300
 " set updatetime=300
@@ -67,20 +68,126 @@ nnoremap <Leader>w :write<CR>
 nnoremap <Up> :<Up>
 
 " resize focused window
-" augroup ReduceNoise
-"     autocmd!
-"     " Automatically resize active split to 75 width
-"     autocmd WinEnter * :call ResizeSplits()
-" augroup END
+augroup ReduceNoise
+    autocmd!
+    " Automatically resize active split to 75 width
+    autocmd WinEnter * :call ResizeSplits()
+augroup END
 
-" function! ResizeSplits()
-"     if (@% !~ '^[defx' && @% !~ 'DiffviewFilePanel')
-"       set winwidth=75
-"       wincmd =
-"     endif
-" endfunction
+function! ResizeSplits()
+    if (@% !~ '^[defx' && @% !~ 'DiffviewFilePanel')
+      set winwidth=75
+      wincmd =
+    endif
+endfunction
 " let g:golden_ratio_exclude_nonmodifiable = 1
-let g:goldenview__enable_default_mapping = 0
+" let g:goldenview__enable_default_mapping = 0
+
+" chatGPT
+let g:openai_api_key=''
+let g:chat_gpt_max_tokens=2000
+" let g:chat_gpt_model='gpt-3.5-turbo'
+let g:chat_gpt_session_mode=0
+let g:chat_gpt_temperature = 0.7
+let g:chat_gpt_lang = 'English'
+let g:chat_gpt_split_direction = 'vertical'
+let g:split_ratio=4
+
+" vim-ai
+" :AI
+" - engine: complete | chat - see how to configure chat engine in the section below
+" - options: openai config (see https://platform.openai.com/docs/api-reference/completions)
+" - options.request_timeout: request timeout in seconds
+" - options.enable_auth: enable authorization using openai key
+" - options.selection_boundary: seleciton prompt wrapper (eliminates empty responses, see #20)
+" - ui.paste_mode: use paste mode (see more info in the Notes below)
+let g:vim_ai_complete = {
+\  "engine": "complete",
+\  "options": {
+\    "model": "gpt-3.5-turbo-instruct",
+\    "endpoint_url": "https://api.openai.com/v1/completions",
+\    "max_tokens": 1000,
+\    "temperature": 0.1,
+\    "request_timeout": 20,
+\    "enable_auth": 1,
+\    "selection_boundary": "#####",
+\  },
+\  "ui": {
+\    "paste_mode": 1,
+\  },
+\}
+
+" :AIEdit
+" - engine: complete | chat - see how to configure chat engine in the section below
+" - options: openai config (see https://platform.openai.com/docs/api-reference/completions)
+" - options.request_timeout: request timeout in seconds
+" - options.enable_auth: enable authorization using openai key
+" - options.selection_boundary: seleciton prompt wrapper (eliminates empty responses, see #20)
+" - ui.paste_mode: use paste mode (see more info in the Notes below)
+let g:vim_ai_edit = {
+\  "engine": "complete",
+\  "options": {
+\    "model": "gpt-3.5-turbo-instruct",
+\    "endpoint_url": "https://api.openai.com/v1/completions",
+\    "max_tokens": 1000,
+\    "temperature": 0.1,
+\    "request_timeout": 20,
+\    "enable_auth": 1,
+\    "selection_boundary": "#####",
+\  },
+\  "ui": {
+\    "paste_mode": 1,
+\  },
+\}
+
+" This prompt instructs model to work with syntax highlighting
+let s:initial_chat_prompt =<< trim END
+>>> system
+
+You are a general assistant.
+If you attach a code block add syntax type after ``` to enable syntax highlighting.
+END
+
+" :AIChat
+" - options: openai config (see https://platform.openai.com/docs/api-reference/chat)
+" - options.initial_prompt: prompt prepended to every chat request (list of lines or string)
+" - options.request_timeout: request timeout in seconds
+" - options.enable_auth: enable authorization using openai key
+" - options.selection_boundary: seleciton prompt wrapper (eliminates empty responses, see #20)
+" - ui.populate_options: put [chat-options] to the chat header
+" - ui.open_chat_command: preset (preset_below, preset_tab, preset_right) or a custom command
+" - ui.scratch_buffer_keep_open: re-use scratch buffer within the vim session
+" - ui.paste_mode: use paste mode (see more info in the Notes below)
+let g:vim_ai_chat = {
+\  "options": {
+\    "model": "gpt-4o",
+\    "endpoint_url": "https://api.openai.com/v1/chat/completions",
+\    "max_tokens": 0,
+\    "temperature": 1,
+\    "request_timeout": 20,
+\    "enable_auth": 1,
+\    "selection_boundary": "",
+\    "initial_prompt": s:initial_chat_prompt,
+\  },
+\  "ui": {
+\    "code_syntax_enabled": 1,
+\    "populate_options": 0,
+\    "open_chat_command": "preset_right",
+\    "scratch_buffer_keep_open": 0,
+\    "paste_mode": 1,
+\  },
+\}
+
+" Notes:
+" ui.paste_mode
+" - if disabled code indentation will work but AI doesn't always respond with a code block
+"   therefore it could be messed up
+" - find out more in vim's help `:help paste`
+" options.max_tokens
+" - note that prompt + max_tokens must be less than model's token limit, see #42, #46
+" - setting max tokens to 0 will exclude it from the OpenAI API request parameters, it is
+"   unclear/undocumented what it exactly does, but it seems to resolve issues when the model
+"   hits token limit, which respond with `OpenAI: HTTPError 400`
 
 " opaque floating windows
 set winblend=0
@@ -167,9 +274,9 @@ nnoremap N Nzzzv
 nnoremap g; g;zz
 nnoremap g, g,zz
 
-" map <C-d> <C-d>zz
+map <C-d> <C-d>zz
 map <Space> <C-d>
-" map <C-u> <C-u>zz
+map <C-u> <C-u>zz
 map <S-Space> <C-u>zz
 
 nnoremap <C-n>i <C-i>
@@ -180,21 +287,7 @@ nmap <S-Tab> :tabprev<CR>
 
 " always show box caret
 set guicursor=
-"
-"close tag
-" let g:closetag_filenames = "*.html,*.xhtml,*.phtml,*.erb,*.jsx,*.tsx"
-" let g:closetag_xhtml_filenames = '*.xhtml,*.jsx,*.tsx,*.erb'
-" let g:closetag_emptyTags_caseSensitive = 1
-" let g:closetag_shortcut = '>'
-" let g:closetag_close_shortcut = '<leader>>'
-
-" lightline
-"{{{lightline.vim
-"{{{lightline.vim-usage
-" :h 'statusline'
-" :h g:lightline.component
-"}}}
-"{{{functions
+" Lightline
 function! PomodoroStatus() abort"{{{
   if pomo#remaining_time() ==# '0'
     return "\ue001"
@@ -202,8 +295,19 @@ function! PomodoroStatus() abort"{{{
     return "\ue003 ".pomo#remaining_time()
   endif
 endfunction"}}}
+function! CocStatus()"{{{
+  if &filetype == 'defx'
+    return ""
+  else
+    return get(g:, 'coc_status', '')
+  endif
+endfunction"}}}
 function! CocCurrentFunction()"{{{
-  return get(b:, 'coc_current_function', '')
+  if &filetype == 'defx'
+    return ""
+  else
+    return get(b:, 'coc_current_function', '')
+  endif
 endfunction"}}}
 function! Devicons_Filetype()"{{{
   " return winwidth(0) > 70 ? (strlen(&filetype) ? WebDevIconsGetFileTypeSymbol() . ' ' . &filetype : 'no ft') : ''
@@ -272,68 +376,47 @@ let g:lightline = {
        \ 't': 'T',
        \ },
      \ }
+let g:lightline.colorscheme = 'cyberpunk'
 let g:lightline.separator = { 'left': "\ue0b8", 'right': "\ue0be" }
 let g:lightline.subseparator = { 'left': "\ue0b9", 'right': "\ue0b9" }
 let g:lightline.tabline_separator = { 'left': "\ue0bc", 'right': "\ue0ba" }
 let g:lightline.tabline_subseparator = { 'left': "\ue0bb", 'right': "\ue0bb" }
-let g:lightline#ale#indicator_checking = "\uf110"
-let g:lightline#ale#indicator_warnings = "\uf529"
-let g:lightline#ale#indicator_errors = "\uf00d"
-let g:lightline#ale#indicator_ok = "\uf00c"
+let g:lightline#coc#indicator_checking = "\uf110"
+let g:lightline#coc#indicator_warnings = "\uf529"
+let g:lightline#coc#indicator_errors = "✗"
+let g:lightline#coc#indicator_ok = "\uf00c"
 let g:lightline_gitdiff#indicator_added = '+'
 let g:lightline_gitdiff#indicator_deleted = '-'
 let g:lightline_gitdiff#indicator_modified = '*'
 let g:lightline_gitdiff#min_winwidth = '70'
 let g:lightline#asyncrun#indicator_none = ''
 let g:lightline#asyncrun#indicator_run = 'Running...'
-" if g:lightlineArtify == 1
-"   let g:lightline.active = {
-"        \ 'left': [ [ 'artify_mode', 'paste' ],
-"        \           [ 'readonly', 'filename', 'modified', 'fileformat', 'devicons_filetype' ] ],
-"        \ 'right': [ [ 'artify_lineinfo' ],
-"        \            [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok', 'pomodoro' ],
-"        \           [ 'asyncrun_status', 'coc_status' ] ]
-"        \ }
-"   let g:lightline.inactive = {
-"        \ 'left': [ [ 'filename' , 'modified', 'fileformat', 'devicons_filetype' ]],
-"        \ 'right': [ [ 'artify_lineinfo' ] ]
-"        \ }
-"   let g:lightline.tabline = {
-"        \ 'left': [ [ 'vim_logo', 'tabs' ] ],
-"        \ 'right': [ [ 'artify_gitbranch' ],
-"        \ [ 'gitstatus' ] ]
-"        \ }
-"   let g:lightline.tab = {
-"        \ 'active': [ 'artify_activetabnum', 'artify_filename', 'modified' ],
-"        \ 'inactive': [ 'artify_inactivetabnum', 'filename', 'modified' ] }
-" else
-  let g:lightline.active = {
-        \ 'left': [ [ 'mode', 'paste' ],
-        \           [ 'readonly', 'modified', 'filename' ] ],
-        \ 'right': [ [ 'lineinfo' ],
-        \            [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok' ],
-        \           [ 'asyncrun_status', 'coc_status' ] ]
-        \ }
-  let g:lightline.inactive = {
-        \ 'left': [ [ 'filename' ]],
-        \ 'right': [ ]
-        \ }
-  let g:lightline.tabline = {
-        \ 'left': [ [ 'vim_logo', 'tabs' ] ],
-        \ 'right': [ [ 'gitbranch' ],
-        \ [ 'gitstatus' ] ]
-        \ }
-  let g:lightline.tab = {
-        \ 'active': [ 'tabnum', 'filename', 'modified' ],
-        \ 'inactive': [ 'tabnum', 'filename', 'modified' ] }
-" endif
+let g:lightline.active = {
+      \ 'left': [ [ 'mode', 'paste' ],
+      \           [ 'readonly', 'modified', 'filename' ] ],
+      \ 'right': [ [ 'lineinfo' ],
+      \            [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_ok' ],
+      \           [ 'asyncrun_status', 'coc_status' ] ]
+      \ }
+let g:lightline.inactive = {
+      \ 'left': [ [ 'filename' ]],
+      \ 'right': [ ]
+      \ }
+let g:lightline.tabline = {
+      \ 'left': [ [ 'pomodoro', 'tabs' ] ],
+      \ 'right': [ [ 'gitbranch' ],
+      \ [ 'gitstatus' ] ]
+      \ }
+let g:lightline.tab = {
+      \ 'active': [ 'tabnum', 'filename', 'modified' ],
+      \ 'inactive': [ 'tabnum', 'filename', 'modified' ] }
 let g:lightline.tab_component = {
       \ }
 let g:lightline.tab_component_function = {
       \ 'artify_activetabnum': 'Artify_active_tab_num',
       \ 'artify_inactivetabnum': 'Artify_inactive_tab_num',
       \ 'artify_filename': 'Artify_lightline_tab_filename',
-      \ 'filename': 'lightline#tab#filename',
+      \ 'filename': 'LightlineTablineGitRelativePath',
       \ 'modified': 'lightline#tab#modified',
       \ 'readonly': 'lightline#tab#readonly',
       \ 'tabnum': 'Tab_num'
@@ -346,10 +429,10 @@ let g:lightline.component = {
       \ 'bufinfo': '%{bufname("%")}:%{bufnr("%")}',
       \ 'vim_logo': "\ue7c5",
       \ 'pomodoro': '%{PomodoroStatus()}',
-      \ 'mode': '%{lightline#mode()}',
+      \ 'mode': '%{LightlineMode()}',
       \ 'absolutepath': '%F',
       \ 'relativepath': '%f',
-      \ 'filename': '%t',
+      \ 'filename': '%{LightlineFilename()}',
       \ 'filesize': "%{HumanSize(line2byte('$') + len(getline('$')))}",
       \ 'fileencoding': '%{&fenc!=#""?&fenc:&enc}',
       \ 'fileformat': '%{&fenc!=#""?&fenc:&enc}[%{&ff}]',
@@ -373,30 +456,32 @@ let g:lightline.component_function = {
       \ 'gitbranch': 'Gitbranch',
       \ 'devicons_filetype': 'Devicons_Filetype',
       \ 'devicons_fileformat': 'Devicons_Fileformat',
-      \ 'coc_status': 'coc#status',
       \ 'coc_currentfunction': 'CocCurrentFunction'
       \ }
 let g:lightline.component_expand = {
-      \ 'linter_checking': 'lightline#ale#checking',
-      \ 'linter_warnings': 'lightline#ale#warnings',
-      \ 'linter_errors': 'lightline#ale#errors',
-      \ 'linter_ok': 'lightline#ale#ok',
+      \ 'linter_checking': 'lightline#coc#checking',
+      \ 'linter_warnings': 'lightline#coc#warnings',
+      \ 'linter_errors': 'lightline#coc#errors',
+      \ 'linter_ok': 'lightline#coc#ok',
       \ 'asyncrun_status': 'lightline#asyncrun#status'
       \ }
 let g:lightline.component_type = {
-      \ 'linter_warnings': 'warning',
-      \ 'linter_errors': 'error'
+      \ 'coc_error': 'error',
+      \ 'coc_warning': 'warning',
+      \ 'coc_info': 'info',
+      \ 'coc_hint': 'hint',
+      \ 'coc_fix': 'fix'
       \ }
 let g:lightline.component_visible_condition = {
       \ 'gitstatus': 'lightline_gitdiff#get_status() !=# ""'
       \ }
 "}}}
 function! LightlineMode() abort
-    let ftmap = {
-                \ 'coc-explorer': 'EXPLORER',
-                \ 'fugitive': 'FUGITIVE'
-                \ }
-    return get(ftmap, &filetype, lightline#mode())
+  if &filetype == 'defx'
+    return ""
+  else
+    return lightline#mode()
+  endif
 endfunction
 
 function! LightlineFilename()
@@ -408,10 +493,30 @@ function! LightlineFilename()
   return expand('%')
 endfunction
 
+function! LightlineTablineGitRelativePath(n)
+      let buflist = tabpagebuflist(a:n)
+      let winnr = tabpagewinnr(a:n)
+      let bufnum = buflist[winnr - 1]
+      let bufname = expand('#'.bufnum.':t')
+      let buffullname = expand('#'.bufnum.':p')
+      let gitroot = fnamemodify(FugitiveGitDir(bufnum), ':h')
+      if strlen(gitroot)
+        if buffullname[:len(gitroot)-1] ==# gitroot
+          return buffullname[len(gitroot)+1:]
+        endif
+      endif
+      return bufname
+    endfunction
 
 " copilot
-imap <silent><script><expr> <Right> copilot#Accept("\<CR>")
+" imap <silent><script><expr> <D-CR> copilot#Accept("\<CR>")
+imap <silent><script><expr> <RIGHT> copilot#Accept("\<CR>")
 let g:copilot_no_tab_map = v:true
+
+" chatGPT
+" trigger chat
+xnoremap <leader>c :AIChat<CR>
+nnoremap <leader>c :AIChat<CR>
 
 " coc
 call coc#config('suggest', {
@@ -443,35 +548,6 @@ call coc#config('suggest', {
 \   "default": "\uf29c"
 \   }
 \ })
-" call coc#config('suggest', {
-" \   'completionItemKindLabels': {
-" \   "keyword": "keyword",
-" \   "variable": "variable",
-" \   "value": "value",
-" \   "operator": "operator",
-" \   "function": "function",
-" \   "reference": "reference",
-" \   "constant": "constant",
-" \   "method": "method",
-" \   "struct": "struct",
-" \   "class": "class",
-" \   "interface": "interface",
-" \   "text": "text",
-" \   "enum": "enum",
-" \   "enumMember": "enumMember",
-" \   "module": "module",
-" \   "color": "color",
-" \   "property": "property",
-" \   "field": "field",
-" \   "unit": "unit",
-" \   "event": "event",
-" \   "file": "file",
-" \   "folder": "folder",
-" \   "snippet": "snippet",
-" \   "typeParameter": "typeParameter",
-" \   "default": "default"
-" \   }
-" \ })
 
 let g:coc_snippet_next = '<CR>'
 " let g:coc_snippet_next = '<C-j>'
@@ -503,9 +579,9 @@ function! CheckBackspace() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-" Use `[g` and `]g` to navigate diagnostics
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
+" Use `[[` and `]]` to navigate diagnostics
+nmap <silent> [[ <Plug>(coc-diagnostic-prev)
+nmap <silent> ]] <Plug>(coc-diagnostic-next)
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
@@ -551,6 +627,7 @@ omap ac <Plug>(coc-classobj-a)
 set statusline+=%{get(b:,'gitsigns_status','')}
 "coc-prettier
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
+" command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
 
 " prettier
 " nmap <Leader>f <Plug>(Prettier)
@@ -564,25 +641,30 @@ nnoremap <silent> <Leader>g :Neogit<CR>
 " open nvim config
 nmap <silent>vim :e ~/.config/nvim/config/local.vim<CR>
 
-
 " Find files using Telescope command-line sugar.
-" nnoremap <LocalLeader>f <cmd>Telescope find_files hidden=true theme=get_ivy<cr>
+" nnoremap <LocalLeader>f <cmd>Telescope find_files find_command=rg,--ignore,--hidden,--files theme=get_ivy<cr>
 nnoremap <LocalLeader>f <cmd>Telescope git_files theme=get_ivy<cr>
 nnoremap <LocalLeader>g <cmd>Telescope live_grep theme=get_ivy<cr>
 nnoremap <leader>gg <cmd>Telescope grep_string initial_mode=normal theme=get_ivy<cr>
 vnoremap <leader>gg <cmd>Telescope grep_string initial_mode=normal theme=get_ivy<cr>
 nnoremap <LocalLeader>r <cmd>Telescope resume initial_mode=normal theme=get_ivy<cr>
 nnoremap <LocalLeader>i <cmd>Telescope oldfiles initial_mode=normal theme=get_ivy<cr>
+nnoremap <LocalLeader>s <cmd>Spectre<cr>
 " nnoremap gl <cmd>Telescope git_commits theme=get_ivy<cr>
 nnoremap gl <cmd>DiffviewFileHistory<cr>
-nnoremap gb <cmd>Telescope git_branches theme=get_ivy<cr>
+nnoremap gb <cmd>DiffviewFileHistory %<cr>
+nnoremap gp <cmd>DiffviewOpen origin/HEAD...HEAD --imply-local<cr>
+nnoremap gB <cmd>Telescope git_branches initial_mode=normal theme=get_ivy<cr>
 " nnoremap gD <cmd>Telescope git_bcommits theme=get_ivy<cr>
-nnoremap gD <cmd>DiffviewOpen origin/HEAD...HEAD --imply-local<cr>
-nnoremap gs <cmd>Telescope git_status theme=get_ivy<cr>
+nnoremap gs <cmd>Telescope git_status initial_mode=normal theme=get_ivy<cr>
 nnoremap gS <cmd>Telescope git_stash theme=get_ivy<cr>
-nnoremap gh <cmd>Telescope gh pull_request theme=get_ivy<cr>
-nnoremap gha <cmd>Telescope gh pull_request state=all theme=get_ivy<cr>
-nnoremap ghm <cmd>Telescope gh pull_request state=all author='@me' theme=get_ivy<cr>
+nnoremap gh <cmd>Telescope gh pull_request initial_mode=normal theme=get_ivy<cr>
+nnoremap gha <cmd>Telescope gh pull_request initial_mode=normal state=all theme=get_ivy<cr>
+nnoremap ghm <cmd>Telescope gh pull_request initial_mode=normal state=all author='@me' theme=get_ivy<cr>
+
+" copilot
+" nnoremap <leader>c <cmd>CopilotChat.code_actions.show_help_actions()<cr>
+" require("CopilotChat.code_actions").show_help_actions()
 
 " coc-explorer
 " nnoremap <silent><LocalLeader>e :CocCommand explorer<CR>
@@ -740,7 +822,6 @@ lua << EOF
   end
 
   local telescope = require('telescope')
-  telescope.load_extension('gh')
   local gh_a = require "telescope._extensions.gh_actions"
   telescope.setup{
     defaults = {
@@ -772,6 +853,8 @@ lua << EOF
       },
     },
   }
+  telescope.load_extension('gh')
+  -- telescope.load_extension('repo')
   local diffview = require("diffview")
   diffview.setup({
     enhanced_diff_hl = true,
@@ -820,6 +903,36 @@ lua << EOF
   require('gitsigns').setup({
     current_line_blame = true
   })
+  require("CopilotChat").setup {
+    debug = true,
+  }
+
+  vim.api.nvim_exec([[
+    command! -nargs=0 CopilotChat lua CopilotChat()
+  ]], false)
+
+  function CopilotChat()
+    vim.cmd('CopilotChat')
+  end
+
+  vim.api.nvim_exec([[
+    augroup CocGroup
+      autocmd!
+      autocmd FileType * call CocActionAsync('doCodeAction', 'register', {
+	    \ 'title': 'Copilot Actions',
+	    \ 'kind': 'quickfix',
+	    \ 'command': 'workspace.executeCommand',
+	    \ 'arguments': [
+	    \   { 'title': 'Copilot Chat', 'command': 'CopilotChat' }
+	    \ ]
+	    \})
+    augroup END
+  ]], false)
+
+  vim.api.nvim_set_keymap('n', 'co', ':CopilotChatOpen<CR>', { noremap = true, silent = true })
+  vim.api.nvim_set_keymap('n', 'ai', ':AIChat<CR>', { noremap = true, silent = true })
+  --vim.api.nvim_set_keymap('n', '<leader>cf', ':CopilotChatFixDiagnostic<CR>', { noremap = true, silent = true })
+  --vim.api.nvim_set_keymap('n', '<leader>ct', ':CopilotChatTests<CR>', { noremap = true, silent = true })
 
   --require("mason").setup({
   --    ui = {
@@ -846,15 +959,4 @@ lua << EOF
   vim.g.rooter_change_directory_for_non_project_files = "current" -- when non of the above patterns is found
   vim.g.rooter_cd_cmd =  "lcd"
   vim.g.rooter_silent_chdir = true
-
-  function _G.symbol_line()
-    local curwin = vim.g.statusline_winid or 0
-    local curbuf = vim.api.nvim_win_get_buf(curwin)
-    local ok, line = pcall(vim.api.nvim_buf_get_var, curbuf, 'coc_symbol_line')
-    return ok and line or ''
-  end
-
-  vim.o.tabline = '%!v:lua.symbol_line()'
-  vim.o.statusline = '%!v:lua.symbol_line()'
-  vim.o.winbar = '%!v:lua.symbol_line()'
 EOF
