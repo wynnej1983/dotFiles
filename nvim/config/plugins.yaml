@@ -17,24 +17,31 @@
 - repo: neovim/nvim-lspconfig
 - repo: nvim-tree/nvim-web-devicons
 - repo: nvim-lua/popup.nvim
-- repo: williamboman/mason.nvim
-- repo: williamboman/mason-lspconfig.nvim
-- repo: nvimdev/lspsaga.nvim
-- repo: pmizio/typescript-tools.nvim
+- repo: tricktux/pomodoro.vim
+- repo: tpope/vim-fugitive
+# - repo: williamboman/mason.nvim
+# - repo: williamboman/mason-lspconfig.nvim
+# - repo: nvimdev/lspsaga.nvim
+# - repo: pmizio/typescript-tools.nvim
+- repo: mfussenegger/nvim-dap
+- repo: mxsdev/nvim-dap-vscode-js
+- repo: josa42/vim-lightline-coc
 - repo: nvim-lua/plenary.nvim
+- repo: nvim-pack/nvim-spectre
 - { repo: nvim-telescope/telescope.nvim, { 'rev': '0.1.5' } }
 - repo: nvim-telescope/telescope-github.nvim
 - repo: sindrets/diffview.nvim
-- { repo: ms-jpq/coq_nvim, { 'rev': 'coq' } }
+- repo: cljoly/telescope-repo.nvim
+# - { repo: ms-jpq/coq_nvim, { 'rev': 'coq' } }
 # - repo: roman/golden-ratio
-- repo: zhaocai/GoldenView.Vim
+# - repo: zhaocai/GoldenView.Vim
 # - repo: mortepau/codicons.nvim
 # - repo: onsails/lspkind
 # - repo: pwntester/octo.nvim
 #   depends: [nvim-lua/plenary.nvim, nvim-telescope/telescope.nvim, nvim-tree/nvim-web-devicons]
 - repo: NeogitOrg/neogit
 - repo: airblade/vim-rooter
-- repo: nvim-treesitter/nvim-treesitter
+# - repo: nvim-treesitter/nvim-treesitter
 - repo: simrat39/rust-tools.nvim
 - repo: stevearc/conform.nvim
 - repo: L3MON4D3/LuaSnip
@@ -54,8 +61,12 @@
 # - repo: terror/vim-crypto
 - repo: edkolev/tmuxline.vim
 - repo: wuelnerdotexe/vim-astro
-- repo: github/copilot.vim
-- repo: vim-denops/denops.vim
+# - repo: github/copilot.vim
+- repo: zbirenbaum/copilot.lua
+- { repo: CopilotC-Nvim/CopilotChat.nvim, { 'rev': 'canary' } }
+- repo: CoderCookE/vim-chatgpt
+- repo: madox2/vim-ai
+# - repo: vim-denops/denops.vim
 - repo: MunifTanjim/nui.nvim
 
 # - repo: prettier/vim-prettier
@@ -272,6 +283,8 @@
 # - { repo: cocopon/colorswatch.vim, on_cmd: ColorSwatchGenerate }
 - { repo: dstein64/vim-startuptime, on_cmd: StartupTime }
 - repo: kdheepak/lazygit.nvim
+- repo: windwp/nvim-autopairs
+
 
 # - repo: lambdalisue/gina.vim
 #   on_cmd: Gina
@@ -395,16 +408,16 @@
 
 - repo: lewis6991/gitsigns.nvim
 
-# - repo: itchyny/vim-cursorword
-#   on_event: FileType
-#   hook_source: |-
-#     augroup user_plugin_cursorword
-#       autocmd!
-#       autocmd FileType defx,denite,fern,qf let b:cursorword = 0
-#       autocmd WinEnter * if &diff || &pvw | let b:cursorword = 0 | endif
-#       autocmd InsertEnter * let b:cursorword = 0
-#       autocmd InsertLeave * let b:cursorword = 1
-#     augroup END
+- repo: itchyny/vim-cursorword
+  on_event: FileType
+  hook_source: |-
+    augroup user_plugin_cursorword
+      autocmd!
+      autocmd FileType defx,denite,fern,qf let b:cursorword = 0
+      autocmd WinEnter * if &diff || &pvw | let b:cursorword = 0 | endif
+      autocmd InsertEnter * let b:cursorword = 0
+      autocmd InsertLeave * let b:cursorword = 1
+    augroup END
 
 # - repo: airblade/vim-gitgutter
 #   on_event: FileType
