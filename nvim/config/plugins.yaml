@@ -61,8 +61,8 @@
 # - repo: terror/vim-crypto
 - repo: edkolev/tmuxline.vim
 - repo: wuelnerdotexe/vim-astro
-# - repo: github/copilot.vim
-- repo: zbirenbaum/copilot.lua
+- repo: github/copilot.vim
+# - repo: zbirenbaum/copilot.lua
 - { repo: CopilotC-Nvim/CopilotChat.nvim, { 'rev': 'canary' } }
 - repo: CoderCookE/vim-chatgpt
 - repo: madox2/vim-ai
