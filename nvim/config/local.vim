@@ -3,6 +3,8 @@ colorscheme gruvbox
   highlight clear LineNr guibg
   highlight LineNr guifg=#3e3e3e
   highlight LineNr guifg=#292929
+  " autocmd BufEnter * set nocursorline
+  " autocmd BufLeave * set nocursorline
 " colorscheme cyberpunk
 "   highlight clear SignColumn
 "   highlight clear LineNr guibg
@@ -84,7 +86,6 @@ endfunction
 " let g:goldenview__enable_default_mapping = 0
 
 " chatGPT
-let g:openai_api_key=''
 let g:chat_gpt_max_tokens=2000
 " let g:chat_gpt_model='gpt-3.5-turbo'
 let g:chat_gpt_session_mode=0
@@ -357,10 +358,10 @@ endfunction"}}}
 "}}}
 set laststatus=2  " Basic
 set noshowmode  " Disable show mode info
-augroup lightlineCustom
-  autocmd!
-  autocmd BufWritePost * call lightline_gitdiff#query_git() | call lightline#update()
-augroup END
+" augroup lightlineCustom
+"   autocmd!
+"   autocmd BufWritePost * call lightline_gitdiff#query_git() | call lightline#update()
+" augroup END
 let g:lightline = {
      \ 'mode_map': {
        \ 'n' : 'N',
@@ -425,7 +426,6 @@ let g:lightline.component = {
       \ 'artify_gitbranch' : '%{Artify_gitbranch()}',
       \ 'artify_mode': '%{Artify_lightline_mode()}',
       \ 'artify_lineinfo': "%2{Artify_line_percent()}\uf295 %3{Artify_line_num()}:%-2{Artify_col_num()}",
-      \ 'gitstatus' : '%{lightline_gitdiff#get_status()}',
       \ 'bufinfo': '%{bufname("%")}:%{bufnr("%")}',
       \ 'vim_logo': "\ue7c5",
       \ 'pomodoro': '%{PomodoroStatus()}',
@@ -472,9 +472,9 @@ let g:lightline.component_type = {
       \ 'coc_hint': 'hint',
       \ 'coc_fix': 'fix'
       \ }
-let g:lightline.component_visible_condition = {
-      \ 'gitstatus': 'lightline_gitdiff#get_status() !=# ""'
-      \ }
+" let g:lightline.component_visible_condition = {
+"       \ 'gitstatus': 'lightline_gitdiff#get_status() !=# ""'
+"       \ }
 "}}}
 function! LightlineMode() abort
   if &filetype == 'defx'
@@ -509,10 +509,16 @@ function! LightlineTablineGitRelativePath(n)
     endfunction
 
 " copilot
+let g:copilot_enabled = 0
 " imap <silent><script><expr> <D-CR> copilot#Accept("\<CR>")
-imap <silent><script><expr> <RIGHT> copilot#Accept("\<CR>")
+" imap <silent><script><expr> <RIGHT> copilot#Accept("\<CR>")
 let g:copilot_no_tab_map = v:true
-
+" codium
+" let g:codeium_disable_bindings = 1
+let g:codeium_no_map_tab = 1
+imap <script><silent><nowait><expr> <RIGHT> codeium#Accept()
+imap <M-RIGHT>   <Cmd>call codeium#CycleCompletions(1)<CR>
+imap <M-LEFT>   <Cmd>call codeium#CycleCompletions(-1)<CR>
 " chatGPT
 " trigger chat
 xnoremap <leader>c :AIChat<CR>
@@ -662,15 +668,6 @@ nnoremap gh <cmd>Telescope gh pull_request initial_mode=normal theme=get_ivy<cr>
 nnoremap gha <cmd>Telescope gh pull_request initial_mode=normal state=all theme=get_ivy<cr>
 nnoremap ghm <cmd>Telescope gh pull_request initial_mode=normal state=all author='@me' theme=get_ivy<cr>
 
-" copilot
-" nnoremap <leader>c <cmd>CopilotChat.code_actions.show_help_actions()<cr>
-" require("CopilotChat.code_actions").show_help_actions()
-
-" coc-explorer
-" nnoremap <silent><LocalLeader>e :CocCommand explorer<CR>
-" nnoremap <silent><LocalLeader>a :CocCommand explorer --no-toggle<CR>
-" autocmd User CocExplorerOpenPost set cursorline
-
 nnoremap <silent><LocalLeader>a :Defx -split=vertical -winwidth=35 -direction=topleft `escape(expand('%:p:h'), ' :')` -search=`expand('%:p')`<CR>
 nnoremap <silent><LocalLeader>e :Defx -split=vertical -winwidth=35 -direction=topleft -toggle -resume<CR>
 nnoremap <silent><buffer> gr :<C-u>call denite#start(
@@ -799,6 +796,19 @@ lua << EOF
     };
   }
 
+  require("spectre").setup({
+    replace_engine = {
+      ["sed"] = {
+	cmd = "sed",
+	args = {
+	  "-i",
+	  "",
+	  "-E",
+	},
+      },
+    },
+  })
+
   local actions = require('telescope.actions')
   local previewers = require("telescope.previewers")
   local Job = require("plenary.job")
@@ -903,33 +913,7 @@ lua << EOF
   require('gitsigns').setup({
     current_line_blame = true
   })
-  require("CopilotChat").setup {
-    debug = true,
-  }
 
-  vim.api.nvim_exec([[
-    command! -nargs=0 CopilotChat lua CopilotChat()
-  ]], false)
-
-  function CopilotChat()
-    vim.cmd('CopilotChat')
-  end
-
-  vim.api.nvim_exec([[
-    augroup CocGroup
-      autocmd!
-      autocmd FileType * call CocActionAsync('doCodeAction', 'register', {
-	    \ 'title': 'Copilot Actions',
-	    \ 'kind': 'quickfix',
-	    \ 'command': 'workspace.executeCommand',
-	    \ 'arguments': [
-	    \   { 'title': 'Copilot Chat', 'command': 'CopilotChat' }
-	    \ ]
-	    \})
-    augroup END
-  ]], false)
-
-  vim.api.nvim_set_keymap('n', 'co', ':CopilotChatOpen<CR>', { noremap = true, silent = true })
   vim.api.nvim_set_keymap('n', 'ai', ':AIChat<CR>', { noremap = true, silent = true })
   --vim.api.nvim_set_keymap('n', '<leader>cf', ':CopilotChatFixDiagnostic<CR>', { noremap = true, silent = true })
   --vim.api.nvim_set_keymap('n', '<leader>ct', ':CopilotChatTests<CR>', { noremap = true, silent = true })
