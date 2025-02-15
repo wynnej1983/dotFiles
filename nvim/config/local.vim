@@ -1,3 +1,5 @@
+" excellent git diff tool 🔥
+" https://github.com/banga/git-split-diffs
 colorscheme gruvbox
   highlight clear SignColumn
   highlight clear LineNr guibg
@@ -84,8 +86,15 @@ function! ResizeSplits()
 endfunction
 " let g:golden_ratio_exclude_nonmodifiable = 1
 " let g:goldenview__enable_default_mapping = 0
+command! -range -nargs=? -complete=customlist,vim_ai#RoleCompletion AI        <line1>,<line2>call coc_ai#AIRun(<range>, <q-args>)
+command! -range -nargs=? -complete=customlist,vim_ai#RoleCompletion AIEdit    <line1>,<line2>call coc_ai#AIEditRun(<range>, <q-args>)
+command! -range -nargs=? -complete=customlist,coc_ai#RoleCompletion AIChat    <line1>,<line2>call coc_ai#AIChatRun(<range>, <q-args>)
+
+command! AIStop call CocActionAsync('runCommand', 'coc-ai.stop')
+command! AIBack call CocActionAsync('runCommand', 'coc-ai.show')
 
 " chatGPT
+let g:openai_api_key=''
 let g:chat_gpt_max_tokens=2000
 " let g:chat_gpt_model='gpt-3.5-turbo'
 let g:chat_gpt_session_mode=0
@@ -508,11 +517,6 @@ function! LightlineTablineGitRelativePath(n)
       return bufname
     endfunction
 
-" copilot
-let g:copilot_enabled = 0
-" imap <silent><script><expr> <D-CR> copilot#Accept("\<CR>")
-" imap <silent><script><expr> <RIGHT> copilot#Accept("\<CR>")
-let g:copilot_no_tab_map = v:true
 " codium
 " let g:codeium_disable_bindings = 1
 let g:codeium_no_map_tab = 1
@@ -915,8 +919,6 @@ lua << EOF
   })
 
   vim.api.nvim_set_keymap('n', 'ai', ':AIChat<CR>', { noremap = true, silent = true })
-  --vim.api.nvim_set_keymap('n', '<leader>cf', ':CopilotChatFixDiagnostic<CR>', { noremap = true, silent = true })
-  --vim.api.nvim_set_keymap('n', '<leader>ct', ':CopilotChatTests<CR>', { noremap = true, silent = true })
 
   --require("mason").setup({
   --    ui = {
