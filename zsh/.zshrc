@@ -101,11 +101,11 @@ source $ZSH/oh-my-zsh.sh
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+else
+  export EDITOR='nvim'
+fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -154,10 +154,12 @@ export PYENV_ROOT="$HOME/.pyenv"
 
 # CNN
 # export JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/openjdk-11.jdk/Contents/Home
+# export JAVA_HOME=/Library/Java/JavaVirtualMachines/openjdk-11.jdk/Contents/Home
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-22.jdk/Contents/Home
 # export ANDROID_NDK_HOME=$HOME/Library/Android/sdk/ndk/21.3.6528147
 export ANDROID_NDK_HOME=$HOME/Library/Android/sdk/ndk/22.1.7171670
 export GITHUB_ACTOR="wynnej1983"
+# export GITHUB_TOKEN="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"
 export GITHUB_TOKEN=
 
 source "/Users/wynnej1983/.aliases"
@@ -172,3 +174,21 @@ export PATH="/usr/local/opt/imagemagick@6/bin:$PATH"
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export PATH="$HOME/.rbenv/shims:$PATH"
 export RX_NO_UPDATE=true
+
+
+source "/Users/wynnej1983/.oh-my-zsh/custom/themes/spaceship.zsh-theme"
+
+# bun completions
+[ -s "/Users/wynnej1983/.bun/_bun" ] && source "/Users/wynnej1983/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+export PATH="/Users/wynnej1983/.cargo/bin:$PATH"
+export PATH="/opt/homebrew/opt/postgresql@15/bin:$PATH"
+export PATH="/opt/homebrew/bin:$PATH"
+export OPENAI_API_KEY=""
+export REACT_EDITOR="nvim"
+export GIT_EDITOR="nvim"
+export GEMINI_API_KEY=""
+. "/Users/wynnej1983/.deno/env"
