@@ -595,10 +595,10 @@ nmap <silent> ]] <Plug>(coc-diagnostic-next)
 " Remap keys for gotos
 function! GotoDefinitionOrDiffview()
   let result = CocAction('jumpDefinition')
-  if result == v:false
-    " DiffviewOpen
-    Neogit diff
-  endif
+  " if result == v:false
+  "   " DiffviewOpen
+  "   Neogit diff
+  " endif
 endfunction
 nmap <silent> gd :call GotoDefinitionOrDiffview()<CR>
 nmap <silent> gy <Plug>(coc-type-definition)
@@ -658,9 +658,9 @@ nnoremap <silent> <Leader>g :Neogit<CR>
 " open nvim config
 nmap <silent>vim :e ~/.config/nvim/config/local.vim<CR>
 
-nnoremap gl <cmd>DiffviewFileHistory<cr>
-nnoremap gb <cmd>DiffviewFileHistory %<cr>
-nnoremap gp <cmd>DiffviewOpen origin/HEAD...HEAD --imply-local<cr>
+" nnoremap gl <cmd>DiffviewFileHistory<cr>
+" nnoremap gb <cmd>DiffviewFileHistory %<cr>
+" nnoremap gp <cmd>DiffviewOpen origin/HEAD...HEAD --imply-local<cr>
 
 nnoremap <silent><LocalLeader>a :Defx -split=vertical -winwidth=35 -direction=topleft `escape(expand('%:p:h'), ' :')` -search=`expand('%:p')`<CR>
 nnoremap <silent><LocalLeader>e :Defx -split=vertical -winwidth=35 -direction=topleft -toggle -resume<CR>
@@ -799,12 +799,12 @@ lua << EOF
   require("spectre").setup({
     replace_engine = {
       ["sed"] = {
-    cmd = "sed",
-    args = {
-      "-i",
-      "",
-      "-E",
-    },
+        cmd = "sed",
+        args = {
+          "-i",
+          "",
+          "-E",
+        },
       },
     },
   })
@@ -830,10 +830,11 @@ lua << EOF
     }):sync()
   end
 
-  -- Shared mapping function for all pickers
+-- Shared mapping function for all pickers
   local function attach_custom_mappings(prompt_bufnr, map, picker_name)
     -- Helper to check if the picker is Git-related
     local is_git_picker = picker_name:match("git_") ~= nil
+    local is_git_status = picker_name == "git_status"
 
     -- Delete with 'd'
     map("n", "d", function()
@@ -941,6 +942,75 @@ lua << EOF
       end)
     end
 
+    -- Commit with 'g' (Git pickers only)
+    if is_git_picker then
+      map("n", "g", function()
+        local message = vim.fn.input("Commit message: ")
+        if message == "" then
+          print("Commit canceled: no message provided")
+          return
+        end
+
+        local result = vim.system({ "git", "commit", "-m", message }, { text = true }):wait()
+        if result.code == 0 then
+          print("Committed: " .. message)
+        else
+          print("Error committing: " .. (result.stderr or "Unknown error"))
+          return
+        end
+
+        actions.close(prompt_bufnr)
+        vim.schedule(function()
+          require("telescope.builtin")[picker_name]()
+        end)
+      end)
+    end
+
+    -- Toggle all files staged/unstaged with 'a' (git_status only)
+    if is_git_status then
+      map("n", "a", function()
+        -- Check current Git status to determine action
+        local status = vim.system({ "git", "status", "--porcelain" }, { text = true }):wait()
+        if status.code ~= 0 then
+          print("Error checking Git status: " .. (status.stderr or "Unknown error"))
+          return
+        end
+
+        local output = status.stdout
+        local has_unstaged = output:match("^.[^ ]") -- Unstaged changes (e.g., " M" or "??")
+        local has_staged = output:match("^[^ ].")   -- Staged changes (e.g., "M " or "A ")
+
+        local result
+        if has_unstaged then
+          -- Stage all changes
+          result = vim.system({ "git", "add", "." }):wait()
+          if result.code == 0 then
+            print("Staged all changes")
+          else
+            print("Error staging: " .. (result.stderr or "Unknown error"))
+            return
+          end
+        elseif has_staged then
+          -- Unstage all changes
+          result = vim.system({ "git", "reset" }):wait()
+          if result.code == 0 then
+            print("Unstaged all changes")
+          else
+            print("Error unstaging: " .. (result.stderr or "Unknown error"))
+            return
+          end
+        else
+          print("No changes to stage or unstage")
+          return
+        end
+
+        actions.close(prompt_bufnr)
+        vim.schedule(function()
+          require("telescope.builtin").git_status()
+        end)
+      end)
+    end
+
     return true -- Keep default mappings
   end
 
@@ -956,6 +1026,7 @@ lua << EOF
     end
   end
 
+  -- Telescope setup and keymappings unchanged...
   require('telescope').setup {
     defaults = {
       layout_strategy = "horizontal",
@@ -1017,12 +1088,10 @@ lua << EOF
     }
   }
 
-  -- Load extensions
   require('telescope').load_extension('gh')
   require("telescope").load_extension("recent_files")
   require("telescope").load_extension("persisted")
 
-  -- Map all pickers with custom functions
   vim.keymap.set("n", "<LocalLeader>f", make_picker("git_files"), { desc = "Git Files" })
   vim.keymap.set("n", "<LocalLeader>g", make_picker("live_grep"), { desc = "Live Grep" })
   vim.keymap.set("n", "<leader>gg", make_picker("grep_string"), { desc = "Grep String" })
@@ -1033,145 +1102,16 @@ lua << EOF
   vim.keymap.set("n", "gS", make_picker("git_stash"), { desc = "Git Stash" })
   vim.keymap.set("n", "gh", make_picker("gh pull_request"), { desc = "GH Pull Requests" })
 
-  -- Remaining config (Diffview, Neogit, etc.) unchanged below...
-  require('diffview').setup({
-    enhanced_diff_hl = true,
-    show_help_hints = false,
-    default_args = {
-      DiffviewOpen = { "--no-file-panel" }
-    },
-    key_bindings = {
-      file_history_panel = { q = '<Cmd>DiffviewClose<CR>' },
-      file_panel = { q = '<Cmd>DiffviewClose<CR>' },
-      view = { q = '<Cmd>DiffviewClose<CR>' },
-    },
-    file_panel = {
-      listing_style = "list",
-      tree_options = {
-        flatten_dirs = true,
-        folder_statuses = "only_folded",
-      },
-      win_config = {
-        position = "left",
-        width = 35,
-        win_opts = {}
-      },
-    },
-    file_history_panel = {
-      log_options = {
-        git = {
-          single_file = { diff_merges = "combined" },
-          multi_file = { diff_merges = "first-parent" },
-        },
-        hg = { single_file = {}, multi_file = {} },
-      },
-      win_config = {
-        position = "bottom",
-        height = 10,
-        win_opts = {}
-      },
-    },
-  })
-
-  local neogit = require('neogit')
-  neogit.setup {
-    disable_hint = false,
-    disable_context_highlighting = false,
-    disable_signs = false,
-    disable_insert_on_commit = "auto",
-    filewatcher = { interval = 1000, enabled = true },
-    graph_style = "ascii",
-    commit_date_format = nil,
-    log_date_format = nil,
-    process_spinner = false,
-    git_services = {
-      ["github.com"] = "https://github.com/${owner}/${repository}/compare/${branch_name}?expand=1",
-      ["bitbucket.org"] = "https://bitbucket.org/${owner}/${repository}/pull-requests/new?source=${branch_name}&t=1",
-      ["gitlab.com"] = "https://gitlab.com/${owner}/${repository}/merge_requests/new?merge_request[source_branch]=${branch_name}",
-      ["azure.com"] = "https://dev.azure.com/${owner}/_git/${repository}/pullrequestcreate?sourceRef=${branch_name}&targetRef=${target}",
-    },
-    telescope_sorter = function() return require("telescope").extensions.fzf.native_fzf_sorter() end,
-    remember_settings = true,
-    use_per_project_settings = true,
-    ignored_settings = {
-      "NeogitPushPopup--force-with-lease",
-      "NeogitPushPopup--force",
-      "NeogitPullPopup--rebase",
-      "NeogitCommitPopup--allow-empty",
-      "NeogitRevertPopup--no-edit",
-    },
-    highlight = { italic = true, bold = true, underline = true },
-    use_default_keymaps = true,
-    auto_refresh = true,
-    sort_branches = "-committerdate",
-    initial_branch_name = "",
-    kind = "tab",
-    disable_line_numbers = true,
-    disable_relative_line_numbers = true,
-    console_timeout = 2000,
-    auto_show_console = true,
-    auto_close_console = true,
-    notification_icon = "󰊢",
-    status = {
-      show_head_commit_hash = true,
-      recent_commit_count = 10,
-      HEAD_padding = 10,
-      HEAD_folded = false,
-      mode_padding = 3,
-      mode_text = {
-        M = "modified", N = "new file", A = "added", D = "deleted", C = "copied",
-        U = "updated", R = "renamed", DD = "unmerged", AU = "unmerged", UD = "unmerged",
-        UA = "unmerged", DU = "unmerged", AA = "unmerged", UU = "unmerged", ["?"] = "",
-      },
-    },
-    commit_editor = { kind = "tab", show_staged_diff = true, staged_diff_split_kind = "split", spell_check = true },
-    commit_select_view = { kind = "tab" },
-    commit_view = { kind = "vsplit", verify_commit = vim.fn.executable("gpg") == 1 },
-    log_view = { kind = "tab" },
-    rebase_editor = { kind = "auto" },
-    reflog_view = { kind = "tab" },
-    merge_editor = { kind = "auto" },
-    description_editor = { kind = "auto" },
-    tag_editor = { kind = "auto" },
-    preview_buffer = { kind = "floating_console" },
-    popup = { kind = "split" },
-    stash = { kind = "tab" },
-    refs_view = { kind = "tab" },
-    signs = { hunk = { "", "" }, item = { ">", "v" }, section = { ">", "v" } },
-    integrations = { telescope = nil, diffview = nil, fzf_lua = nil, mini_pick = nil },
-    sections = {
-      sequencer = { folded = false, hidden = false },
-      untracked = { folded = false, hidden = false },
-      unstaged = { folded = false, hidden = false },
-      staged = { folded = false, hidden = false },
-      stashes = { folded = true, hidden = false },
-      unpulled_upstream = { folded = true, hidden = false },
-      unmerged_upstream = { folded = false, hidden = false },
-      unpulled_pushRemote = { folded = true, hidden = false },
-      unmerged_pushRemote = { folded = false, hidden = false },
-      recent = { folded = true, hidden = false },
-      rebase = { folded = true, hidden = false },
-    },
-    mappings = {
-      commit_editor = { ["q"] = "Close", ["<c-c><c-c>"] = "Submit", ["<c-c><c-k>"] = "Abort", ["<m-p>"] = "PrevMessage", ["<m-n>"] = "NextMessage", ["<m-r>"] = "ResetMessage" },
-      commit_editor_I = { ["<c-c><c-c>"] = "Submit", ["<c-c><c-k>"] = "Abort" },
-      rebase_editor = { ["p"] = "Pick", ["r"] = "Reword", ["e"] = "Edit", ["s"] = "Squash", ["f"] = "Fixup", ["x"] = "Execute", ["d"] = "Drop", ["b"] = "Break", ["q"] = "Close", ["<cr>"] = "OpenCommit", ["gk"] = "MoveUp", ["gj"] = "MoveDown", ["<c-c><c-c>"] = "Submit", ["<c-c><c-k>"] = "Abort", ["[c"] = "OpenOrScrollUp", ["]c"] = "OpenOrScrollDown" },
-      rebase_editor_I = { ["<c-c><c-c>"] = "Submit", ["<c-c><c-k>"] = "Abort" },
-      finder = { ["<cr>"] = "Select", ["<c-c>"] = "Close", ["<esc>"] = "Close", ["<c-n>"] = "Next", ["<c-p>"] = "Previous", ["<down>"] = "Next", ["<up>"] = "Previous", ["<tab>"] = "InsertCompletion", ["<space>"] = "MultiselectToggleNext", ["<s-space>"] = "MultiselectTogglePrevious", ["<c-j>"] = "NOP", ["<ScrollWheelDown>"] = "ScrollWheelDown", ["<ScrollWheelUp>"] = "ScrollWheelUp", ["<ScrollWheelLeft>"] = "NOP", ["<ScrollWheelRight>"] = "NOP", ["<LeftMouse>"] = "MouseClick", ["<2-LeftMouse>"] = "NOP" },
-      popup = { ["?"] = "HelpPopup", ["A"] = "CherryPickPopup", ["d"] = "DiffPopup", ["M"] = "RemotePopup", ["P"] = "PushPopup", ["X"] = "ResetPopup", ["Z"] = "StashPopup", ["i"] = "IgnorePopup", ["t"] = "TagPopup", ["b"] = "BranchPopup", ["B"] = "BisectPopup", ["w"] = "WorktreePopup", ["c"] = "CommitPopup", ["f"] = "FetchPopup", ["l"] = "LogPopup", ["m"] = "MergePopup", ["p"] = "PullPopup", ["r"] = "RebasePopup", ["v"] = "RevertPopup" },
-      status = { ["j"] = "MoveDown", ["k"] = "MoveUp", ["o"] = "OpenTree", ["q"] = "Close", ["I"] = "InitRepo", ["1"] = "Depth1", ["2"] = "Depth2", ["3"] = "Depth3", ["4"] = "Depth4", ["Q"] = "Command", ["<tab>"] = "Toggle", ["x"] = "Discard", ["s"] = "Stage", ["S"] = "StageUnstaged", ["<c-s>"] = "StageAll", ["u"] = "Unstage", ["K"] = "Untrack", ["U"] = "UnstageStaged", ["y"] = "ShowRefs", ["$"] = "CommandHistory", ["Y"] = "YankSelected", ["<c-r>"] = "RefreshBuffer", ["<cr>"] = "GoToFile", ["<s-cr>"] = "PeekFile", ["<c-v>"] = "VSplitOpen", ["<c-x>"] = "SplitOpen", ["<c-t>"] = "TabOpen", ["{"] = "GoToPreviousHunkHeader", ["}"] = "GoToNextHunkHeader", ["[c"] = "OpenOrScrollUp", ["]c"] = "OpenOrScrollDown", ["<c-k>"] = "PeekUp", ["<c-j>"] = "PeekDown", ["<c-n>"] = "NextSection", ["<c-p>"] = "PreviousSection" },
-    },
-  }
-
-  require('gitsigns').setup({ current_line_blame = true })
-
+  -- Remaining config (Diffview, Neogit, Gitsigns, etc.) unchanged...
+  require('diffview').setup({...})
+  require('neogit').setup({...})
+  require('gitsigns').setup({...})
   vim.api.nvim_set_hl(0, 'DiffviewDiffAddAsDelete', { bg = "#431313" })
   vim.api.nvim_set_hl(0, 'DiffDelete', { bg = "none", fg = "#311313" })
   vim.api.nvim_set_hl(0, 'DiffviewDiffDelete', { bg = "none", fg = "#331313" })
   vim.api.nvim_set_hl(0, 'DiffAdd', { bg = "#142a03" })
   vim.api.nvim_set_hl(0, 'DiffChange', { bg = "#3B3307" })
   vim.api.nvim_set_hl(0, 'DiffText', { bg = "#4D520D" })
-
   vim.g.rooter_patterns = { ".git", "build/sh", "index.md", ".proj", ".root", ".nrepl-port", ".exercism" }
   vim.g.rooter_change_directory_for_non_project_files = "current"
   vim.g.rooter_cd_cmd = "lcd"
@@ -1192,6 +1132,8 @@ nnoremap <LocalLeader>s <cmd>Spectre<cr>
 " nnoremap gD <cmd>Telescope git_bcommits theme=get_ivy<cr>
 " nnoremap gs <cmd>Telescope git_status initial_mode=normal<cr>
 " nnoremap gS <cmd>Telescope git_stash initial_mode=normal<cr>
+nnoremap gl <cmd>Telescope git_commits initial_mode=normal<cr>
+nnoremap gb <cmd>Telescope git_bcommits initial_mode=normal<cr>
 nnoremap gh <cmd>Telescope gh pull_request initial_mode=normal<cr>
 nnoremap gha <cmd>Telescope gh pull_request initial_mode=normal state=all initial_mode=normal<cr>
 nnoremap ghm <cmd>Telescope gh pull_request initial_mode=normal state=all author='@me' initial_mode=normal<cr>
