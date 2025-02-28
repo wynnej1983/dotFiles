@@ -1026,6 +1026,34 @@ lua << EOF
     end
   end
 
+  -- Define initial modes for each picker
+  local picker_initial_modes = {
+    git_status = "normal",
+    git_files = "insert",
+    git_commits = "normal",
+    git_branches = "normal",
+    git_stash = "normal",
+    find_files = "insert",
+    oldfiles = "normal",
+    live_grep = "insert",
+    grep_string = "normal",
+    resume = "normal",
+    pull_request = "normal", -- For gh extension
+  }
+
+  -- Wrapper function for pickers, respecting initial_mode
+  local function make_picker(picker_name, extension_name)
+    return function()
+      local picker = extension_name and require("telescope").extensions[extension_name][picker_name] or require("telescope.builtin")[picker_name]
+      picker({
+        initial_mode = picker_initial_modes[picker_name] or "normal", -- Use defined mode or default to normal
+        attach_mappings = function(prompt_bufnr, map)
+          return attach_custom_mappings(prompt_bufnr, map, picker_name)
+        end,
+      })
+    end
+  end
+
   -- Telescope setup and keymappings unchanged...
   require('telescope').setup {
     defaults = {
@@ -1071,13 +1099,13 @@ lua << EOF
     },
     pickers = {
       git_status = { initial_mode = "normal" },
-      git_files = { initial_mode = "normal" },
+      git_files = { initial_mode = "insert" },
       git_commits = { initial_mode = "normal" },
       git_branches = { initial_mode = "normal" },
       git_stash = { initial_mode = "normal" },
-      find_files = { initial_mode = "normal" },
+      find_files = { initial_mode = "insert" },
       oldfiles = { initial_mode = "normal" },
-      live_grep = { initial_mode = "normal" },
+      live_grep = { initial_mode = "insert" },
       grep_string = { initial_mode = "normal" },
       resume = { initial_mode = "normal" },
     },
