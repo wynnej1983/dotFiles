@@ -2,9 +2,14 @@
 	name = Jonathan Wynne
 	email = wynnej1983@gmail.com
 [core]
-	editor = vim
-	whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
-	excludesfile = ~/.gitignore
+    pager = delta
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    navigate = true  # use n and N to move between diff sections
+    dark = true      # or light = true, or omit for auto-detection
+[merge]
+    conflictstyle = zdiff3
 [sendemail]
 	smtpencryption = tls
 	smtpserver = smtp.gmail.com
@@ -36,8 +41,11 @@
 	untracked = red bold
 [diff]
 	tool = vimdiff
+	colorMoved = default
 [difftool]
 	prompt = false
+[merge]
+	conflictstyle = diff3
 [github]
 	user = wynnej1983
 	token = token
@@ -48,6 +56,8 @@
 	support = support-
 	versiontag = v
 [alias]
+	# already have gruvbox plugin as a really good diffing colorscheme
+	vimdiff = difftool --no-prompt --extcmd 'nvim -d'
 	a = add --all
 	ai = add -i
 	#############
@@ -198,3 +208,5 @@
 	human = name-rev --name-only --refs=refs/heads/*
 	serve = !git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git
 	snapshot = !git stash save "snapshot: $(date)" && git stash apply "stash@{0}"
+[init]
+	defaultBranch = main
