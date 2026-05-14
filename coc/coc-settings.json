@@ -1,0 +1,98 @@
+{
+  // Suggestions
+  "suggest.triggerAfterInsertEnter": true,
+  "suggest.autoTrigger": "always",
+  "suggest.minTriggerInputLength": 1,
+  "suggest.noselect": true,
+  "suggest.triggerCompletionWait": 0,
+  "suggest.timeout": 5000,
+  "suggest.virtualText": false,
+  "suggest.enableGhostText": false,
+  "suggest.detailField": "abbr",
+  "suggest.echodocSupport": true,
+  "typescript.suggest.autoImports": true,
+  // Formatting - handled by conform.nvim + oxfmt
+  "coc.preferences.snippetStatusText": "Ⓢ ",
+  "coc.preferences.formatOnSave": true,
+  "coc.preferences.formatOnSaveFiletypes": [],
+  "oxc.oxfmt.enable": true,
+  "oxc.oxlint.enable": true,
+  "oxc.oxlint.run": "onSave",
+  "javascript.format.enable": false,
+  "typescript.format.enable": false,
+  "biome.format.enable": false,
+  //"prettier.enable": false
+  // Snippets
+  "snippets.priority": 100,
+  "snippets.ultisnips.enable": true,
+  "snippets.ultisnips.pythonPrompt": false,
+  "snippets.ultisnips.directories": [
+    "UltiSnips",
+    "~/.local/share/nvim/dein/repos/github.com/epilande/vim-react-snippets/UltiSnips",
+    "~/.local/share/nvim/dein/repos/github.com/epilande/vim-es2015-snippets/UltiSnips"
+  ],
+  "snippets.extends": {
+    "typescript": ["javascript"],
+    "typescriptreact": ["javascript"],
+    "javascriptreact": ["javascript"]
+  },
+  // Diagnostics
+  "diagnostic.enable": true,
+  "diagnostic.enableMessage": "always",
+  "diagnostic.messageTarget": "float",
+  "diagnostic.messageDelay": 0,
+  "diagnostic.signOffset": 9999999,
+  "diagnostic.errorSign": "●",
+  "diagnostic.warningSign": "●",
+  "diagnostic.displayByAle": false,
+  "diagnostic.refreshOnInsertMode": false,
+  "diagnostic.virtualText": true,
+  "diagnostic.checkCurrentLine": false,
+  // TypeScript
+  "typescript.autoClosingTags": false,
+  // ESLint
+  "eslint.filetypes": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "eslint.autoFix": false,
+  "eslint.autoFixOnSave": false,
+  // Code lens
+  "codeLens.enable": false,
+  // Signature
+  "signature.preferShownAbove": false,
+  // Sources
+  "coc.source.around.priority": 200,
+  // Multiple cursors
+  "cursors.nextKey": "<C-n>",
+  "cursors.previousKey": "<C-p>",
+  "cursors.cancelKey": "<esc>",
+  // Sessions
+  "session.directory": "~/.cache/vim/session",
+  // Git
+  "git.enableGutters": true,
+  "git.branchCharacter": "\uf408",
+  "git.addGBlameToBufferVar": true,
+  "git.addGBlameToVirtualText": true,
+  "git.virtualTextPrefix": " ❯❯❯ ",
+  "git.addedSign.hlGroup": "GitGutterAdd",
+  "git.changedSign.hlGroup": "GitGutterChange",
+  "git.removedSign.hlGroup": "GitGutterDelete",
+  "git.topRemovedSign.hlGroup": "GitGutterDelete",
+  "git.changeRemovedSign.hlGroup": "GitGutterChangeDelete",
+  "git.addedSign.text": "▎",
+  "git.changedSign.text": "▎",
+  "git.removedSign.text": "▏",
+  "git.topRemovedSign.text": "▔",
+  "git.changeRemovedSign.text": "▋",
+  // GraphQL
+  "languageserver": {
+    "graphql": {
+      "command": "graphql-lsp",
+      "args": ["server", "-m", "stream"],
+      "filetypes": ["graphql"]
+    }
+  }
+}

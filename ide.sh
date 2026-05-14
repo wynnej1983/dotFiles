@@ -3,6 +3,7 @@ tmx () {
     local session_name="${1:-$(basename "$(pwd)")}"
     local zoom_pane="${2:-0}"
     local playlist_file="$HOME/.cache/mfp-playlist.txt"
+    local music_session="music"
 
     # First run: fetch synchronously (we need the file before launching mpv)
     if [[ ! -f "$playlist_file" ]]; then
@@ -24,7 +25,13 @@ tmx () {
         return 1
     fi
 
-    # Create new detached session
+    # Start music session if it doesn't already exist
+    if ! tmux has-session -t "$music_session" 2>/dev/null; then
+        tmux new-session -d -s "$music_session" \
+            "mpv --no-video --shuffle --loop-playlist --playlist='$playlist_file'"
+    fi
+
+    # Create coding session
     tmux new-session -d -s "$session_name"
 
     # Layout: nvim on top (75%), two terminals on bottom (25%)
@@ -32,13 +39,8 @@ tmx () {
     tmux split-pane -h
     tmux select-pane -t 0
     tmux send-keys "nvim" C-m
-
-    # Music window — launch mpv directly so $playlist_file expands in this shell
-    tmux new-window -t "$session_name" -n "music" \
-        "mpv --no-video --shuffle --loop-playlist --playlist='$playlist_file'"
-
-    tmux select-window -t "$session_name:1"
     tmux resize-pane -Z -t "$zoom_pane"
+
     tmux attach-session -d -t "$session_name"
 }
 tmx "$@"
