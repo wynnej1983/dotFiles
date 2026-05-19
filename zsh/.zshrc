@@ -10,6 +10,7 @@ export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="spaceship"
 SPACESHIP_DIR_TRUNC_REPO=false
 SPACESHIP_PACKAGE_SHOW=false
+SPACESHIP_PROMPT_ASYNC=false
 
 plugins=(
   git

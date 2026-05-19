@@ -798,7 +798,10 @@ lua << EOF
 	"--hidden",
       },
       preview = {
-	treesitter = false,
+	treesitter = {
+	  enable = false,
+	  disable = {},
+	},
       },
       layout_strategy = "horizontal",
       layout_config = {

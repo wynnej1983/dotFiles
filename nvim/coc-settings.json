@@ -1,23 +1,48 @@
 {
-  "coc.preferences.snippetStatusText": "Ⓢ ",
-  "coc.preferences.formatOnSaveFiletypes": [
-    "javascript",
-    "typescript",
-    "typescriptreact",
-    "json",
-    "javascriptreact",
-    "typescript.tsx"
-  ],
-  "signature.preferShownAbove": false,
-  //"signature.triggerSignatureWait": 1000,
-  "suggest.triggerAfterInsertEnter": false,
-  "suggest.timeout": 100,
+  // Suggestions
+  "suggest.triggerAfterInsertEnter": true,
+  "suggest.autoTrigger": "always",
+  "suggest.minTriggerInputLength": 1,
   "suggest.noselect": true,
+  "suggest.triggerCompletionWait": 0,
+  "suggest.timeout": 5000,
+  "suggest.virtualText": false,
+  "suggest.enableGhostText": false,
   "suggest.detailField": "abbr",
-  "suggest.triggerCompletionWait": 100,
   "suggest.echodocSupport": true,
-  "codeLens.enable": false,
-  //diagnostic
+  "typescript.suggest.autoImports": true,
+  // Formatting - handled by conform.nvim + oxfmt
+  "coc.preferences.snippetStatusText": "Ⓢ ",
+  "coc.preferences.formatOnSave": true,
+  "coc.preferences.formatOnSaveFiletypes": [],
+  "oxc.oxfmt.enable": true,
+  "oxc.oxlint.enable": true,
+  "oxc.oxlint.run": "onSave",
+  "javascript.format.enable": false,
+  "typescript.format.enable": false,
+  "biome.format.enable": false,
+  //"prettier.enable": false
+  // Snippets
+  "snippets.priority": 100,
+  "snippets.ultisnips.enable": true,
+  "snippets.ultisnips.pythonPrompt": false,
+  "snippets.ultisnips.directories": [
+    "UltiSnips",
+    "~/.local/share/nvim/dein/repos/github.com/epilande/vim-react-snippets/UltiSnips",
+    "~/.local/share/nvim/dein/repos/github.com/epilande/vim-es2015-snippets/UltiSnips"
+  ],
+  "snippets.extends": {
+    "typescript": [
+      "javascript"
+    ],
+    "typescriptreact": [
+      "javascript"
+    ],
+    "javascriptreact": [
+      "javascript"
+    ]
+  },
+  // Diagnostics
   "diagnostic.enable": true,
   "diagnostic.enableMessage": "always",
   "diagnostic.messageTarget": "float",
@@ -29,7 +54,30 @@
   "diagnostic.refreshOnInsertMode": false,
   "diagnostic.virtualText": true,
   "diagnostic.checkCurrentLine": false,
-  //git
+  // TypeScript
+  "typescript.autoClosingTags": false,
+  // ESLint
+  "eslint.filetypes": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "eslint.autoFix": false,
+  "eslint.autoFixOnSave": false,
+  // Code lens
+  "codeLens.enable": false,
+  // Signature
+  "signature.preferShownAbove": false,
+  // Sources
+  "coc.source.around.priority": 200,
+  // Multiple cursors
+  "cursors.nextKey": "<C-n>",
+  "cursors.previousKey": "<C-p>",
+  "cursors.cancelKey": "<esc>",
+  // Sessions
+  "session.directory": "~/.cache/vim/session",
+  // Git
   "git.enableGutters": true,
   "git.branchCharacter": "\uf408",
   "git.addGBlameToBufferVar": true,
@@ -45,173 +93,18 @@
   "git.removedSign.text": "▏",
   "git.topRemovedSign.text": "▔",
   "git.changeRemovedSign.text": "▋",
-  //Snippet
-  "snippets.priority": 100,
-  "snippets.extends": {
-    "typescript": ["javascript"],
-    "svelte": ["javascript", "typescript", "html", "css"]
-  },
-  //Sources
-  "coc.source.around.priority": 200,
-  //CocList
-  //"list.source.files.defaultOptions": ["--auto-preview"],
-  //"list.source.outline.defaultOptions": ["--auto-preview"],
-  //emmet
-  "emmet.includeLanguages": {
-    "vue-html": "html",
-    "javascript": "javascriptreact"
-  },
-  //imselect
-  "imselect.enableStatusItem": false,
-  //multiple cursors
-  "cursors.nextKey": "<C-n>",
-  "cursors.previousKey": "<C-p>",
-  "cursors.cancelKey": "<esc>",
-  //sessions
-  "session.directory": "~/.cache/vim/session",
-  // coc-explorer
-  "explorer.file.reveal.whenOpen": true,
-  "explorer.file.reveal.auto": true,
-  "explorer.quitOnOpen": true,
-  "explorer.focus": true,
-  "explorer.width": 45,
-  "explorer.icon.enableNerdfont": true,
-  "explorer.keyMappings.global": {
-    "i": false, // cancel default mapkey
-    "x": "systemExecute",
-    "*": "toggleSelection",
-    "<tab>": "actionMenu",
-    "gk": ["wait", "expandablePrev"],
-    "gj": ["wait", "expandableNext"],
-    "h": ["wait", "collapse"],
-    "l": ["wait", "expandable?", "expand", "open"],
-    "J": ["wait", "toggleSelection", "normal:j"],
-    "K": ["wait", "toggleSelection", "normal:k"],
-    "gl": ["wait", "expand:recursive"],
-    "gh": ["wait", "collapse:recursive"],
-    "<2-LeftMouse>": [
-      "expandable?",
-      ["expanded?", "collapse", "expand"],
-      "open"
-    ],
-    "o": ["wait", "expanded?", "collapse", "expand"],
-    "<cr>": ["wait", "expandable?", "cd", "open"],
-    "e": "open",
-    "sv": "open:split:sourceWindow:quitOnOpen",
-    "sg": "open:vsplit:sourceWindow:quitOnOpen",
-    "t": "open:tab",
-    "<bs>": ["wait", "gotoParent"],
-    "gs": ["wait", "reveal:select"],
-    "il": "preview:labeling",
-    "ic": "preview:content",
-    "Il": "previewOnHover:toggle:labeling",
-    "Ic": "previewOnHover:toggle:content",
-    "II": "previewOnHover:disable",
-    "yp": "copyFilepath",
-    "yn": "copyFilename",
-    "yy": "copyFile",
-    "c": "copyFile",
-    "m": "cutFile",
-    "p": "pasteFile",
-    "dd": "delete",
-    "dF": "deleteForever",
-    "a": "addFile",
-    "N": "addFile",
-    "A": "addDirectory",
-    "r": "rename",
-    "zh": "toggleHidden",
-    "g<dot>": "toggleHidden",
-    "R": "refresh",
-    "?": "help",
-    "q": "quit",
-    "<esc>": "esc",
-    "X": "systemExecute",
-    "gd": "listDrive",
-    "f": "search",
-    "F": "searchRecursive",
-    "gf": "gotoSource:file",
-    "gb": "gotoSource:buffer",
-    "[[": ["wait", "sourcePrev"],
-    "]]": ["wait", "sourceNext"],
-    "[i": ["wait", "indentPrev"],
-    "]i": ["wait", "indentNext"],
-    "[m": ["wait", "markPrev:modified"],
-    "]m": ["wait", "markNext:modified"],
-    "[d": ["wait", "markPrev:diagnosticError:diagnosticWarning"],
-    "]d": ["wait", "markNext:diagnosticError:diagnosticWarning"],
-    "[D": ["wait", "markPrev:diagnosticError"],
-    "]D": ["wait", "markNext:diagnosticError"],
-    "[c": ["wait", "markPrev:git"],
-    "]c": ["wait", "markNext:git"],
-    "<<": "gitStage",
-    ">>": "gitUnstage"
-  },
-  // eslint
-  "eslint.filetypes": [
-    "javascript",
-    "javascript.jsx",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ],
-  "eslint.autoFix": false,
-  "eslint.autoFixOnSave": false,
-  // prettier
-  "prettier.trailingComma": "all",
-  // typescript
-  "typescript.autoClosingTags": false,
-  // ----------------------------------------------------------------------------------------
-  // `coc-rust-analyzer` related
-  // ----------------------------------------------------------------------------------------
-  "rust-analyzer.enable": false,
-  //"rust-analyzer.server.path": "",
-  "rust-analyzer.updates.prompt": true,
-  "rust-analyzer.diagnostics.enable": true,
-  "rust-analyzer.cargo.loadOutDirsFromCheck": false,
-  "rust-analyzer.enableCargoWatchOnStartup": true,
-  "rust-analyzer.inlayHints.enable": true, // Enable to show type hint on the right side
-  "rust-analyzer.inlayHints.typeHints": false, // Enable to show variable type hint
-  "rust-analyzer.inlayHints.typeHintsSeparator": ">> ", // Variable type prefix symbol
-  "rust-analyzer.inlayHints.chainingHints": true, // Enable to show method chain type hint
-  "rust-analyzer.inlayHints.chainingHintsSeparator": ">> ", // Method chain type prefix symbol
-  "rust-analyzer.procMacro.enable": false,
-  "rust-analyzer.checkOnSave.enable": false,
-  "rust-analyzer.checkOnSave.allTargets": true,
-  "rust-analyzer.callInfo.full": true, // Show function name and docs in parameter hints
-  "rust-analyzer.hoverActions.linksInHover": false, // Show document links in hover
-  "rust-analyzer.completion.addCallParenthesis": true,
-  "rust-analyzer.completion.addCallArgumentSnippets": true,
-  "rust-analyzer.completion.postfix.enable": true,
-  // python
-  "python.jediEnabled": false,
-  // add your languageServer into this list
+  // GraphQL
   "languageserver": {
     "graphql": {
       "command": "graphql-lsp",
-      "args": ["server", "-m", "stream"],
-      // customize filetypes to your needs
-      "filetypes": ["graphql"]
-    },
-    "ccls": {
-      "command": "ccls",
-      "filetypes": ["c", "cpp", "objc", "objcpp"],
-      "rootPatterns": [
-        ".ccls",
-        "compile_commands.json",
-        ".vim/",
-        ".git/",
-        ".hg/"
+      "args": [
+        "server",
+        "-m",
+        "stream"
       ],
-      "initializationOptions": {
-        "cache": {
-          "directory": "/tmp/ccls"
-        }
-      }
-    },
-    "golang": {
-      "command": "gopls",
-      "rootPatterns": ["go.mod"],
-      "filetypes": ["go"]
+      "filetypes": [
+        "graphql"
+      ]
     }
   }
 }

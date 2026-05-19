@@ -110,3 +110,4 @@ alias postgres.start='pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgr
 alias postgres.stop='pg_ctl -D /usr/local/var/postgres stop -s -m fast'
 
 alias ys='yarn start'
+alias grok='grok --reasoning-model "grok-4.3" --completion-model "grok-code-fast-1"'
