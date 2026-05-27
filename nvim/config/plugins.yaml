@@ -237,7 +237,8 @@
 # Commands
 # --------
 - repo: Shougo/defx.nvim
-- { repo: liuchengxu/vim-which-key, on_cmd: WhichKey }
+# - { repo: liuchengxu/vim-which-key, on_cmd: WhichKey }
+- repo: folke/which-key.nvim
 - { repo: mbbill/undotree, on_cmd: UndotreeToggle }
 - { repo: reedes/vim-wordy, on_cmd: [Wordy, NoWordy, NextWordy] }
 - { repo: jreybert/vimagit, on_cmd: Magit }
@@ -248,6 +249,8 @@
 - { repo: dstein64/vim-startuptime, on_cmd: StartupTime }
 - repo: kdheepak/lazygit.nvim
 - repo: windwp/nvim-autopairs
+- repo: folke/snacks.nvim
+- repo: coder/claudecode.nvim
 
 - repo: brooth/far.vim
   on_cmd: [Far, Farp, F]
@@ -404,8 +407,7 @@
     \     'ext': '.md' }
     \ ]
 
-- repo: norcalli/nvim-colorizer.lua
-  if: has('nvim-0.4')
+- repo: catgoose/nvim-colorizer.lua
   on_event: FileType
   hook_post_source: lua require('plugins.colorizer')
 
@@ -508,5 +510,4 @@
 # Sonic Pi
 # ------------
 - repo: lilyinstarlight/vim-sonic-pi
-
 #  vim: set ts=2 sw=2 tw=80 et :

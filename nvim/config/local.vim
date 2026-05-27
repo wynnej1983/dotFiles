@@ -53,6 +53,11 @@ set wildignore+=**/node_modules/**
 set wildignore+=**/youi/**
 set wildignore+=**/build/**
 
+" Toggle all folds open/closed with ff
+nnoremap <expr> ff &foldlevel ? 'zM' : 'zR'
+" nnoremap fj zj
+" nnoremap fk zk
+
 " fast saving
 nnoremap <Leader>w :write<CR>
 
@@ -569,6 +574,27 @@ set shada='100,<50,s10,h
 " Lua config
 " ==========================================
 lua << EOF
+  require('claudecode').setup({
+    terminal = { provider = 'none' },
+  })
+
+  local function nmap(lhs, rhs, desc)
+    vim.keymap.set('n', lhs, rhs, { silent = true, desc = desc })
+  end
+  local function vmap(lhs, rhs, desc)
+    vim.keymap.set('v', lhs, rhs, { silent = true, desc = desc })
+  end
+
+  nmap('<leader>cc', '<cmd>ClaudeCode<cr>',           'start server')
+  nmap('<leader>cb', '<cmd>ClaudeCodeAdd %<cr>',      'add current buffer')
+  vmap('<leader>cs', '<cmd>ClaudeCodeSend<cr>',       'send selection')
+  nmap('<leader>ca', '<cmd>ClaudeCodeDiffAccept<cr>', 'accept diff')
+  nmap('<leader>cd', '<cmd>ClaudeCodeDiffDeny<cr>',   'deny diff')
+
+  require('which-key').add({
+    { '<leader>c', group = 'claude' },
+  })
+
   require("copilot").setup({
     suggestion = {
       enabled = true,
@@ -771,17 +797,18 @@ lua << EOF
     pull_request = "normal",
   }
 
-  local function make_picker(picker_name, extension_name)
+  local function make_picker(picker_name, extension_name, theme_override, extra_opts)
     return function()
+      local base_opts = theme_override or {}
       local picker = extension_name
         and require("telescope").extensions[extension_name][picker_name]
         or require("telescope.builtin")[picker_name]
-      picker({
+      picker(vim.tbl_deep_extend("force", base_opts, {
         initial_mode = picker_initial_modes[picker_name] or "normal",
         attach_mappings = function(prompt_bufnr, map)
           return attach_custom_mappings(prompt_bufnr, map, picker_name)
         end,
-      })
+      }, extra_opts or {}))
     end
   end
 
@@ -803,16 +830,29 @@ lua << EOF
 	  disable = {},
 	},
       },
-      layout_strategy = "horizontal",
+      layout_strategy = "flex",
       layout_config = {
-	height = 0.9999,
-	width = 0.9999,
-	mirror = false,
-	prompt_position = "bottom",
-	preview_width = 0.6,
-	preview_cutoff = 0,
-	anchor = 'N'
+        flex = {
+          flip_columns = 160,
+        },
+        horizontal = {
+          height = 0.9999,
+          width = 0.9999,
+          mirror = false,
+          prompt_position = "top",
+          preview_width = 0.65,
+          preview_cutoff = 0,
+        },
+        vertical = {
+          height = 0.9999,
+          width = 0.9999,
+          mirror = true,
+          prompt_position = "top",
+          preview_height = 0.65,
+          preview_cutoff = 0,
+        },
       },
+      sorting_strategy = "ascending",
       scrollbar = false,
       borderchars = { "", "", "", "", "", "", "", "" },
       buffer_previewer_maker = new_maker,
@@ -854,14 +894,44 @@ lua << EOF
   require("telescope").load_extension("recent_files")
   require("telescope").load_extension("persisted")
 
-  vim.keymap.set("n", "<LocalLeader>f", make_picker("git_files"),   { desc = "Git Files" })
-  vim.keymap.set("n", "<LocalLeader>g", make_picker("live_grep"),   { desc = "Live Grep" })
-  vim.keymap.set("n", "<leader>gg",     make_picker("grep_string"), { desc = "Grep String" })
-  vim.keymap.set("n", "<LocalLeader>r", make_picker("resume"),      { desc = "Resume" })
-  vim.keymap.set("n", "<LocalLeader>i", make_picker("oldfiles"),    { desc = "Old Files" })
-  vim.keymap.set("n", "gs",             make_picker("git_status"),  { desc = "Git Status" })
-  vim.keymap.set("n", "gB",             make_picker("git_branches"),{ desc = "Git Branches" })
-  vim.keymap.set("n", "gS",             make_picker("git_stash"),   { desc = "Git Stash" })
+  -- Show result count in the results title
+  local function update_results_title(bufnr)
+    local picker = require("telescope.actions.state").get_current_picker(bufnr)
+    if not picker then return end
+    local total = picker.manager and picker.manager:num_results() or 0
+    local matched = total
+    if type(picker.get_result_count) == "function" then
+      matched = picker:get_result_count()
+    end
+    if picker.results_border then
+      picker.results_border:change_title(matched .. " / " .. total)
+    end
+  end
+ 
+  vim.api.nvim_create_autocmd("User", {
+    pattern = "TelescopePreviewerLoaded",
+    callback = function() update_results_title(vim.api.nvim_get_current_buf()) end,
+  })
+ 
+  vim.api.nvim_create_autocmd("User", {
+    pattern = "TelescopeResultsUpdated",
+    callback = function() update_results_title(vim.api.nvim_get_current_buf()) end,
+  })
+
+
+  vim.keymap.set("n", "<LocalLeader>f", make_picker("git_files",    nil),         { desc = "Git Files" })
+  vim.keymap.set("n", "<LocalLeader>g", make_picker("live_grep",    nil),         { desc = "Live Grep" })
+  vim.keymap.set("n", "<leader>gg",     make_picker("grep_string",  nil),         { desc = "Grep String" })
+  vim.keymap.set("n", "<LocalLeader>r", make_picker("resume",       nil),         { desc = "Resume" })
+  vim.keymap.set("n", "<LocalLeader>i", make_picker("oldfiles",     nil),         { desc = "Old Files" })
+  vim.keymap.set("n", "gs",             make_picker("git_status",   nil),         { desc = "Git Status" })
+  vim.keymap.set("n", "gB",             make_picker("git_branches", nil),         { desc = "Git Branches" })
+  vim.keymap.set("n", "gS",             make_picker("git_stash",    nil),         { desc = "Git Stash" })
+  vim.keymap.set("n", "gl",             make_picker("git_commits",  nil),         { desc = "Git Log" })
+  vim.keymap.set("n", "gb",             make_picker("git_bcommits", nil),         { desc = "Git Buffer Commits" })
+  vim.keymap.set("n", "gh",             make_picker("pull_request", "gh"),        { desc = "PRs (open)" })
+  vim.keymap.set("n", "gha",            make_picker("pull_request", "gh", nil, { state = "all" }),             { desc = "PRs (all)" })
+  vim.keymap.set("n", "ghm",            make_picker("pull_request", "gh", nil, { state = "all", author = "@me" }), { desc = "PRs (mine)" })
 
   require('diffview').setup({})
   require('neogit').setup({})
@@ -881,8 +951,3 @@ lua << EOF
 EOF
 
 nnoremap <LocalLeader>s <cmd>Spectre<cr>
-nnoremap gl  <cmd>Telescope git_commits initial_mode=normal<cr>
-nnoremap gb  <cmd>Telescope git_bcommits initial_mode=normal<cr>
-nnoremap gh  <cmd>Telescope gh pull_request initial_mode=normal<cr>
-nnoremap gha <cmd>Telescope gh pull_request state=all initial_mode=normal<cr>
-nnoremap ghm <cmd>Telescope gh pull_request state=all author='@me' initial_mode=normal<cr>

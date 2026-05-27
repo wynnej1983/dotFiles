@@ -31,16 +31,24 @@ tmx () {
             "mpv --no-video --shuffle --loop-playlist --playlist='$playlist_file'"
     fi
 
-    # Create coding session
-    tmux new-session -d -s "$session_name"
+    # Window 10: vim — nvim on top (75%), two terminals on bottom (25%)
+    tmux new-session -d -s "$session_name" -n vim
+    tmux split-pane -v -l 25% -t "$session_name:vim"
+    tmux split-pane -h -t "$session_name:vim"
+    tmux select-pane -t "$session_name:vim.0"
+    tmux send-keys -t "$session_name:vim.0" "nvim" C-m
+    tmux resize-pane -Z -t "$session_name:vim.$zoom_pane"
 
-    # Layout: nvim on top (75%), two terminals on bottom (25%)
-    tmux split-pane -v -l 25%
-    tmux split-pane -h
-    tmux select-pane -t 0
-    tmux send-keys "nvim" C-m
-    tmux resize-pane -Z -t "$zoom_pane"
+    # Window 2: claude (continue previous session, connect to nvim)
+    tmux new-window -t "$session_name" -n claude
+    tmux send-keys -t "$session_name:claude" "claude --continue --ide" C-m
 
+    # Window 3: codex (continue previous session)
+    tmux new-window -t "$session_name" -n codex
+    tmux send-keys -t "$session_name:codex" "codex continue" C-m
+
+    # Land on the vim window
+    tmux select-window -t "$session_name:vim"
     tmux attach-session -d -t "$session_name"
 }
 tmx "$@"
